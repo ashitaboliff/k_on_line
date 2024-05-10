@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: sh -c "npm run dev"
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./volume_postgres:/var/lib/postgresql/data
+
+volumes:
+  node_modules:
+  volume_postgres:
+  volume_pgadmin:
+networks:
+  snowboard_default:
+    external: true
