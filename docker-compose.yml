@@ -23,7 +23,6 @@ services:
 volumes:
   node_modules:
   volume_postgres:
-  volume_pgadmin:
 networks:
   snowboard_default:
     external: true
