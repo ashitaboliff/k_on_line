@@ -22,6 +22,11 @@ services:
       - ./postgres/init:/docker-entrypoint-initdb.d
 volumes:
   node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/node_modules
+      o: bind
   volume_postgres:
 networks:
   snowboard_default:
