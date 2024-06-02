@@ -12,18 +12,7 @@
     "git.closeDiffOnOperation": false,
     "git.ignoredRepositories": [],
     "editor.tabSize": 2,
-    "typescript.tsdk": "/home/watabegg/k_on_line/node_modules/typescript/lib",
+    "typescript.tsdk": "./node_modules/typescript/lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
-    "sqltools.connections": [
-      {
-        "previewLimit": 50,
-        "server": "localhost",
-        "port": 5432,
-        "driver": "PostgreSQL",
-        "database": "k_on_line",
-        "username": "user",
-        "name": "test"
-      }
-    ],
   },
 }
