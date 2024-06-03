@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.5",
     "@line/liff": "^2.23.2",
     "@mui/material": "^5.15.17",
+    "date-fns": "^3.6.0",
     "hono": "^4.3.4",
     "next": "14.2.3",
     "react": "^18",
