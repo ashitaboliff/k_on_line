@@ -13,6 +13,10 @@ const MainPage = () => {
   const [dateRangeString, setDateRangeString] = useState<string[]>(['', ''])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
+  const getBooking = async () => {
+
+  }
+
   useEffect(() => {
     const today = new Date()
     const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + dayList[0])
