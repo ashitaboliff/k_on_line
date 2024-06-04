@@ -36,8 +36,21 @@ const MainPage = () => {
       <div>
         <span>{dateRangeString[0]}~{dateRangeString[1]}のコマ表</span>
       </div>
-      <div>
-
+      <div> {/* カレンダー全体 */}
+        {dayList.map((day) => (
+          <div key={day}>
+            <div> {/* 日付 */}
+              <span>{format(set(dateRange[0], { date: dateRange[0].getDate() + day }), 'M月d日(E)', {locale : ja})}</span>
+            </div>
+            <div> {/* コマ */}
+              {TIME_LIST.map((time) => (
+                <div key={time}>
+                  <span>{time}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </>
   )
