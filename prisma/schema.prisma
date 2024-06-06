@@ -16,7 +16,7 @@ datasource db {
 
 model booking {
   id           Int      @id @default(autoincrement())
-  creatsd_at   DateTime @default(now())
+  created_at   DateTime @default(now())
   booking_date DateTime
   booking_time Int
   regist_name  String

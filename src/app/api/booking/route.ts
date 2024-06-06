@@ -15,7 +15,26 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-      const bookings = await prisma.booking.findMany()
+      const bookings = await prisma.booking.findMany({
+        where: {
+          booking_date: {
+            gte: new Date(startDay as string),
+            lte: new Date(endDay as string),
+          },
+        },
+        select: {
+          id: true,
+          created_at: true,
+          booking_date: true,
+          booking_time: true,
+          regist_name: true,
+          name: true,
+        },
+        orderBy: [
+          { booking_date: 'asc' },
+          { booking_time: 'asc' },
+        ],
+      });
       return NextResponse.json(
         { response: bookings },
         { status: 200 },

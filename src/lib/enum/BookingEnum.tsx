@@ -9,3 +9,12 @@ export const TIME_LIST = [
   '18:00~19:30',
   '19:30~21:00',
 ]
+
+export type Booking = {
+  id: number
+  created_at: Date
+  booking_date: Date
+  booking_time: string
+  regist_name: string
+  name: string
+}

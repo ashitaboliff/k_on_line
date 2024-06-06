@@ -34,6 +34,11 @@ down: ## Clean all data
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
 
+clean: ## Clean all data
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --volumes --remove-orphans
+	sudo rm -rf ./node_modules
+	sudo rm -rf ./volume_postgres
+
 # Define the help target
 help:
 	@echo "Available targets:"
