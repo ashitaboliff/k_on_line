@@ -1,6 +1,5 @@
-import { Hono } from 'hono'
-import { renderToString } from 'react-dom/server'
-import { html, raw } from 'hono/html'
+'use client'
+
 import React from 'react'
 import MainPage from '@/components/BookingMainPage'
 

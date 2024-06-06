@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/volume_postgres
 /.pnp
 .pnp.js
 .yarn/install-state.gz
