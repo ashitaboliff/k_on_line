@@ -1,17 +1,18 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
-import { format, set } from 'date-fns'
+import { useState, useEffect } from 'react'
+import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
+import { BookingTableBox } from '@/components/atom/BookingTableBox'
 
 const ArrayDayList = Array.from({ length: 15 }, (_, i) => i - 1)
 
@@ -133,8 +134,14 @@ const MainPage = () => {
                   {dateList.map((day, dateIndex) => (
                     <TableCell key={dateIndex} className='border'>
                       {bookingData[dateIndex][timeIndex]
-                        ? bookingData[dateIndex][timeIndex].name
-                        : ''
+                        ? <BookingTableBox
+                            registName={bookingData[dateIndex][timeIndex].regist_name}
+                            name={bookingData[dateIndex][timeIndex].name}
+                            url={`/booking/${bookingData[dateIndex][timeIndex].id}`}
+                          />
+                        : <BookingTableBox
+                            url={`/booking/new?booking_date=${format(day, 'yyyy-MM-dd', { locale: ja })}&booking_time=${timeIndex}`}
+                          />
                       }
                     </TableCell>
                   ))}
