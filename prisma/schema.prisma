@@ -15,7 +15,7 @@ datasource db {
 }
 
 model booking {
-  id           Int      @id @default(autoincrement())
+  id           String      @id @default(dbgenerated("uuid_generate_v4()"))
   created_at   DateTime @default(now())
   booking_date DateTime
   booking_time Int

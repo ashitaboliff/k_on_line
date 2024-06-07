@@ -11,7 +11,7 @@ export const TIME_LIST = [
 ]
 
 export type Booking = {
-  id: number
+  id: string
   created_at: Date
   booking_date: Date
   booking_time: string
