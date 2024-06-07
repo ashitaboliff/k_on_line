@@ -1,18 +1,18 @@
 {
-  "folders": [
-    {
-      "path": ".",
-    },
-  ],
-  "settings": {
-    "editor.trimAutoWhitespace": false,
-    "diffEditor.ignoreTrimWhitespace": false,
-    "files.trimTrailingWhitespace": true,
-    "files.autoGuessEncoding": false,
-    "git.closeDiffOnOperation": false,
-    "git.ignoredRepositories": [],
-    "editor.tabSize": 2,
-    "typescript.tsdk": "./node_modules/typescript/lib",
-    "typescript.enablePromptUseWorkspaceTsdk": true,
-  },
+	"folders": [
+		{
+			"path": ".",
+		},
+	],
+	"settings": {
+		"editor.trimAutoWhitespace": false,
+		"diffEditor.ignoreTrimWhitespace": false,
+		"files.trimTrailingWhitespace": true,
+		"files.autoGuessEncoding": false,
+		"git.closeDiffOnOperation": false,
+		"git.ignoredRepositories": [],
+		"editor.tabSize": 2,
+		"typescript.tsdk": "./node_modules/typescript/lib",
+		"typescript.enablePromptUseWorkspaceTsdk": true,
+	},
 }

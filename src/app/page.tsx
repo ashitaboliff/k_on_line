@@ -4,9 +4,7 @@ import React from 'react'
 import MainPage from '@/components/BookingMainPage'
 
 const Page = () => {
-  return (
-    <MainPage />
-  )
+	return <MainPage />
 }
 
 export default Page
