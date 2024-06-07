@@ -118,15 +118,12 @@ const MainPage = () => {
 			)
 			const timeIndex = Number(booking.booking_time)
 
-			console.log('index:', dateIndex, timeIndex)
-
 			if (dateIndex !== -1 && timeIndex !== -1) {
 				initialBookingList[dateIndex][timeIndex] = booking
 			}
 		})
 
 		setBookingData(initialBookingList)
-		console.log('initialBookingList:', initialBookingList)
 	}, [dateList, bookings])
 
 	if (isLoading) {

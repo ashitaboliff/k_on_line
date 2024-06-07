@@ -14,6 +14,19 @@ export async function POST(request: NextRequest) {
 	const body = (await request.json()) as unknown as BookingBody
 
 	try {
+    const atBooking = await prisma.booking.findFirst({
+      where: {
+        booking_date: body.booking_date,
+        booking_time: body.booking_time,
+      },
+    })
+    console.log(atBooking)
+    if (atBooking) {
+      return NextResponse.json(
+        { error: 'すでに予約が入っています。' },
+        { status: 400 }
+      )
+    }
 		await prisma.booking.create({
 			data: {
 				id: v4(),

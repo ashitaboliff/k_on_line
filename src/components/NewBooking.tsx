@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { TextField, Button, Typography, Container, Stack } from '@mui/material'
+import React, { useEffect, useState, useRef, ReactNode } from 'react'
+import { TextField, Button, Typography, Container, Stack, Box } from '@mui/material'
 import Alert from '@mui/material/Alert'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { parseDateString } from '@/lib/CommonFunction'
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
-import { format } from 'date-fns'
+import { format, set } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import Popup, { PopupRef } from '@/components/atom/Popup'
 import Loading from '@/components/atom/Loading'
@@ -23,9 +23,11 @@ const NewBooking = () => {
 	const [isState, setIsState] = useState<'loading' | 'input' | 'complate'>(
 		'loading',
 	)
-	const [error, setError] = useState<string | null>(null)
-	const [popupOpen, setPopupOpen] = useState(false)
-	const popupRef = useRef<PopupRef>(undefined)
+	const [error, setError] = useState<ReactNode | null>(null)
+	const [complatePopupOpen, setComplatePopupOpen] = useState(false)
+	const [errorPopupOpen, setErrorPopupOpen] = useState(false)
+	const complatePopupRef = useRef<PopupRef>(undefined)
+	const errorPopupRef = useRef<PopupRef>(undefined)
 
 	const {
 		register,
@@ -44,14 +46,26 @@ const NewBooking = () => {
 
 	useEffect(() => {
 		setIsState('input')
-		setPopupOpen(false) // モーダルを閉じる
+		setComplatePopupOpen(false)
 	}, [])
 
 	useEffect(() => {
 		if (isState === 'complate') {
-			setPopupOpen(true) // モーダルを表示する
+			setComplatePopupOpen(true)
+		}
+		else {
+			setComplatePopupOpen(false)
+
 		}
 	}, [isState])
+
+	useEffect(() => {
+		if (error) {
+			setErrorPopupOpen(true)
+		} else {
+			setErrorPopupOpen(false)
+		}
+	}	, [error])
 
 	const onSubmit = async (data: any) => {
 		const reservationData = {
@@ -61,8 +75,6 @@ const NewBooking = () => {
 			name: data.name,
 			password: data.password,
 		}
-
-		console.log('reservationData', reservationData)
 
 		try {
 			const response = await fetch('/api/booking/new', {
@@ -74,22 +86,22 @@ const NewBooking = () => {
 			})
 
 			if (response.ok) {
+				setError(null)
 				setIsState('complate')
-				console.log('Reservation created!')
 			} else {
 				setError(
-					'予約に失敗しました。\n予約日時を確認してください。\nエラーコード:' +
-						response.statusText,
+					<Alert severity="error">
+						予約に失敗しました。多分予約が重複してます。エラーコード:{response.status}
+					</Alert>
 				)
 				setIsState('input')
-				console.error('Failed to create reservation')
 			}
 		} catch (error) {
 			setError(
-				'予約に失敗しました。\n何度もこのエラーが出る場合はwatabeggにスクショとともに教えて下さい。\nエラーメッセージ:' +
-					error,
+				<Alert severity="error">
+					予約に失敗しました。何度もこのエラーが出る場合はわたべに連絡してください。
+				</Alert>
 			)
-			console.error('Network error:', error)
 		}
 	}
 
@@ -164,24 +176,70 @@ const NewBooking = () => {
 				</form>
 			</Container>
 			<Popup
-				ref={popupRef}
+				ref={complatePopupRef}
 				title="予約完了"
 				maxWidth="md"
-				open={popupOpen}
-				onClose={() => setPopupOpen(false)}
+				open={complatePopupOpen}
+				onClose={() => setComplatePopupOpen(false)}
 			>
-				<p>予約が完了しました。</p>
-				<Button
-					type="button"
-					variant="outlined"
-					color="inherit"
-					onClick={() => {
-						router.push('/')
-						setPopupOpen(false) // モーダルを閉じる
-					}}
-				>
-					カレンダーに戻る
+				<Typography variant="h6" className="text-center mb-4">
+					以下の内容で予約が完了しました。
+				</Typography>
+				<Box className="text-center">
+					<Typography variant="body1">
+						日付:{' '}
+						{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
+							locale: ja,
+						})}
+					</Typography>
+					<Typography variant="body1">
+						時間: {TIME_LIST[Number(bookingTime)]}
+					</Typography>
+					<Typography variant="body1">
+						バンド名: {watch('regist_name')}
+					</Typography>
+					<Typography variant="body1">
+						責任者: {watch('name')}
+					</Typography>
+					<Button
+						type="button"
+						variant="outlined"
+						color="inherit"
+						onClick={() => {
+							router.push('/')
+							setComplatePopupOpen(false)
+						}}
+					>
+						カレンダーに戻る
+					</Button>
+				</Box>
+			</Popup>
+			<Popup
+				ref={errorPopupRef}
+				title="エラー"
+				maxWidth="md"
+				open={errorPopupOpen}
+				onClose={() => {
+					setErrorPopupOpen(false)
+					setError(null)
+				}}
+			>
+				<Box className="text-center">
+					<Typography variant="body1">
+						{error}
+					</Typography>
+					<Button
+						type="button"
+						variant="outlined"
+						color="inherit"
+						onClick={() => {
+							setErrorPopupOpen(false)
+							setError(null)
+						}}
+					>
+					閉じる
 				</Button>
+				</Box>
 			</Popup>
 		</div>
 	)
