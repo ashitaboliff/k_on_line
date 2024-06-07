@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import MainPage from '@/components/BookingMainPage'
+import NewBooking from '@/components/NewBooking'
 
 const Page = () => {
-	return <MainPage />
+	return <NewBooking />
 }
 
 export default Page

@@ -9,7 +9,7 @@ services:
       - node_modules:/app/node_modules
     command: sh -c "npm run dev"
     environment:
-      DATABASE_URL: "postgresql://user:pass@db:5432/k_on_line"
+      DATABASE_URL: 'postgresql://user:pass@db:5432/k_on_line'
     depends_on:
       - db
   db:
@@ -20,7 +20,7 @@ services:
       POSTGRES_PASSWORD: pass
     restart: always
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - ./postgres/init:/docker-entrypoint-initdb.d
 volumes:
