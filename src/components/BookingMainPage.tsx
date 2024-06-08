@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper'
 import { BookingTableBox } from '@/components/atom/BookingTableBox'
 import Loading from '@/components/atom/Loading'
 import { Button, Stack, Typography } from '@mui/material'
+import { PiCircle } from 'react-icons/pi'
 
 const ArrayDayList = Array.from({ length: 15 }, (_, i) => i - 1)
 
@@ -61,10 +62,10 @@ const MainPage = () => {
 				const data = await response.json()
 				setBookings(data.response)
 			} else {
-				console.error('Failed to fetch bookings:', response.statusText)
+				// console.error('Failed to fetch bookings:', response.statusText)
 			}
 		} catch (error) {
-			console.error('Failed to fetch bookings:', error)
+			// console.error('Failed to fetch bookings:', error)
 		} finally {
 			setIsLoading(false)
 		}
@@ -190,6 +191,10 @@ const MainPage = () => {
 									>
 										{bookingData[dateIndex][timeIndex] ? (
 											<BookingTableBox
+												booking_date={format(day, 'MM月dd日(E)', {
+													locale: ja,
+												})}
+												booking_time={TIME_LIST[timeIndex]}
 												registName={
 													bookingData[dateIndex][timeIndex].regist_name
 												}
@@ -198,6 +203,11 @@ const MainPage = () => {
 											/>
 										) : (
 											<BookingTableBox
+												booking_date={format(day, 'MM月dd日(E)', {
+													locale: ja,
+												})}
+												booking_time={TIME_LIST[timeIndex]}
+												registName={<PiCircle color="blue" size={20} />}
 												url={`/booking/new?booking_date=${format(day, 'yyyy-MM-dd', { locale: ja })}&booking_time=${timeIndex}`}
 											/>
 										)}
