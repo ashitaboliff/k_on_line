@@ -11,9 +11,14 @@ export async function GET(req: NextRequest) {
 	}
 
 	try {
-		const bookings = await prisma.booking.findUnique({
+		const bookings = await prisma.booking.findFirst({
 			where: {
-				id: id,
+				AND: {
+					id: id,
+					is_deleted: {
+						not: true,
+					},
+				},
 			},
 			select: {
 				id: true,

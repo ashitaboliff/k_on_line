@@ -31,8 +31,13 @@ export async function POST(request: NextRequest) {
 	try {
 		const atBooking = await prisma.booking.findFirst({
 			where: {
-				booking_date: UTCbookingDate,
-				booking_time: body.booking_time,
+				AND: {
+					booking_date: UTCbookingDate,
+					booking_time: body.booking_time,
+					is_deleted: {
+						not: true,
+					},
+				},
 			},
 		})
 		if (atBooking) {
