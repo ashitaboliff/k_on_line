@@ -23,11 +23,11 @@ const BookingDetail = () => {
 				setBookingDetail(data.response)
 				setIsLoading(false)
 			} else {
-				console.error('Failed to fetch booking detail')
+				// console.error('Failed to fetch booking detail')
 				setIsLoading(false)
 			}
 		} catch (error) {
-			console.error('Error fetching booking detail:', error)
+			// console.error('Error fetching booking detail:', error)
 			setIsLoading(false)
 		}
 	}
