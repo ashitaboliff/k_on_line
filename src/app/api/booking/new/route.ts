@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma/prisma'
 import { v4 } from 'uuid'
+import { JSTToUTC } from '@/lib/CommonFunction'
 
 type BookingBody = {
-	booking_date: Date
+	booking_date: Date // JTS
 	booking_time: number
 	regist_name: string
 	name: string
@@ -12,15 +13,15 @@ type BookingBody = {
 
 export async function POST(request: NextRequest) {
 	const body = (await request.json()) as unknown as BookingBody
+	const UTCbookingDate = JSTToUTC(new Date(body.booking_date))
 
 	try {
     const atBooking = await prisma.booking.findFirst({
       where: {
-        booking_date: body.booking_date,
+        booking_date: UTCbookingDate,
         booking_time: body.booking_time,
       },
     })
-    console.log(atBooking)
     if (atBooking) {
       return NextResponse.json(
         { error: 'すでに予約が入っています。' },

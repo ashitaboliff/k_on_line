@@ -41,7 +41,7 @@ const NewBooking = () => {
 
 	const queryParams = useSearchParams()
 	const bookingDate =
-		queryParams.get('booking_date') ?? new Date().toISOString()
+		queryParams.get('booking_date') ?? new Date().toISOString().split('T')[0]
 	const bookingTime = queryParams.get('booking_time') ?? '0'
 
 	useEffect(() => {
@@ -55,7 +55,6 @@ const NewBooking = () => {
 		}
 		else {
 			setComplatePopupOpen(false)
-
 		}
 	}, [isState])
 

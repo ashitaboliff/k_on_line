@@ -104,6 +104,7 @@ const MainPage = () => {
 	}, [dateRangeString, dateRange])
 
 	useEffect(() => {
+		console.log(bookings)
 		const initialBookingList = Array.from({ length: dateList.length }, () =>
 			Array(TIME_LIST.length).fill(null),
 		)
