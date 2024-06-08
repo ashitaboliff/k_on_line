@@ -137,7 +137,7 @@ const MainPage = () => {
 				あしたぼコマ表
 			</Typography>
 			<Stack spacing={2} direction="row" className="flex justify-center">
-				<Button variant="contained" onClick={() => getUpdate()}>
+				<Button variant="contained" color="success" onClick={() => getUpdate()}>
 					カレンダーを更新
 				</Button>
 				<Button variant="outlined" color="inherit" href="/booking/new">
@@ -199,7 +199,7 @@ const MainPage = () => {
 													bookingData[dateIndex][timeIndex].regist_name
 												}
 												name={bookingData[dateIndex][timeIndex].name}
-												url={`/booking/${bookingData[dateIndex][timeIndex].id}`}
+												url={`/booking?id=${bookingData[dateIndex][timeIndex].id}`}
 											/>
 										) : (
 											<BookingTableBox

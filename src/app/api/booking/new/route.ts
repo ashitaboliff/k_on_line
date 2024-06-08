@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma/prisma'
 import { v4 } from 'uuid'
 import { JSTToUTC } from '@/lib/CommonFunction'
+import { bcrypt } from 'bcrypt'
 
 type BookingBody = {
 	booking_date: Date // JTS
@@ -40,6 +41,7 @@ export async function POST(request: NextRequest) {
 				{ status: 400 },
 			)
 		}
+		const hashedPassword = await bcrypt.hash(body.password, 10)
 		await prisma.booking.create({
 			data: {
 				id: v4(),
@@ -48,7 +50,7 @@ export async function POST(request: NextRequest) {
 				booking_time: body.booking_time,
 				regist_name: body.regist_name,
 				name: body.name,
-				password: body.password,
+				password: hashedPassword,
 			},
 		})
 		return NextResponse.json({ status: 200 })
