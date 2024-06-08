@@ -7,8 +7,6 @@ export async function GET(req: NextRequest) {
 	const startDay = params.get('startDay')
 	const endDay = params.get('endDay')
 
-	console.log(JSTToUTC(new Date(startDay as string)), new Date(startDay as string), startDay)
-
 	if (!startDay || !endDay) {
 		return NextResponse.json({ error: 'Invalid query' }, { status: 400 })
 	}
@@ -31,10 +29,9 @@ export async function GET(req: NextRequest) {
 			},
 			orderBy: [{ booking_date: 'asc' }, { booking_time: 'asc' }],
 		})
-		console.log(bookings)
-		const bookingsWithJST = bookings.map(booking => ({
+		const bookingsWithJST = bookings.map((booking) => ({
 			...booking,
-			booking_date: UTCToJST(new Date(booking.booking_date))
+			booking_date: UTCToJST(new Date(booking.booking_date)),
 		}))
 		return NextResponse.json({ response: bookingsWithJST }, { status: 200 })
 	} catch (error) {

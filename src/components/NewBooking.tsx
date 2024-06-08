@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useRef, ReactNode } from 'react'
-import { TextField, Button, Typography, Container, Stack, Box } from '@mui/material'
+import {
+	TextField,
+	Button,
+	Typography,
+	Container,
+	Stack,
+	Box,
+} from '@mui/material'
 import Alert from '@mui/material/Alert'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -52,8 +59,7 @@ const NewBooking = () => {
 	useEffect(() => {
 		if (isState === 'complate') {
 			setComplatePopupOpen(true)
-		}
-		else {
+		} else {
 			setComplatePopupOpen(false)
 		}
 	}, [isState])
@@ -64,7 +70,7 @@ const NewBooking = () => {
 		} else {
 			setErrorPopupOpen(false)
 		}
-	}	, [error])
+	}, [error])
 
 	const onSubmit = async (data: any) => {
 		const reservationData = {
@@ -88,18 +94,36 @@ const NewBooking = () => {
 				setError(null)
 				setIsState('complate')
 			} else {
-				setError(
-					<Alert severity="error">
-						予約に失敗しました。多分予約が重複してます。エラーコード:{response.status}
-					</Alert>
-				)
+				if (response.status === 400) {
+					setError(
+						<Alert severity="error">
+							予約に失敗しました。多分予約が重複してます。エラーコード:
+							{response.status}
+						</Alert>,
+					)
+				} else if (response.status === 302) {
+					setError(
+						<Alert severity="error">
+							予約に失敗しました。多分予約可能時間の範囲外です。エラーコード:
+							{response.status}
+						</Alert>,
+					)
+				} else {
+					setError(
+						<Alert severity="error">
+							予約に失敗しました。なんのエラーかわからんので出ないことを祈ります。エラーコード:
+							{response.status}
+						</Alert>,
+					)
+				}
+
 				setIsState('input')
 			}
 		} catch (error) {
 			setError(
 				<Alert severity="error">
 					予約に失敗しました。何度もこのエラーが出る場合はわたべに連絡してください。
-				</Alert>
+				</Alert>,
 			)
 		}
 	}
@@ -197,9 +221,7 @@ const NewBooking = () => {
 					<Typography variant="body1">
 						バンド名: {watch('regist_name')}
 					</Typography>
-					<Typography variant="body1">
-						責任者: {watch('name')}
-					</Typography>
+					<Typography variant="body1">責任者: {watch('name')}</Typography>
 					<Button
 						type="button"
 						variant="outlined"
@@ -224,9 +246,7 @@ const NewBooking = () => {
 				}}
 			>
 				<Box className="text-center">
-					<Typography variant="body1">
-						{error}
-					</Typography>
+					<Typography variant="body1">{error}</Typography>
 					<Button
 						type="button"
 						variant="outlined"
@@ -236,8 +256,8 @@ const NewBooking = () => {
 							setError(null)
 						}}
 					>
-					閉じる
-				</Button>
+						閉じる
+					</Button>
 				</Box>
 			</Popup>
 		</div>

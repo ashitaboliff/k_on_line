@@ -15,19 +15,31 @@ export async function POST(request: NextRequest) {
 	const body = (await request.json()) as unknown as BookingBody
 	const UTCbookingDate = JSTToUTC(new Date(body.booking_date))
 
+	if (
+		new Date(body.booking_date) < new Date() ||
+		new Date(body.booking_date) >
+			new Date(
+				new Date().getFullYear(),
+				new Date().getMonth(),
+				new Date().getDate() + 13,
+			)
+	) {
+		return NextResponse.json({ error: '予約可能時間外です。' }, { status: 302 })
+	}
+
 	try {
-    const atBooking = await prisma.booking.findFirst({
-      where: {
-        booking_date: UTCbookingDate,
-        booking_time: body.booking_time,
-      },
-    })
-    if (atBooking) {
-      return NextResponse.json(
-        { error: 'すでに予約が入っています。' },
-        { status: 400 }
-      )
-    }
+		const atBooking = await prisma.booking.findFirst({
+			where: {
+				booking_date: UTCbookingDate,
+				booking_time: body.booking_time,
+			},
+		})
+		if (atBooking) {
+			return NextResponse.json(
+				{ error: 'すでに予約が入っています。' },
+				{ status: 400 },
+			)
+		}
 		await prisma.booking.create({
 			data: {
 				id: v4(),
