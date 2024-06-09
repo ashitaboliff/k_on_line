@@ -27,6 +27,29 @@ const authOptions: NextAuthOptions = {
         } else {
           return null
         }
+      },
+    }),
+    CredentionsProvider({
+      name: 'Credentials',
+      credentials: {
+        id: {
+          label: 'id',
+          type: 'text',
+        },
+        password: {
+          label: 'Password',
+          type: 'password',
+        },
+      },
+      async authorize(credentials, req) {
+        // ここでユーザー認証を行う？
+        // テスト用のユーザー
+        const user = { id: '1', name: 'Taro', email: 'test@example.com' }
+        if (user) {
+          return user
+        } else {
+          return null
+        }
       }
     })
   ],

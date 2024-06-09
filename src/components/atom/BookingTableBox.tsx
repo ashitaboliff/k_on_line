@@ -9,27 +9,21 @@ interface BookingTableBoxProps {
 	url: string
 }
 
-export const BookingTableBox: React.FC<BookingTableBoxProps> = ({
-	booking_date,
-	booking_time,
-	registName,
-	name,
-	url,
-}) => {
+export const BookingTableBox = (props: BookingTableBoxProps) => {
 	const handleClick = () => {
-		window.location.href = url
+		window.location.href = props.url
 	}
 
 	return (
-		<Tooltip title={booking_date + ' ' + booking_time} placement="top">
+		<Tooltip title={props.booking_date + ' ' + props.booking_time} placement="top">
 			<Box
 				className="p-2 cursor-pointer h-20 flex flex-col justify-center items-center text-center overflow-hidden break-words"
 				onClick={handleClick}
 			>
 				<Typography variant="body1" sx={{ marginBottom: '0.5rem' }}>
-					{registName}
+					{props.registName}
 				</Typography>
-				<Typography variant="body2">{name}</Typography>
+				<Typography variant="body2">{props.name}</Typography>
 			</Box>
 		</Tooltip>
 	)

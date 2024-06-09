@@ -60,6 +60,7 @@ export async function POST(request: NextRequest) {
 		})
 		return NextResponse.json({ status: 200 })
 	} catch (error) {
+		console.error(error)
 		return NextResponse.json(
 			{ error: 'Failed to fetch bookings' },
 			{ status: 500 },
