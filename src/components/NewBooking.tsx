@@ -157,6 +157,7 @@ const NewBooking = () => {
 							variant="outlined"
 							fullWidth
 							margin="normal"
+							required
 						/>
 						{errors.regist_name && (
 							<Alert severity="error">{errors.regist_name.message}</Alert>
@@ -167,6 +168,7 @@ const NewBooking = () => {
 							variant="outlined"
 							fullWidth
 							margin="normal"
+							required
 						/>
 						{errors.name && (
 							<Alert severity="error">{errors.name.message}</Alert>
@@ -178,6 +180,7 @@ const NewBooking = () => {
 							variant="outlined"
 							fullWidth
 							margin="normal"
+							required
 						/>
 						{errors.password && (
 							<Alert severity="error">{errors.password.message}</Alert>

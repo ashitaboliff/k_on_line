@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 					is_deleted: {
 						not: true,
 					},
-				}
+				},
 			},
 			select: {
 				id: true,

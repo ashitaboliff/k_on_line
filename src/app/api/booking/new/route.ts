@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma/prisma'
 import { v4 } from 'uuid'
 import { JSTToUTC } from '@/lib/CommonFunction'
-import { bcrypt } from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 type BookingBody = {
 	booking_date: Date // JTS

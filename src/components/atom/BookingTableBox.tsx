@@ -15,7 +15,10 @@ export const BookingTableBox = (props: BookingTableBoxProps) => {
 	}
 
 	return (
-		<Tooltip title={props.booking_date + ' ' + props.booking_time} placement="top">
+		<Tooltip
+			title={props.booking_date + ' ' + props.booking_time}
+			placement="top"
+		>
 			<Box
 				className="p-2 cursor-pointer h-20 flex flex-col justify-center items-center text-center overflow-hidden break-words"
 				onClick={handleClick}
