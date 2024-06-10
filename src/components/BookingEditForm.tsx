@@ -102,9 +102,51 @@ const BookingEditForm = (props: Props) => {
   }
 
   return (
-    <div>
-
-    </div>
+    <>
+      <Box className="p-4 flex flex-col items-center justify-center">
+        <Typography variant="h4" className="text-center">
+          予約詳細
+        </Typography>
+        <Box className="p-4 w-1/4 flex flex-col justify-center gap-2">
+          <Typography variant="body1">
+            日時:{' '}
+            {format(bookingDetail?.booking_date as Date, 'yyyy年MM月dd日(E)', {
+              locale: ja,
+            })}
+          </Typography>
+          <Typography variant="body1">
+            時間: {TIME_LIST[Number(bookingDetail?.booking_time)]}
+          </Typography>
+          <Typography variant="body1">
+            バンド名: {bookingDetail?.regist_name}
+          </Typography>
+          <Typography variant="body1">責任者: {bookingDetail?.name}</Typography>
+        </Box>
+        <Stack spacing={2} direction="row" className="flex justify-center">
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => setEditPopupOpen(true)}
+          >
+            編集
+          </Button>
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={() => setDeletePopupOpen(true)}
+          >
+            削除
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => router.push('/')}
+          >
+            ホームに戻る
+          </Button>
+        </Stack>
+      </Box>
+    </>
   )
 }
 
