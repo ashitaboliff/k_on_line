@@ -19,6 +19,7 @@ import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import Popup, { PopupRef } from '@/components/atom/Popup'
 import Loading from '@/components/atom/Loading'
+import { SelectField } from '@/components/atom/SelectField'
 
 const schema = yup.object().shape({
   booking_date: yup.date().required('予約日を入力してください'),
@@ -146,6 +147,26 @@ const BookingEditForm = (props: Props) => {
           </Button>
         </Stack>
       </Box>
+      <Popup
+        ref={editPopupRef}
+        title="予約編集"
+        maxWidth="md"
+        open={editPopupOpen}
+        onClose={() => setEditPopupOpen(false)}
+      >
+        <Box className="p-4 w-1/4 flex flex-col justify-center gap-2">
+          <Typography variant="body1">
+            日時:{' '}
+          </Typography>
+          <Typography variant="body1">
+            時間: {TIME_LIST[Number(bookingDetail?.booking_time)]}
+          </Typography>
+          <Typography variant="body1">
+            バンド名: {bookingDetail?.regist_name}
+          </Typography>
+          <Typography variant="body1">責任者: {bookingDetail?.name}</Typography>
+        </Box>
+      </Popup>
     </>
   )
 }
