@@ -6,9 +6,9 @@ import Loading from '@/components/atom/Loading'
 
 const Page = () => {
 	return (
-	<Suspense fallback={<Loading/>}>
-		<NewBooking />
-	</Suspense>
+		<Suspense fallback={<Loading/>}>
+			<NewBooking />
+		</Suspense>
 	)
 }
 

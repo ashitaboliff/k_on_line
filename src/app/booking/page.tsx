@@ -6,7 +6,7 @@ import Loading from '@/components/atom/Loading'
 
 const Page = () => {
 	return (
-		<Suspense fallback={<Loading/>}>
+		<Suspense fallback={<Loading />}>
 			<BookingDetail />
 		</Suspense>
 	)
