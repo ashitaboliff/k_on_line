@@ -16,7 +16,7 @@ datasource db {
 }
 
 model booking {
-  id           String      @id @default(dbgenerated("uuid_generate_v4()"))
+  id           String   @id @default(uuid())
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
   booking_date DateTime
