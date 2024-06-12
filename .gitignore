@@ -9,6 +9,8 @@
 
 # testing
 /coverage
+/postgres
+/prisma/migrations
 
 # next.js
 /.next/
