@@ -1,24 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+ドキュメントはいつかつくります。
 
-## Getting Started
+## はじめかた
 
-First, run the development server:
+Docker Desktop と WSL2 をインストールしてからUbuntu上の/home/[user]配下にリポジトリをクローン。
+
+シェルで/home/[user]/k_on_lineに移動して以下を実行。
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+make new
+make up
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+[http://localhost:3000](http://localhost:3000) を開けば結果が見れるよ。
 
 ## Learn More
 

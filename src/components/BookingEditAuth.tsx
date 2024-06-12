@@ -12,14 +12,19 @@ import Loading from '@/components/atom/Loading'
 import { Booking } from '@/lib/enum/BookingEnum'
 
 import {
-	TextField,
 	Button,
 	Typography,
 	Container,
 	Stack,
 	Box,
 	Alert,
+	FormControl,
+	InputLabel,
+	IconButton,
+	InputAdornment,
+	OutlinedInput,
 } from '@mui/material'
+import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 
 const passschema = yup.object({
 	password: yup.string().required('パスワードを入力してください'),
@@ -28,12 +33,13 @@ const passschema = yup.object({
 interface Props {
 	id: string
 	isAuth: boolean
-	handleSetAuth: (isAuth: boolean) => boolean
+	handleSetAuth: (isAuth: boolean) => void
 }
 
 const BookingEditAuth = (props: Props) => {
 	const router = useRouter()
 	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [showPassword, setShowPassword] = useState<boolean>(false)
 	const [bookingDetail, setBookingDetail] = useState<Booking>()
 	const {
 		register,
@@ -43,6 +49,12 @@ const BookingEditAuth = (props: Props) => {
 		mode: 'onBlur',
 		resolver: yupResolver(passschema),
 	})
+	const handleClickShowPassword = () => setShowPassword((show) => !show)
+	const handleMouseDownPassword = (
+		event: React.MouseEvent<HTMLButtonElement>,
+	) => {
+		event.preventDefault()
+	}
 
 	const fetchBookingDetail = async () => {
 		setIsLoading(true)
@@ -110,7 +122,7 @@ const BookingEditAuth = (props: Props) => {
 			<Typography variant="body1" className="text-center">
 				予約を編集するためにパスワードを入力してください。
 			</Typography>
-			<Container>
+			<Container maxWidth="xs">
 				<Typography variant="h6" className="text-center">
 					予約詳細
 				</Typography>
@@ -139,31 +151,44 @@ const BookingEditAuth = (props: Props) => {
 						</Typography>
 					</Box>
 				</Stack>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<FormControl className="m-1" variant="outlined" fullWidth>
+						<InputLabel htmlFor="password">パスワード</InputLabel>
+						<OutlinedInput
+							id="password"
+							label="パスワード"
+							type={showPassword ? 'text' : 'password'}
+							{...register("password")}
+							endAdornment={
+								<InputAdornment position="end">
+									<IconButton
+										onClick={handleClickShowPassword}
+										onMouseDown={handleMouseDownPassword}
+										edge="end"
+									>
+										{showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+									</IconButton>
+								</InputAdornment>
+							}
+						/>
+					</FormControl>
+					{errors.password && (
+						<Alert severity="error">{errors.password.message}</Alert>
+					)}
+					<Stack spacing={2} direction="row" className="flex justify-center">
+						<Button type="submit" variant="contained" color="success">
+							ログイン
+						</Button>
+						<Button
+							variant="outlined"
+							color="inherit"
+							onClick={() => router.push(`/booking?id=${props.id}`)}
+						>
+							予約詳細に戻る
+						</Button>
+					</Stack>
+				</form>
 			</Container>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<TextField
-					label="パスワード"
-					type="password"
-					{...register('password')}
-					fullWidth
-					margin="normal"
-					variant="outlined"
-					required
-				/>
-				{errors.password && (
-					<Alert severity="error">{errors.password.message}</Alert>
-				)}
-				<Button type="submit" variant="contained" color="success">
-					ログイン
-				</Button>
-				<Button
-					variant="outlined"
-					color="inherit"
-					onClick={() => router.push(`/booking?id=${props.id}`)}
-				>
-					予約詳細に戻る
-				</Button>
-			</form>
 		</div>
 	)
 }

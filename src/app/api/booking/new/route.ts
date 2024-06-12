@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma/prisma'
 import { v4 } from 'uuid'
-import { JSTToUTC } from '@/lib/CommonFunction'
-import * as bcrypt from 'bcrypt'
+import { JSTToUTC, UTCToJST } from '@/lib/CommonFunction'
+import bcryptjs from 'bcryptjs'
 
 type BookingBody = {
 	booking_date: Date // JTS
@@ -14,25 +14,29 @@ type BookingBody = {
 
 export async function POST(request: NextRequest) {
 	const body = (await request.json()) as unknown as BookingBody
-	const UTCbookingDate = JSTToUTC(new Date(body.booking_date))
+	const UTCbookingDate = UTCToJST(new Date(body.booking_date))
+	const today = new Date()
+	const todaySetTime = new Date(today.setHours(0, 0, 0, 0))
 
 	if (
-		new Date(body.booking_date) < new Date() ||
-		new Date(body.booking_date) >
+		UTCbookingDate < todaySetTime ||
+		UTCbookingDate >
 			new Date(
-				new Date().getFullYear(),
-				new Date().getMonth(),
-				new Date().getDate() + 13,
+				todaySetTime.getFullYear(),
+				todaySetTime.getMonth(),
+				todaySetTime.getDate() + 13,
 			)
 	) {
 		return NextResponse.json({ error: '予約可能時間外です。' }, { status: 302 })
 	}
 
 	try {
+		const searchBookingDate = JSTToUTC(UTCbookingDate)
+		console.log(searchBookingDate)
 		const atBooking = await prisma.booking.findFirst({
 			where: {
 				AND: {
-					booking_date: UTCbookingDate,
+					booking_date: searchBookingDate,
 					booking_time: body.booking_time,
 					is_deleted: {
 						not: true,
@@ -40,13 +44,14 @@ export async function POST(request: NextRequest) {
 				},
 			},
 		})
+		console.log(atBooking)
 		if (atBooking) {
 			return NextResponse.json(
 				{ error: 'すでに予約が入っています。' },
 				{ status: 400 },
 			)
 		}
-		const hashedPassword = await bcrypt.hash(body.password, 10)
+		const hashedPassword = await bcryptjs.hashSync(body.password, 5)
 		await prisma.booking.create({
 			data: {
 				id: v4(),
