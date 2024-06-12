@@ -6,6 +6,11 @@ import {
 	Container,
 	Stack,
 	Box,
+	FormControl,
+	IconButton,
+	InputAdornment,
+	InputLabel,
+	OutlinedInput,
 } from '@mui/material'
 import Alert from '@mui/material/Alert'
 import { useForm } from 'react-hook-form'
@@ -14,10 +19,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { parseDateString } from '@/lib/CommonFunction'
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
-import { format, set } from 'date-fns'
+import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import Popup, { PopupRef } from '@/components/atom/Popup'
 import Loading from '@/components/atom/Loading'
+import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 
 const schema = yup.object().shape({
 	regist_name: yup.string().required('バンド名を入力してください'),
@@ -30,11 +36,19 @@ const NewBooking = () => {
 	const [isState, setIsState] = useState<'loading' | 'input' | 'complate'>(
 		'loading',
 	)
+	const [showPassword, setShowPassword] = useState<boolean>(false)
 	const [error, setError] = useState<ReactNode | null>(null)
 	const [complatePopupOpen, setComplatePopupOpen] = useState(false)
 	const [errorPopupOpen, setErrorPopupOpen] = useState(false)
 	const complatePopupRef = useRef<PopupRef>(undefined)
 	const errorPopupRef = useRef<PopupRef>(undefined)
+
+	const handleClickShowPassword = () => setShowPassword((show) => !show)
+	const handleMouseDownPassword = (
+		event: React.MouseEvent<HTMLButtonElement>,
+	) => {
+		event.preventDefault()
+	}
 
 	const {
 		register,
@@ -157,6 +171,7 @@ const NewBooking = () => {
 							variant="outlined"
 							fullWidth
 							margin="normal"
+							required
 						/>
 						{errors.regist_name && (
 							<Alert severity="error">{errors.regist_name.message}</Alert>
@@ -167,18 +182,31 @@ const NewBooking = () => {
 							variant="outlined"
 							fullWidth
 							margin="normal"
+							required
 						/>
 						{errors.name && (
 							<Alert severity="error">{errors.name.message}</Alert>
 						)}
-						<TextField
-							{...register('password')}
-							label="パスワード"
-							type="password"
-							variant="outlined"
-							fullWidth
-							margin="normal"
-						/>
+						<FormControl className="m-1" variant="outlined" fullWidth>
+							<InputLabel htmlFor="password">パスワード</InputLabel>
+							<OutlinedInput
+								id="password"
+								label="パスワード"
+								type={showPassword ? 'text' : 'password'}
+								{...register('password')}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											edge="end"
+										>
+											{showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+							/>
+						</FormControl>
 						{errors.password && (
 							<Alert severity="error">{errors.password.message}</Alert>
 						)}

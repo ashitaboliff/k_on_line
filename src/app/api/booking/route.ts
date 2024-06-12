@@ -14,9 +14,14 @@ export async function GET(req: NextRequest) {
 	try {
 		const bookings = await prisma.booking.findMany({
 			where: {
-				booking_date: {
-					gte: JSTToUTC(new Date(startDay as string)),
-					lte: JSTToUTC(new Date(endDay as string)),
+				AND: {
+					booking_date: {
+						gte: JSTToUTC(new Date(startDay as string)),
+						lte: JSTToUTC(new Date(endDay as string)),
+					},
+					is_deleted: {
+						not: true,
+					},
 				},
 			},
 			select: {
