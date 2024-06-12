@@ -16,7 +16,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/navigation'
 import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
-import { format } from 'date-fns'
+import { format, set } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import Popup, { PopupRef } from '@/components/atom/Popup'
 import Loading from '@/components/atom/Loading'
@@ -33,14 +33,23 @@ interface Props {
 	id: string
 }
 
+type ResultType = {
+	status: 'success' | 'error'
+	title: string
+	message: string
+}
+
 const BookingEditForm = (props: Props) => {
 	const router = useRouter()
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [bookingDetail, setBookingDetail] = useState<Booking>()
 	const [editPopupOpen, setEditPopupOpen] = useState(false)
 	const [deletePopupOpen, setDeletePopupOpen] = useState(false)
+	const [resultPopupOpen, setResultPopupOpen] = useState(false)
+	const [result, setResult] = useState<ResultType>()
 	const editPopupRef = useRef<PopupRef>(undefined)
 	const deletePopupRef = useRef<PopupRef>(undefined)
+	const resultPopupRef = useRef<PopupRef>(undefined)
 
 	const {
 		register,
@@ -74,29 +83,48 @@ const BookingEditForm = (props: Props) => {
 		}
 	}
 
-	const onSubmit = async (data: any) => {
+	const onPutSubmit = async (data: any) => {
 		setIsLoading(true)
+	}
+
+	const onDeleteSubmit = async () => {
+		setIsLoading(true)
+		setDeletePopupOpen(false)
+		setEditPopupOpen(false)
 		try {
-			const response = await fetch(`/api/booking/edit?id=${props.id}`, {
+			const response = await fetch(`/api/booking/delete?id=${props.id}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(data),
 			})
 			if (response.ok) {
-				router.push(`/booking/detail?id=${props.id}`)
+				setResult({
+					status: 'success',
+					title: '予約削除',
+					message: '予約の削除に成功しました',
+				})
 			} else {
-				// alert('エラーが発生しました')
+				setResult({
+					status: 'error',
+					title: '予約削除',
+					message: '予約の削除に失敗しました',
+				})
 			}
 		} catch (error) {
-			// alert('エラーが発生しました')
+			setResult({
+				status: 'error',
+				title: '予約削除',
+				message: '予約の削除に失敗しました。エラーコード:' + error,
+			})
 		}
+		setResultPopupOpen(true)
 		setIsLoading(false)
 	}
 
 	useEffect(() => {
 		fetchBookingDetail()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	if (isLoading) {
@@ -129,7 +157,7 @@ const BookingEditForm = (props: Props) => {
 						variant="contained"
 						color="success"
 						onClick={() => setEditPopupOpen(true)}
-            disabled
+						disabled
 					>
 						編集(未実装)
 					</Button>
@@ -157,7 +185,7 @@ const BookingEditForm = (props: Props) => {
 				onClose={() => setEditPopupOpen(false)}
 			>
 				<Box className="p-4 flex flex-col justify-center gap-2">
-					<form onSubmit={handleSubmit(onSubmit)}>
+					<form onSubmit={handleSubmit(onPutSubmit)}>
 						<TextField
 							label="予約日"
 							type="date"
@@ -220,7 +248,7 @@ const BookingEditForm = (props: Props) => {
 					<Typography variant="body1" className="text-center">
 						予約を削除しますか？
 					</Typography>
-					<form onSubmit={handleSubmit(onSubmit)}>
+					<form onSubmit={handleSubmit(onDeleteSubmit)}>
 						<Stack spacing={2} direction="row" className="flex justify-center">
 							<Button type="submit" variant="contained" color="error">
 								削除
@@ -234,6 +262,31 @@ const BookingEditForm = (props: Props) => {
 							</Button>
 						</Stack>
 					</form>
+				</Box>
+			</Popup>
+			<Popup
+				ref={resultPopupRef}
+				title={result?.title as string}
+				maxWidth="sm"
+				open={resultPopupOpen}
+				onClose={() => setResultPopupOpen(false)}
+			>
+				<Box className="p-4 flex flex-col justify-center gap-2">
+					<Typography variant="body1" className="text-center">
+						{result?.message}
+					</Typography>
+					<Stack spacing={2} direction="row" className="flex justify-center">
+						<Button
+							variant="outlined"
+							color="inherit"
+							onClick={() => {
+								router.push('/')
+								setResultPopupOpen(false)
+							}}
+						>
+							ホームに戻る
+						</Button>
+					</Stack>
 				</Box>
 			</Popup>
 		</>

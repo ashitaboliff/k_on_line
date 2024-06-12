@@ -158,7 +158,7 @@ const BookingEditAuth = (props: Props) => {
 							id="password"
 							label="パスワード"
 							type={showPassword ? 'text' : 'password'}
-							{...register("password")}
+							{...register('password')}
 							endAdornment={
 								<InputAdornment position="end">
 									<IconButton

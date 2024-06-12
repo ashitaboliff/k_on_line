@@ -12,7 +12,7 @@ import { useFormContext } from 'react-hook-form'
 
 const PasswordInputField = () => {
 	const [showPassword, setShowPassword] = useState(false)
-  const { register } = useFormContext()
+	const { register } = useFormContext()
 	const handleClickShowPassword = () => setShowPassword((show) => !show)
 	const handleMouseDownPassword = (
 		event: React.MouseEvent<HTMLButtonElement>,

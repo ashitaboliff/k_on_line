@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
 
 	try {
 		const searchBookingDate = JSTToUTC(UTCbookingDate)
-		console.log(searchBookingDate)
 		const atBooking = await prisma.booking.findFirst({
 			where: {
 				AND: {
@@ -44,14 +43,13 @@ export async function POST(request: NextRequest) {
 				},
 			},
 		})
-		console.log(atBooking)
 		if (atBooking) {
 			return NextResponse.json(
 				{ error: 'すでに予約が入っています。' },
 				{ status: 400 },
 			)
 		}
-		const hashedPassword = await bcryptjs.hashSync(body.password, 5)
+		const hashedPassword = bcryptjs.hashSync(body.password, 5)
 		await prisma.booking.create({
 			data: {
 				id: v4(),
@@ -65,7 +63,7 @@ export async function POST(request: NextRequest) {
 		})
 		return NextResponse.json({ status: 200 })
 	} catch (error) {
-		console.error(error)
+		// console.error(error)
 		return NextResponse.json(
 			{ error: 'Failed to fetch bookings' },
 			{ status: 500 },
