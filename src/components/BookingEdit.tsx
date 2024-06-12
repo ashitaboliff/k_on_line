@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import {
 	TextField,
 	Typography,
@@ -12,8 +12,10 @@ import {
 import Loading from '@/components/atom/Loading'
 import BookingEditAuth from '@/components/BookingEditAuth'
 import BookingEditForm from '@/components/BookingEditForm'
+import { useSearchParams } from 'next/navigation'
 
-const BookingEdit = (props: {id: string}) => {
+const BookingEdit = () => {
+	const id = useSearchParams().get('id') ?? ''
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isAuth, setIsAuth] = useState<boolean>(false)
 
@@ -31,9 +33,9 @@ const BookingEdit = (props: {id: string}) => {
 				予約編集
 			</Typography>
 			{isAuth ? (
-				<BookingEditForm id={props.id} />
+				<BookingEditForm id={id} />
 			) : (
-				<BookingEditAuth id={props.id} isAuth={isAuth} handleSetAuth={setIsAuth} />
+				<BookingEditAuth id={id} isAuth={isAuth} handleSetAuth={setIsAuth} />
 			)}
 		</Container>
 	)

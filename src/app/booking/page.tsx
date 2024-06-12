@@ -1,10 +1,15 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import BookingDetail from '@/components/BookingDetail'
+import Loading from '@/components/atom/Loading'
 
 const Page = () => {
-	return <BookingDetail />
+	return (
+		<Suspense fallback={<Loading/>}>
+			<BookingDetail />
+		</Suspense>
+	)
 }
 
 export default Page

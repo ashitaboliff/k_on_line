@@ -2,14 +2,12 @@
 
 import React, { Suspense } from 'react'
 import BookingEdit from '@/components/BookingEdit'
-import { useSearchParams } from 'next/navigation'
+import Loading from '@/components/atom/Loading'
 
 const Page = () => {
-	const queryParams = useSearchParams()
-	const id = queryParams.get('id') ?? ''
 	return (
-		<Suspense>
-			<BookingEdit id={id} />
+		<Suspense fallback={<Loading />}>
+			<BookingEdit />
 		</Suspense>
 	)
 }
