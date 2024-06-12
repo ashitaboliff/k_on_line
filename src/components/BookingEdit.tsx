@@ -12,10 +12,8 @@ import {
 import Loading from '@/components/atom/Loading'
 import BookingEditAuth from '@/components/BookingEditAuth'
 import BookingEditForm from '@/components/BookingEditForm'
-import { useSearchParams } from 'next/navigation'
 
-const BookingEdit = () => {
-	const id = useSearchParams().get('id') as string
+const BookingEdit = (props: {id: string}) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isAuth, setIsAuth] = useState<boolean>(false)
 
@@ -33,9 +31,9 @@ const BookingEdit = () => {
 				予約編集
 			</Typography>
 			{isAuth ? (
-				<BookingEditForm id={id} />
+				<BookingEditForm id={props.id} />
 			) : (
-				<BookingEditAuth id={id} isAuth={isAuth} handleSetAuth={setIsAuth} />
+				<BookingEditAuth id={props.id} isAuth={isAuth} handleSetAuth={setIsAuth} />
 			)}
 		</Container>
 	)
