@@ -189,7 +189,7 @@ const NewBooking = () => {
 						{errors.name && (
 							<Alert severity="error">{errors.name.message}</Alert>
 						)}
-						<FormControl className="m-1" variant="outlined" fullWidth>
+						<FormControl className="my-3" variant="outlined" fullWidth>
 							<InputLabel htmlFor="password">パスワード</InputLabel>
 							<OutlinedInput
 								id="password"

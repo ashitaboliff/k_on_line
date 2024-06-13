@@ -1,17 +1,21 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Box, Tooltip, Typography } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 interface BookingTableBoxProps {
 	booking_date: string
 	booking_time: string
 	registName?: string | ReactNode
 	name?: string
-	url: string
+	url: string | undefined
 }
 
 export const BookingTableBox = (props: BookingTableBoxProps) => {
+	const router = useRouter()
 	const handleClick = () => {
-		window.location.href = props.url
+		if (props.url) {
+			router.push(props.url)
+		}
 	}
 	let registName = props.registName
 	let name = props.name
