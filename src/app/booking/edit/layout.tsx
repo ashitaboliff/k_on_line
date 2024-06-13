@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: '新規予約ページ',
+	title: '予約編集画面',
 }
 
 export default function RootLayout({
