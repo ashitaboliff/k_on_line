@@ -137,10 +137,12 @@ const MainPage = () => {
 
 	return (
 		<div>
-			<div className="flex space-x-4" dangerouslySetInnerHTML={{
-				__html:
-					'<!-- 拙い知識で作ったやつなので、可読性めっちゃ低くて申し訳ないけど頑張ってね！！！ 変態糞学生 -->' +
-					'<!-- てことでソースコードはこちらからhttps://github.com/watabegg/k_on_line -->'
+			<div
+				className="flex space-x-4"
+				dangerouslySetInnerHTML={{
+					__html:
+						'<!-- 拙い知識で作ったやつなので、可読性めっちゃ低くて申し訳ないけど頑張ってね！！！ 変態糞学生 -->' +
+						'<!-- てことでソースコードはこちらからhttps://github.com/watabegg/k_on_line -->',
 				}}
 			/>
 			<Stack spacing={2} direction="row" className="flex justify-center m-2">
@@ -154,9 +156,17 @@ const MainPage = () => {
 				>
 					使い方の表示
 				</Button>
+				<Button variant="contained" color="inherit" href="/booking/logs">
+					予約ログ
+				</Button>
 			</Stack>
 			<Stack spacing={8} direction="row" className="flex justify-center">
-				<Image src="/animal_music_band.png" alt="logo" width={150} height={120} />
+				<Image
+					src="/animal_music_band.png"
+					alt="logo"
+					width={150}
+					height={120}
+				/>
 				<Image src="/animal_dance.png" alt="logo" width={150} height={120} />
 			</Stack>
 			<Stack spacing={2} direction="row" className="flex justify-center">

@@ -31,10 +31,8 @@ export const BookingTableBox = (props: BookingTableBoxProps) => {
 				className="p-2 cursor-pointer h-20 w-28 flex flex-col justify-center items-center text-center overflow-hidden break-words"
 				onClick={handleClick}
 			>
-				<Typography className='mb-1 text-sm'>
-					{registName}
-				</Typography>
-				<Typography className='text-xs'>{name}</Typography>
+				<Typography className="mb-1 text-sm">{registName}</Typography>
+				<Typography className="text-xs">{name}</Typography>
 			</Box>
 		</Tooltip>
 	)
