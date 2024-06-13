@@ -13,6 +13,14 @@ export const BookingTableBox = (props: BookingTableBoxProps) => {
 	const handleClick = () => {
 		window.location.href = props.url
 	}
+	let registName = props.registName
+	let name = props.name
+	if (typeof props.registName === 'string' && props.registName.length > 12) {
+		registName = props.registName.slice(0, 11) + '...'
+	}
+	if (typeof props.name === 'string' && props.name.length > 14) {
+		name = props.name.slice(0, 13) + '...'
+	}
 
 	return (
 		<Tooltip
@@ -20,13 +28,11 @@ export const BookingTableBox = (props: BookingTableBoxProps) => {
 			placement="top"
 		>
 			<Box
-				className="p-2 cursor-pointer h-20 flex flex-col justify-center items-center text-center overflow-hidden break-words"
+				className="p-2 cursor-pointer h-20 w-28 flex flex-col justify-center items-center text-center overflow-hidden break-words"
 				onClick={handleClick}
 			>
-				<Typography variant="body1" sx={{ marginBottom: '0.5rem' }}>
-					{props.registName}
-				</Typography>
-				<Typography variant="body2">{props.name}</Typography>
+				<Typography className="mb-1 text-sm">{registName}</Typography>
+				<Typography className="text-xs">{name}</Typography>
 			</Box>
 		</Tooltip>
 	)

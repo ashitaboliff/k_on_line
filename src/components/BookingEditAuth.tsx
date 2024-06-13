@@ -25,6 +25,7 @@ import {
 	OutlinedInput,
 } from '@mui/material'
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
+import BookingDetailBox from './atom/BookingDetailBox'
 
 const passschema = yup.object({
 	password: yup.string().required('パスワードを入力してください'),
@@ -122,37 +123,23 @@ const BookingEditAuth = (props: Props) => {
 			<Typography variant="body1" className="text-center">
 				予約を編集するためにパスワードを入力してください。
 			</Typography>
-			<Container maxWidth="xs">
+			<Container className="flex justify-center flex-col">
 				<Typography variant="h6" className="text-center">
 					予約詳細
 				</Typography>
-				<Stack spacing={2} direction="column" className="flex justify-center">
-					<Box>
-						<Typography variant="body1">
-							予約日:{' '}
-							{format(new Date(bookingDetail.booking_date), 'yyyy/MM/dd', {
-								locale: ja,
-							})}
-						</Typography>
-					</Box>
-					<Box>
-						<Typography variant="body1">
-							予約時間: {TIME_LIST[parseInt(bookingDetail.booking_time)]}
-						</Typography>
-					</Box>
-					<Box>
-						<Typography variant="body1">
-							バンド名: {bookingDetail.regist_name}
-						</Typography>
-					</Box>
-					<Box>
-						<Typography variant="body1">
-							責任者: {bookingDetail.name}
-						</Typography>
-					</Box>
+				<Stack spacing={2} direction="row" className="flex justify-center">
+					<BookingDetailBox
+						booking_date={bookingDetail.booking_date}
+						booking_time={bookingDetail.booking_time}
+						regist_name={bookingDetail.regist_name}
+						name={bookingDetail.name}
+					/>
 				</Stack>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<FormControl className="m-1" variant="outlined" fullWidth>
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className="flex flex-col items-center"
+				>
+					<FormControl variant="outlined" className="w-2/5 m-2">
 						<InputLabel htmlFor="password">パスワード</InputLabel>
 						<OutlinedInput
 							id="password"
@@ -175,7 +162,11 @@ const BookingEditAuth = (props: Props) => {
 					{errors.password && (
 						<Alert severity="error">{errors.password.message}</Alert>
 					)}
-					<Stack spacing={2} direction="row" className="flex justify-center">
+					<Stack
+						spacing={2}
+						direction="row"
+						className="flex justify-center m-2"
+					>
 						<Button type="submit" variant="contained" color="success">
 							ログイン
 						</Button>

@@ -18,3 +18,14 @@ export type Booking = {
 	regist_name: string
 	name: string
 }
+
+export type BookingLog = {
+	id: string
+	created_at: Date
+	updated_at: Date
+	booking_date: Date
+	booking_time: string
+	regist_name: string
+	name: string
+	is_deleted: boolean
+}

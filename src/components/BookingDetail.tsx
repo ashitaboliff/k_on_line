@@ -5,6 +5,7 @@ import { Booking, TIME_LIST } from '@/lib/enum/BookingEnum'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import Loading from '@/components/atom/Loading'
+import BookingDetailBox from './atom/BookingDetailBox'
 
 const BookingDetail = () => {
 	const id = useSearchParams().get('id')
@@ -68,24 +69,15 @@ const BookingDetail = () => {
 
 	return (
 		<Box className="p-4 flex flex-col items-center justify-center">
-			<Typography variant="h4" className="text-center">
+			<Typography variant="h6" className="text-center">
 				予約詳細
 			</Typography>
-			<Box className="p-4 w-1/4 flex flex-col justify-center gap-2">
-				<Typography variant="body1">
-					日時:{' '}
-					{format(bookingDetail?.booking_date as Date, 'yyyy年MM月dd日(E)', {
-						locale: ja,
-					})}
-				</Typography>
-				<Typography variant="body1">
-					時間: {TIME_LIST[Number(bookingDetail?.booking_time)]}
-				</Typography>
-				<Typography variant="body1">
-					バンド名: {bookingDetail?.regist_name}
-				</Typography>
-				<Typography variant="body1">責任者: {bookingDetail?.name}</Typography>
-			</Box>
+			<BookingDetailBox
+				booking_date={bookingDetail.booking_date}
+				booking_time={bookingDetail.booking_time}
+				regist_name={bookingDetail.regist_name}
+				name={bookingDetail.name}
+			/>
 			<Stack spacing={2} direction="row" className="flex justify-center">
 				<Button
 					variant="contained"
