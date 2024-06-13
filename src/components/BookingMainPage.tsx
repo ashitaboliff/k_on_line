@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
+import Popup, { PopupRef } from '@/components/atom/Popup'
 
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -39,6 +40,8 @@ const MainPage = () => {
 	// 第一引数を日付、第二引数を時間として予約情報を格納する二次元配列
 	const [bookingData, setBookingData] = useState<Booking[][]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
+	const ReadMePopupRef = useRef<PopupRef>(undefined)
 
 	const generateDateList = (start: Date, end: Date) => {
 		const dates = []
@@ -133,14 +136,15 @@ const MainPage = () => {
 
 	return (
 		<>
-			<Typography variant="h4" className="text-center mb-4">
-				あしたぼコマ表
-			</Typography>
 			<Stack spacing={2} direction="row" className="flex justify-center">
 				<Button variant="contained" color="success" onClick={() => getUpdate()}>
 					カレンダーを更新
 				</Button>
-				<Button variant="outlined" color="inherit" href="/booking/new">
+				<Button
+					variant="outlined"
+					color="inherit"
+					onClick={() => setIsPopupOpen(true)}
+				>
 					使い方の表示
 				</Button>
 			</Stack>
@@ -218,6 +222,45 @@ const MainPage = () => {
 					</TableBody>
 				</Table>
 			</TableContainer>
+			<Popup
+				ref={ReadMePopupRef}
+				title="使い方"
+				maxWidth="md"
+				open={isPopupOpen}
+				onClose={() => setIsPopupOpen(false)}
+			>
+				<Typography variant="body1">
+					<p>・予約したい日付、時間帯をクリックすると予約ページに移行します</p>
+					<p>
+						・予約は１秒でも先に予約ページの確認ボタンを押したほうが優先されます
+					</p>
+					<p>
+						・その他わからない事やバグ(想定外の動作)を発見したらわたべまで連絡ください
+					</p>
+					<p>
+						・消したいけどパスワード忘れて消せなくなった場合もわたべまで(いつか役員に権限を渡す予定です)
+					</p>
+					<p>※ライブ3週間前からはバンド練習の人優先でお願いします</p>
+					<p>※平日の16時半以前のコマは3日前までに学務での予約が必須です</p>
+					<p>※休日のコマは終日3日前に学務での予約が必須です</p>
+					<p>
+						※ダブルブッキングを避けるため、必ずコマ表に予約をいれてから学務に予約しにいってください
+					</p>
+					<p>
+						※繁忙期はなるべく連続2コマなどは避け、譲り合いスタジオに行きましょう
+					</p>
+				</Typography>
+				<Stack spacing={2} direction="row" className="flex justify-center">
+					<Button
+						type="button"
+						variant="outlined"
+						color="inherit"
+						onClick={() => setIsPopupOpen(false)}
+					>
+						閉じる
+					</Button>
+				</Stack>
+			</Popup>
 		</>
 	)
 }
