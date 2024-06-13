@@ -28,7 +28,7 @@ const BookingEdit = () => {
 	}
 
 	return (
-		<Container className="flex-col" maxWidth="md">
+		<Container className="flex-col">
 			<Typography variant="h4" className="text-center">
 				予約編集
 			</Typography>

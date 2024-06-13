@@ -9,6 +9,7 @@ import {
 	Menu,
 	MenuItem,
 	Drawer,
+	Box,
 } from '@mui/material'
 import { LuMenu } from 'react-icons/lu'
 import { useState } from 'react'
@@ -28,6 +29,7 @@ const Layout = () => {
 		<div>
 			<AppBar position="static" color="inherit" className="mb-5">
 				<Toolbar>
+					<Box className="h-10 w-10"></Box>
 					<Typography variant="h4" component="div" className="grow text-center">
 						<Link href="/">あしたぼコマ表</Link>
 					</Typography>
@@ -47,8 +49,10 @@ const Layout = () => {
 						<MenuItem onClick={handleMenuClose}>
 							<Link href="/">コマ表</Link>
 						</MenuItem>
+						<MenuItem onClick={handleMenuClose}>
+							<Link href="/booking/logs">予約ログ</Link>
+						</MenuItem>
 						<MenuItem onClick={handleMenuClose}>未実装</MenuItem>
-						<MenuItem onClick={handleMenuClose}>いつかつくるよ</MenuItem>
 					</Drawer>
 				</Toolbar>
 			</AppBar>

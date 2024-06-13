@@ -21,6 +21,7 @@ import { ja } from 'date-fns/locale'
 import Popup, { PopupRef } from '@/components/atom/Popup'
 import Loading from '@/components/atom/Loading'
 import { SelectField } from '@/components/atom/SelectField'
+import BookingDetailBox from '@/components/atom/BookingDetailBox'
 
 const schema = yup.object().shape({
 	booking_date: yup.date().required('予約日を入力してください'),
@@ -130,28 +131,43 @@ const BookingEditForm = (props: Props) => {
 	if (isLoading) {
 		return <Loading />
 	}
-
-	return (
-		<>
+	if (!bookingDetail) {
+		return (
 			<Box className="p-4 flex flex-col items-center justify-center">
 				<Typography variant="h4" className="text-center">
 					予約詳細
 				</Typography>
-				<Box className="p-4 w-1/4 flex flex-col justify-center gap-2">
+				<Box className="p-4 w-1/3 flex flex-col justify-center gap-2">
+					<Alert severity="error">エラー</Alert>
 					<Typography variant="body1">
-						日時:{' '}
-						{format(bookingDetail?.booking_date as Date, 'yyyy年MM月dd日(E)', {
-							locale: ja,
-						})}
+						予約情報が見つかりませんでした。
+						<br />
+						ホームに戻ってもう一度試してください。
 					</Typography>
-					<Typography variant="body1">
-						時間: {TIME_LIST[Number(bookingDetail?.booking_time)]}
-					</Typography>
-					<Typography variant="body1">
-						バンド名: {bookingDetail?.regist_name}
-					</Typography>
-					<Typography variant="body1">責任者: {bookingDetail?.name}</Typography>
+					<Button
+						variant="outlined"
+						color="inherit"
+						onClick={() => router.push('/')}
+					>
+						ホームに戻る
+					</Button>
 				</Box>
+			</Box>
+		)
+	}
+
+	return (
+		<>
+			<Box className="p-4 flex flex-col items-center justify-center">
+				<Typography variant="h6" className="text-center">
+					予約詳細
+				</Typography>
+				<BookingDetailBox
+					booking_date={bookingDetail.booking_date}
+					booking_time={bookingDetail.booking_time}
+					regist_name={bookingDetail.regist_name}
+					name={bookingDetail.name}
+				/>
 				<Stack spacing={2} direction="row" className="flex justify-center">
 					<Button
 						variant="contained"

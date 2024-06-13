@@ -156,9 +156,6 @@ const MainPage = () => {
 				>
 					使い方の表示
 				</Button>
-				<Button variant="contained" color="inherit" href="/booking/logs">
-					予約ログ
-				</Button>
 			</Stack>
 			<Stack spacing={8} direction="row" className="flex justify-center">
 				<Image
