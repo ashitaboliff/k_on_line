@@ -15,8 +15,9 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { BookingTableBox } from '@/components/atom/BookingTableBox'
 import Loading from '@/components/atom/Loading'
-import { Button, Stack, Typography } from '@mui/material'
+import { Button, Stack, TableFooter, Typography } from '@mui/material'
 import { PiCircle } from 'react-icons/pi'
+import Image from 'next/image'
 
 const ArrayDayList = Array.from({ length: 15 }, (_, i) => i - 1)
 
@@ -135,8 +136,14 @@ const MainPage = () => {
 	}
 
 	return (
-		<>
-			<Stack spacing={2} direction="row" className="flex justify-center">
+		<div>
+			<div className="flex space-x-4" dangerouslySetInnerHTML={{
+				__html:
+					'<!-- 拙い知識で作ったやつなので、可読性めっちゃ低くて申し訳ないけど頑張ってね！！！ 変態糞学生 -->' +
+					'<!-- てことでソースコードはこちらからhttps://github.com/watabegg/k_on_line -->'
+				}}
+			/>
+			<Stack spacing={2} direction="row" className="flex justify-center m-2">
 				<Button variant="contained" color="success" onClick={() => getUpdate()}>
 					カレンダーを更新
 				</Button>
@@ -148,80 +155,105 @@ const MainPage = () => {
 					使い方の表示
 				</Button>
 			</Stack>
-			<TableContainer component={Paper} className="m-10 w-5/6">
-				{' '}
-				{/* カレンダー全体 */}
-				<Table sx={{ minWidth: 650 }} size="medium">
-					<TableHead>
-						{' '}
-						{/* 日付 */}
-						<TableRow>
-							<TableCell
-								className="border border-slate-600 p-2"
-								padding="none"
-							></TableCell>
-							{dateList.map((day, index) => (
+			<Stack spacing={8} direction="row" className="flex justify-center">
+				<Image src="/animal_music_band.png" alt="logo" width={150} height={120} />
+				<Image src="/animal_dance.png" alt="logo" width={150} height={120} />
+			</Stack>
+			<Stack spacing={2} direction="row" className="flex justify-center">
+				<TableContainer component={Paper} className="m-10 w-11/12">
+					{' '}
+					{/* カレンダー全体 */}
+					<Table className="" size="medium">
+						<TableHead>
+							{' '}
+							{/* 日付 */}
+							<TableRow>
 								<TableCell
-									key={index}
-									className="border border-slate-600 p-2 center w-16"
+									className="border border-slate-600 p-2"
 									padding="none"
-								>
-									<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
-								</TableCell>
-							))}
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{TIME_LIST.map((time, timeIndex) => (
-							<TableRow
-								key={timeIndex}
-								sx={{
-									'&:nth-of-type(odd)': {
-										backgroundColor: '#dcdcdc',
-									},
-								}}
-							>
-								<TableCell
-									className="border border-slate-600 p-2 w-10"
-									padding="none"
-								>
-									<span>{time}</span>
-								</TableCell>
-								{dateList.map((day, dateIndex) => (
+								></TableCell>
+								{dateList.map((day, index) => (
 									<TableCell
-										key={dateIndex}
-										className="border border-slate-600"
+										key={index}
+										className="border border-slate-600 p-2 center w-16"
 										padding="none"
 									>
-										{bookingData[dateIndex][timeIndex] ? (
-											<BookingTableBox
-												booking_date={format(day, 'MM月dd日(E)', {
-													locale: ja,
-												})}
-												booking_time={TIME_LIST[timeIndex]}
-												registName={
-													bookingData[dateIndex][timeIndex].regist_name
-												}
-												name={bookingData[dateIndex][timeIndex].name}
-												url={`/booking?id=${bookingData[dateIndex][timeIndex].id}`}
-											/>
-										) : (
-											<BookingTableBox
-												booking_date={format(day, 'MM月dd日(E)', {
-													locale: ja,
-												})}
-												booking_time={TIME_LIST[timeIndex]}
-												registName={<PiCircle color="blue" size={20} />}
-												url={`/booking/new?booking_date=${format(day, 'yyyy-MM-dd', { locale: ja })}&booking_time=${timeIndex}`}
-											/>
-										)}
+										<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
 									</TableCell>
 								))}
 							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
+						</TableHead>
+						<TableBody>
+							{TIME_LIST.map((time, timeIndex) => (
+								<TableRow
+									key={timeIndex}
+									sx={{
+										'&:nth-of-type(odd)': {
+											backgroundColor: '#dcdcdc',
+										},
+									}}
+								>
+									<TableCell
+										className="border border-slate-600 p-2 w-10"
+										padding="none"
+									>
+										<span>{time}</span>
+									</TableCell>
+									{dateList.map((day, dateIndex) => (
+										<TableCell
+											key={dateIndex}
+											className="border border-slate-600"
+											padding="none"
+										>
+											{bookingData[dateIndex][timeIndex] ? (
+												<BookingTableBox
+													booking_date={format(day, 'MM月dd日(E)', {
+														locale: ja,
+													})}
+													booking_time={TIME_LIST[timeIndex]}
+													registName={
+														bookingData[dateIndex][timeIndex].regist_name
+													}
+													name={bookingData[dateIndex][timeIndex].name}
+													url={`/booking?id=${bookingData[dateIndex][timeIndex].id}`}
+												/>
+											) : (
+												<BookingTableBox
+													booking_date={format(day, 'MM月dd日(E)', {
+														locale: ja,
+													})}
+													booking_time={TIME_LIST[timeIndex]}
+													registName={<PiCircle color="blue" size={20} />}
+													url={`/booking/new?booking_date=${format(day, 'yyyy-MM-dd', { locale: ja })}&booking_time=${timeIndex}`}
+												/>
+											)}
+										</TableCell>
+									))}
+								</TableRow>
+							))}
+						</TableBody>
+						<TableFooter>
+							{' '}
+							{/* 日付 */}
+							<TableRow>
+								<TableCell
+									className="border border-slate-600 p-2"
+									padding="none"
+								></TableCell>
+								{dateList.map((day, index) => (
+									<TableCell
+										key={index}
+										className="border border-slate-600 p-2 center w-16"
+										padding="none"
+									>
+										<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
+									</TableCell>
+								))}
+							</TableRow>
+						</TableFooter>
+					</Table>
+				</TableContainer>
+			</Stack>
 			<Popup
 				ref={ReadMePopupRef}
 				title="使い方"
@@ -249,6 +281,7 @@ const MainPage = () => {
 					<p>
 						※繁忙期はなるべく連続2コマなどは避け、譲り合いスタジオに行きましょう
 					</p>
+					<p>※登録名でボケる時は10文字以内だと上手くいきます</p>
 				</Typography>
 				<Stack spacing={2} direction="row" className="flex justify-center">
 					<Button
@@ -261,7 +294,7 @@ const MainPage = () => {
 					</Button>
 				</Stack>
 			</Popup>
-		</>
+		</div>
 	)
 }
 
