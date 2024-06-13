@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
 				todaySetTime.getFullYear(),
 				todaySetTime.getMonth(),
 				todaySetTime.getDate() + 13,
-			)
+			) ||
+		UTCbookingDate.getDay() === 4
 	) {
 		return NextResponse.json({ error: '予約可能時間外です。' }, { status: 302 })
 	}

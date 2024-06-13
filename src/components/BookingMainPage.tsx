@@ -179,15 +179,22 @@ const MainPage = () => {
 									className="border border-slate-600 p-2"
 									padding="none"
 								></TableCell>
-								{dateList.map((day, index) => (
-									<TableCell
-										key={index}
-										className="border border-slate-600 p-2 center w-16"
-										padding="none"
-									>
-										<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
-									</TableCell>
-								))}
+								{dateList.map((day, index) => {
+									const isThursday = day.getDay() === 4
+									const cellStyle = isThursday
+										? { backgroundColor: '#ff9800' }
+										: {}
+									return (
+										<TableCell
+											key={index}
+											className="border border-slate-600 p-2 center w-16"
+											padding="none"
+											style={cellStyle}
+										>
+											<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
+										</TableCell>
+									)
+								})}
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -206,36 +213,51 @@ const MainPage = () => {
 									>
 										<span>{time}</span>
 									</TableCell>
-									{dateList.map((day, dateIndex) => (
-										<TableCell
-											key={dateIndex}
-											className="border border-slate-600"
-											padding="none"
-										>
-											{bookingData[dateIndex][timeIndex] ? (
-												<BookingTableBox
-													booking_date={format(day, 'MM月dd日(E)', {
-														locale: ja,
-													})}
-													booking_time={TIME_LIST[timeIndex]}
-													registName={
-														bookingData[dateIndex][timeIndex].regist_name
-													}
-													name={bookingData[dateIndex][timeIndex].name}
-													url={`/booking?id=${bookingData[dateIndex][timeIndex].id}`}
-												/>
-											) : (
-												<BookingTableBox
-													booking_date={format(day, 'MM月dd日(E)', {
-														locale: ja,
-													})}
-													booking_time={TIME_LIST[timeIndex]}
-													registName={<PiCircle color="blue" size={20} />}
-													url={`/booking/new?booking_date=${format(day, 'yyyy-MM-dd', { locale: ja })}&booking_time=${timeIndex}`}
-												/>
-											)}
-										</TableCell>
-									))}
+									{dateList.map((day, dateIndex) => {
+										const isThursday = day.getDay() === 4
+										const cellStyle = isThursday
+											? { backgroundColor: '#ff9800' }
+											: {}
+										const isBookingAvailable = bookingData[dateIndex][timeIndex]
+										const booking = bookingData[dateIndex][timeIndex]
+										return (
+											<TableCell
+												key={dateIndex}
+												className="border border-slate-600"
+												padding="none"
+												style={cellStyle}
+											>
+												{isBookingAvailable ? (
+													<BookingTableBox
+														booking_date={format(day, 'MM月dd日(E)', {
+															locale: ja,
+														})}
+														booking_time={TIME_LIST[timeIndex]}
+														registName={booking.regist_name}
+														name={booking.name}
+														url={
+															isThursday
+																? undefined
+																: `/booking?id=${booking.id}`
+														}
+													/>
+												) : (
+													<BookingTableBox
+														booking_date={format(day, 'MM月dd日(E)', {
+															locale: ja,
+														})}
+														booking_time={TIME_LIST[timeIndex]}
+														registName={<PiCircle color="blue" size={20} />}
+														url={
+															isThursday
+																? undefined
+																: `/booking/new?booking_date=${format(day, 'yyyy-MM-dd', { locale: ja })}&booking_time=${timeIndex}`
+														}
+													/>
+												)}
+											</TableCell>
+										)
+									})}
 								</TableRow>
 							))}
 						</TableBody>
