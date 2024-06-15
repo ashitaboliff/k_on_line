@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma/prisma'
-import { UTCToJST, JSTToUTC } from '@/lib/CommonFunction'
 
 export async function GET(req: NextRequest) {
 	const params = req.nextUrl.searchParams

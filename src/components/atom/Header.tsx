@@ -1,18 +1,21 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
+
 import {
 	AppBar,
 	Toolbar,
 	IconButton,
 	Typography,
-	Menu,
-	MenuItem,
 	Drawer,
 	Box,
+	List,
+	ListItem,
 } from '@mui/material'
 import { LuMenu } from 'react-icons/lu'
-import { useState } from 'react'
+import { RxCountdownTimer } from 'react-icons/rx'
+import { MdOutlineEditCalendar } from 'react-icons/md'
 
 const Layout = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -46,13 +49,27 @@ const Layout = () => {
 						open={Boolean(anchorEl)}
 						onClose={handleMenuClose}
 					>
-						<MenuItem onClick={handleMenuClose}>
-							<Link href="/">コマ表</Link>
-						</MenuItem>
-						<MenuItem onClick={handleMenuClose}>
-							<Link href="/booking/logs">予約ログ</Link>
-						</MenuItem>
-						<MenuItem onClick={handleMenuClose}>未実装</MenuItem>
+						<List className=" w-36">
+							<ListItem className="border-b border-gray-500">
+								<Typography variant="h6" className="text-center">
+									メニュー
+								</Typography>
+							</ListItem>
+							<ListItem
+								onClick={handleMenuClose}
+								className="border-b border-gray-500"
+							>
+								<MdOutlineEditCalendar />
+								<Link href="/">　コマ表</Link>
+							</ListItem>
+							<ListItem
+								onClick={handleMenuClose}
+								className="border-b border-gray-500"
+							>
+								<RxCountdownTimer />
+								<Link href="/booking/logs">　予約ログ</Link>
+							</ListItem>
+						</List>
 					</Drawer>
 				</Toolbar>
 			</AppBar>

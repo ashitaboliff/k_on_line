@@ -1,27 +1,25 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
+import Popup, { PopupRef } from '@/components/atom/Popup'
+import Loading from '@/components/atom/Loading'
+import { SelectField } from '@/components/atom/SelectField'
+import BookingDetailBox from '@/components/atom/BookingDetailBox'
+
 import {
 	TextField,
 	Typography,
-	Container,
 	Stack,
 	Box,
 	Alert,
 	Button,
 	MenuItem,
 } from '@mui/material'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useRouter } from 'next/navigation'
-import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
-import { format, set } from 'date-fns'
-import { ja } from 'date-fns/locale'
-import Popup, { PopupRef } from '@/components/atom/Popup'
-import Loading from '@/components/atom/Loading'
-import { SelectField } from '@/components/atom/SelectField'
-import BookingDetailBox from '@/components/atom/BookingDetailBox'
 
 const schema = yup.object().shape({
 	booking_date: yup.date().required('予約日を入力してください'),
@@ -73,15 +71,13 @@ const BookingEditForm = (props: Props) => {
 				setValue('booking_time', data.response.booking_time)
 				setValue('regist_name', data.response.regist_name)
 				setValue('name', data.response.name)
-				setIsLoading(false)
 			} else {
-				setIsLoading(false)
-				// alert('エラーが発生しました')
+				// console.error('Failed to fetch booking detail')
 			}
 		} catch (error) {
-			setIsLoading(false)
-			// alert('エラーが発生しました')
+			// console.error('Error fetching booking detail:', error)
 		}
+		setIsLoading(false)
 	}
 
 	const onPutSubmit = async (data: any) => {
@@ -133,11 +129,11 @@ const BookingEditForm = (props: Props) => {
 	}
 	if (!bookingDetail) {
 		return (
-			<Box className="p-4 flex flex-col items-center justify-center">
+			<Box className="flex flex-col items-center justify-center">
 				<Typography variant="h4" className="text-center">
 					予約詳細
 				</Typography>
-				<Box className="p-4 w-1/3 flex flex-col justify-center gap-2">
+				<Box className="p-4 flex flex-col justify-center gap-2">
 					<Alert severity="error">エラー</Alert>
 					<Typography variant="body1">
 						予約情報が見つかりませんでした。
@@ -158,7 +154,7 @@ const BookingEditForm = (props: Props) => {
 
 	return (
 		<>
-			<Box className="p-4 flex flex-col items-center justify-center">
+			<Box className="flex flex-col items-center justify-center">
 				<Typography variant="h6" className="text-center">
 					予約詳細
 				</Typography>

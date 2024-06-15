@@ -1,14 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/navigation'
-import { TIME_LIST } from '@/lib/enum/BookingEnum'
-import { format } from 'date-fns'
-import { ja } from 'date-fns/locale'
 import Loading from '@/components/atom/Loading'
+import BookingDetailBox from '@/components/atom/BookingDetailBox'
+import Popup, { PopupRef } from '@/components/atom/Popup'
 import { Booking } from '@/lib/enum/BookingEnum'
 
 import {
@@ -25,7 +24,6 @@ import {
 	OutlinedInput,
 } from '@mui/material'
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
-import BookingDetailBox from './atom/BookingDetailBox'
 
 const passschema = yup.object({
 	password: yup.string().required('パスワードを入力してください'),
@@ -42,6 +40,11 @@ const BookingEditAuth = (props: Props) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [showPassword, setShowPassword] = useState<boolean>(false)
 	const [bookingDetail, setBookingDetail] = useState<Booking>()
+	const [isErrorMessages, setIsErrorMessages] = useState<string | undefined>(
+		undefined,
+	)
+	const [errorPopupOpen, setErrorPopupOpen] = useState<boolean>(false)
+	const errorPopupRef = useRef<PopupRef>(undefined)
 	const {
 		register,
 		handleSubmit,
@@ -59,24 +62,28 @@ const BookingEditAuth = (props: Props) => {
 
 	const fetchBookingDetail = async () => {
 		setIsLoading(true)
+		setIsErrorMessages(undefined)
+		setErrorPopupOpen(false)
 		try {
 			const response = await fetch(`/api/booking/detail?id=${props.id}`)
 			if (response.ok) {
 				const data = await response.json()
 				setBookingDetail(data.response)
-				setIsLoading(false)
 			} else {
-				setIsLoading(false)
-				// alert('エラーが発生しました')
+				setErrorPopupOpen(true)
+				setIsErrorMessages('予約情報が見つかりませんでした')
 			}
 		} catch (error) {
-			setIsLoading(false)
-			// alert('エラーが発生しました')
+			setErrorPopupOpen(true)
+			setIsErrorMessages('エラーが発生しました')
 		}
+		setIsLoading(false)
 	}
 
 	const onSubmit = async (data: { password: string }) => {
 		setIsLoading(true)
+		setIsErrorMessages(undefined)
+		setErrorPopupOpen(false)
 		try {
 			const response = await fetch('/api/booking/auth', {
 				method: 'POST',
@@ -92,13 +99,14 @@ const BookingEditAuth = (props: Props) => {
 				props.handleSetAuth(true)
 				router.push(`/booking/edit?id=${props.id}`)
 			} else {
-				setIsLoading(false)
-				alert('パスワードが違います')
+				setErrorPopupOpen(true)
+				setIsErrorMessages('パスワードが違います')
 			}
 		} catch (error) {
-			setIsLoading(false)
-			alert('エラーが発生しました')
+			setErrorPopupOpen(true)
+			setIsErrorMessages('エラーが発生しました')
 		}
+		setIsLoading(false)
 	}
 
 	useEffect(() => {
@@ -114,12 +122,34 @@ const BookingEditAuth = (props: Props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props])
 
-	if (isLoading || !bookingDetail) {
+	if (isLoading) {
 		return <Loading />
 	}
 
+	if (!bookingDetail) {
+		return (
+			<Box className="p-4 flex flex-col items-center justify-center">
+				<Box className="p-4 flex flex-col justify-center gap-2">
+					<Alert severity="error">エラー</Alert>
+					<Typography variant="body1">
+						予約情報が見つかりませんでした。
+						<br />
+						ホームに戻ってもう一度試してください。
+					</Typography>
+					<Button
+						variant="outlined"
+						color="inherit"
+						onClick={() => router.push('/')}
+					>
+						ホームに戻る
+					</Button>
+				</Box>
+			</Box>
+		)
+	}
+
 	return (
-		<div className="p-4">
+		<>
 			<Typography variant="body1" className="text-center">
 				予約を編集するためにパスワードを入力してください。
 			</Typography>
@@ -180,7 +210,25 @@ const BookingEditAuth = (props: Props) => {
 					</Stack>
 				</form>
 			</Container>
-		</div>
+			<Popup
+				ref={errorPopupRef}
+				title="エラー"
+				maxWidth="sm"
+				open={errorPopupOpen}
+				onClose={() => setErrorPopupOpen(false)}
+			>
+				<Box className="p-4 flex flex-col justify-center gap-2">
+					<Alert severity="error">{isErrorMessages}</Alert>
+					<Button
+						variant="outlined"
+						color="inherit"
+						onClick={() => setErrorPopupOpen(false)}
+					>
+						閉じる
+					</Button>
+				</Box>
+			</Popup>
+		</>
 	)
 }
 
