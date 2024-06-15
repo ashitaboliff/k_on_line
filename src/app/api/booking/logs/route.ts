@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 				name: true,
 				is_deleted: true,
 			},
-			orderBy: [{ booking_date: 'asc' }, { booking_time: 'asc' }],
+			orderBy: { created_at: 'desc' },
 		})
 		const bookingsWithJST = bookings.map((booking) => ({
 			...booking,
