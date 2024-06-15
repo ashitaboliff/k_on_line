@@ -21,3 +21,13 @@
 		text-wrap: balance;
 	}
 }
+
+@media (max-width: 767px) {
+	.box-balance {
+		width: 1/2;
+	}
+}
+
+.box-balance {
+	width: 2/5;
+}

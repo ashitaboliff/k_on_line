@@ -1,7 +1,5 @@
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
 import {
-	Box,
-	Paper,
 	Table,
 	TableBody,
 	TableContainer,
@@ -21,18 +19,11 @@ interface BookingDetailProps {
 
 const BookingDetailBox = (props: BookingDetailProps) => {
 	return (
-		<TableContainer className="p-4 w-2/5 flex flex-col justify-center gap-2">
+		<TableContainer className="p-4 flex flex-col justify-center gap-2 box-balance">
 			<Table size="small">
 				<TableBody>
-					<TableRow
-						sx={{
-							'&:nth-of-type(odd)': {
-								backgroundColor: '#dcdcdc',
-							},
-						}}
-						className="border-y border-slate-400 p-2 w-10"
-					>
-						<TableCell padding="none" className="w-16">
+					<TableRow className="border-y border-gray-400 p-2 w-10">
+						<TableCell padding="none" className="w-16 bg-gray-300">
 							日時:
 						</TableCell>
 						<TableCell>
@@ -43,15 +34,8 @@ const BookingDetailBox = (props: BookingDetailProps) => {
 							</Typography>
 						</TableCell>
 					</TableRow>
-					<TableRow
-						sx={{
-							'&:nth-of-type(odd)': {
-								backgroundColor: '#dcdcdc',
-							},
-						}}
-						className="border-b border-slate-400 p-2 w-10"
-					>
-						<TableCell padding="none" className="w-16">
+					<TableRow className="border-b border-gray-400 p-2 w-10">
+						<TableCell padding="none" className="w-16 bg-gray-300">
 							時間:
 						</TableCell>
 						<TableCell>
@@ -60,30 +44,16 @@ const BookingDetailBox = (props: BookingDetailProps) => {
 							</Typography>
 						</TableCell>
 					</TableRow>
-					<TableRow
-						sx={{
-							'&:nth-of-type(odd)': {
-								backgroundColor: '#dcdcdc',
-							},
-						}}
-						className="border-b border-slate-400 p-2 w-10"
-					>
-						<TableCell padding="none" className="w-16">
+					<TableRow className="border-b border-gray-400 p-2 w-10">
+						<TableCell padding="none" className="w-16 bg-gray-300">
 							バンド名:
 						</TableCell>
 						<TableCell>
 							<Typography variant="body1">{props.regist_name}</Typography>
 						</TableCell>
 					</TableRow>
-					<TableRow
-						sx={{
-							'&:nth-of-type(odd)': {
-								backgroundColor: '#dcdcdc',
-							},
-						}}
-						className="border-b border-slate-400 p-2 w-10"
-					>
-						<TableCell padding="none" className="w-16">
+					<TableRow className="border-b border-gray-400 p-2 w-10">
+						<TableCell padding="none" className="w-16 bg-gray-300">
 							責任者:
 						</TableCell>
 						<TableCell>

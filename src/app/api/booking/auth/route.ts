@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 		if (!bookings) {
 			return NextResponse.json({ error: 'Booking not found' }, { status: 404 })
 		}
-		const match = await bcryptjs.compareSync(body.password, bookings.password)
+		const match = bcryptjs.compareSync(body.password, bookings.password)
 		if (!match) {
 			return NextResponse.json({ error: 'Invalid password' }, { status: 403 })
 		}

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Alert, Box, Button, Stack, Typography } from '@mui/material'
-import { Booking, TIME_LIST } from '@/lib/enum/BookingEnum'
-import { format } from 'date-fns'
-import { ja } from 'date-fns/locale'
+import { Booking } from '@/lib/enum/BookingEnum'
 import Loading from '@/components/atom/Loading'
-import BookingDetailBox from './atom/BookingDetailBox'
+import BookingDetailBox from '@/components/atom/BookingDetailBox'
 
 const BookingDetail = () => {
 	const id = useSearchParams().get('id')
@@ -48,7 +46,7 @@ const BookingDetail = () => {
 				<Typography variant="h4" className="text-center">
 					予約詳細
 				</Typography>
-				<Box className="p-4 w-1/3 flex flex-col justify-center gap-2">
+				<Box className="p-4 flex flex-col justify-center gap-2">
 					<Alert severity="error">エラー</Alert>
 					<Typography variant="body1">
 						予約情報が見つかりませんでした。
