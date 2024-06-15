@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { BookingLog, TIME_LIST } from '@/lib/enum/BookingEnum'
-import { UTCToJST } from '@/lib/CommonFunction'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 
@@ -17,6 +16,7 @@ import {
 	Chip,
 	Stack,
 	Typography,
+	Button,
 } from '@mui/material'
 import { TiDeleteOutline } from 'react-icons/ti'
 import Loading from './atom/Loading'
@@ -56,6 +56,7 @@ const BookingLogs = () => {
 	}
 
 	const formatLogs = (logs: BookingLog[]) => {
+		setLogs(undefined)
 		setIsLoading(true)
 		const formattedLogs = logs.map((log) => ({
 			id: log.id,
@@ -81,7 +82,7 @@ const BookingLogs = () => {
 			formatLogs(logs)
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [logs])
+	}, [logs, isLoading])
 
 	if (isLoading || !formattedLogs) {
 		return <Loading />
@@ -92,6 +93,11 @@ const BookingLogs = () => {
 			<Typography variant="h4" className="text-center m-5">
 				予約ログ
 			</Typography>
+			<Stack spacing={2} direction="row" className="flex justify-center m-2">
+				<Button variant="contained" color="success" onClick={() => fetchLogs()}>
+					ログを更新
+				</Button>
+			</Stack>
 			<Stack direction="row" className="flex justify-center m-5">
 				<TableContainer component={Paper}>
 					<Table>
@@ -99,12 +105,12 @@ const BookingLogs = () => {
 							<TableRow>
 								<TableCell></TableCell>
 								<TableCell>ID</TableCell>
-								<TableCell>作成日</TableCell>
-								<TableCell>更新日</TableCell>
 								<TableCell>予約日</TableCell>
 								<TableCell>予約時間</TableCell>
 								<TableCell>バンド名</TableCell>
 								<TableCell>責任者</TableCell>
+								<TableCell>作成日</TableCell>
+								<TableCell>更新日</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -113,19 +119,19 @@ const BookingLogs = () => {
 									<TableCell>
 										{log.is_deleted ? (
 											<Chip
-												label="削除"
+												label="削除済"
 												icon={<TiDeleteOutline />}
 												color="error"
 											/>
 										) : null}
 									</TableCell>
 									<TableCell>{log.id}</TableCell>
-									<TableCell>{log.created_at}</TableCell>
-									<TableCell>{log.updated_at}</TableCell>
 									<TableCell>{log.booking_date}</TableCell>
 									<TableCell>{log.booking_time}</TableCell>
 									<TableCell>{log.name}</TableCell>
 									<TableCell>{log.regist_name}</TableCell>
+									<TableCell>{log.created_at}</TableCell>
+									<TableCell>{log.updated_at}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

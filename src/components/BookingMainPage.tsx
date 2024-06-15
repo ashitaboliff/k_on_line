@@ -1,23 +1,29 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
 import Popup, { PopupRef } from '@/components/atom/Popup'
-
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import { BookingTableBox } from '@/components/atom/BookingTableBox'
 import Loading from '@/components/atom/Loading'
-import { Button, Stack, TableFooter, Typography } from '@mui/material'
+
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	Button,
+	Stack,
+	TableFooter,
+	Typography,
+} from '@mui/material'
 import { PiCircle } from 'react-icons/pi'
-import Image from 'next/image'
+import { HiMiniXMark } from 'react-icons/hi2'
 
 const ArrayDayList = Array.from({ length: 15 }, (_, i) => i - 1)
 
@@ -66,10 +72,10 @@ const MainPage = () => {
 				const data = await response.json()
 				setBookings(data.response)
 			} else {
-				// console.error('Failed to fetch bookings:', response.statusText)
+				alert('予約情報の取得に失敗しました。ページを再読み込みしてください。直らない場合はわたべまで')
 			}
 		} catch (error) {
-			// console.error('Failed to fetch bookings:', error)
+			alert('予約情報の取得に失敗しました。ページを再読み込みしてください。直らない場合はわたべまで')
 		} finally {
 			setIsLoading(false)
 		}
@@ -137,14 +143,6 @@ const MainPage = () => {
 
 	return (
 		<div>
-			<div
-				className="flex space-x-4"
-				dangerouslySetInnerHTML={{
-					__html:
-						'<!-- 拙い知識で作ったやつなので、可読性めっちゃ低くて申し訳ないけど頑張ってね！！！ 変態糞学生 -->' +
-						'<!-- てことでソースコードはこちらからhttps://github.com/watabegg/k_on_line -->',
-				}}
-			/>
 			<Stack spacing={2} direction="row" className="flex justify-center m-2">
 				<Button variant="contained" color="success" onClick={() => getUpdate()}>
 					カレンダーを更新
@@ -170,7 +168,7 @@ const MainPage = () => {
 				<TableContainer component={Paper} className="m-10 w-11/12">
 					{' '}
 					{/* カレンダー全体 */}
-					<Table className="" size="medium">
+					<Table>
 						<TableHead>
 							{' '}
 							{/* 日付 */}
@@ -181,15 +179,11 @@ const MainPage = () => {
 								></TableCell>
 								{dateList.map((day, index) => {
 									const isThursday = day.getDay() === 4
-									const cellStyle = isThursday
-										? { backgroundColor: '#ff9800' }
-										: {}
 									return (
 										<TableCell
 											key={index}
 											className="border border-slate-600 p-2 center w-16"
 											padding="none"
-											style={cellStyle}
 										>
 											<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
 										</TableCell>
@@ -215,9 +209,6 @@ const MainPage = () => {
 									</TableCell>
 									{dateList.map((day, dateIndex) => {
 										const isThursday = day.getDay() === 4
-										const cellStyle = isThursday
-											? { backgroundColor: '#ff9800' }
-											: {}
 										const isBookingAvailable = bookingData[dateIndex][timeIndex]
 										const booking = bookingData[dateIndex][timeIndex]
 										return (
@@ -225,7 +216,6 @@ const MainPage = () => {
 												key={dateIndex}
 												className="border border-slate-600"
 												padding="none"
-												style={cellStyle}
 											>
 												{isBookingAvailable ? (
 													<BookingTableBox
@@ -247,7 +237,13 @@ const MainPage = () => {
 															locale: ja,
 														})}
 														booking_time={TIME_LIST[timeIndex]}
-														registName={<PiCircle color="blue" size={20} />}
+														registName={
+															isThursday ? (
+																<HiMiniXMark color="red" size={20} />
+															) : (
+																<PiCircle color="blue" size={20} />
+															)
+														}
 														url={
 															isThursday
 																? undefined
@@ -269,15 +265,17 @@ const MainPage = () => {
 									className="border border-slate-600 p-2"
 									padding="none"
 								></TableCell>
-								{dateList.map((day, index) => (
-									<TableCell
-										key={index}
-										className="border border-slate-600 p-2 center w-16"
-										padding="none"
-									>
-										<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
-									</TableCell>
-								))}
+								{dateList.map((day, index) => {
+									return (
+										<TableCell
+											key={index}
+											className="border border-slate-600 p-2 center w-16"
+											padding="none"
+										>
+											<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
+										</TableCell>
+									)
+								})}
 							</TableRow>
 						</TableFooter>
 					</Table>
@@ -291,7 +289,7 @@ const MainPage = () => {
 				onClose={() => setIsPopupOpen(false)}
 			>
 				<Typography variant="body1">
-					<p>・予約したい日付、時間帯をクリックすると予約ページに移行します</p>
+					<p>・〇が付いている予約したい日付、時間帯をクリックすると予約ページに移行します</p>
 					<p>
 						・予約は１秒でも先に予約ページの確認ボタンを押したほうが優先されます
 					</p>
@@ -301,6 +299,7 @@ const MainPage = () => {
 					<p>
 						・消したいけどパスワード忘れて消せなくなった場合もわたべまで(いつか役員に権限を渡す予定です)
 					</p>
+					<p>・×の日は予約禁止になっています</p>
 					<p>※ライブ3週間前からはバンド練習の人優先でお願いします</p>
 					<p>※平日の16時半以前のコマは3日前までに学務での予約が必須です</p>
 					<p>※休日のコマは終日3日前に学務での予約が必須です</p>
