@@ -82,7 +82,7 @@ const BookingLogs = () => {
 			formatLogs(logs)
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [logs, isLoading])
+	}, [logs])
 
 	if (isLoading || !formattedLogs) {
 		return <Loading />
