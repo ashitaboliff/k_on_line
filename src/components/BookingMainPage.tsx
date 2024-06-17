@@ -208,7 +208,7 @@ const MainPage = () => {
 										<span>{time}</span>
 									</TableCell>
 									{dateList.map((day, dateIndex) => {
-										const isThursday = day.getDay() === 4
+										const isThursday = day.getDay() === 4 && timeIndex > 4
 										const isBookingAvailable = bookingData[dateIndex][timeIndex]
 										const booking = bookingData[dateIndex][timeIndex]
 										return (
