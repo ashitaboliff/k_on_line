@@ -42,7 +42,6 @@ clean: ## Clean all data
 node: ## node.jsをインストールしている場合これで実行
 	npm install
 	npx prisma generate
-	npx prisma db pull
 	npm run dev
 
 # Define the help target
