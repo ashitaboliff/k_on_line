@@ -36,8 +36,14 @@ down: ## Clean all data
 
 clean: ## Clean all data
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --volumes --remove-orphans
+	docker volume prune -f
 	sudo rm -rf ./node_modules
 	sudo rm -rf ./volume_postgres
+
+node: ## node.jsをインストールしている場合これで実行
+	npm install
+	npx prisma generate
+	npm run dev
 
 # Define the help target
 help:
