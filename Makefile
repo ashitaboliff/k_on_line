@@ -36,6 +36,7 @@ down: ## Clean all data
 
 clean: ## Clean all data
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --volumes --remove-orphans
+	docker volume prune -f
 	sudo rm -rf ./node_modules
 	sudo rm -rf ./volume_postgres
 
