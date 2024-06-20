@@ -23,6 +23,6 @@ INSERT INTO booking (id, created_at, updated_at, booking_date, booking_time, reg
               (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-21T15:00:00.000Z', 4, 'バンドサンプル', 'ユーザサンプル002', 'password', FALSE),
               (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-22T15:00:00.000Z', 5, 'バンドサンプル', 'ユーザサンプル003', 'password', FALSE),
               (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-23T15:00:00.000Z', 6, 'バンドサンプル', 'ユーザサンプル004', 'password', FALSE),
-              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-23T15:00:00.000Z', 7, 'バンドサンプル', 'ユーザサンプル005', 'password', FALSE),
+              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-23T15:00:00.000Z', 1, 'バンドサンプル', 'ユーザサンプル005', 'password', FALSE),
               (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-24T15:00:00.000Z', 7, 'バンドサンプル', 'ユーザサンプル006', 'password', FALSE),
               (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-25T15:00:00.000Z', 7, 'バンドサンプル', 'ユーザサンプル007', 'password', FALSE);
