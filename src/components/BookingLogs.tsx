@@ -42,7 +42,9 @@ const BookingLogs = () => {
 	const fetchLogs = async () => {
 		setIsLoading(true)
 		try {
-			const response = await fetch('/api/booking/logs')
+			const response = await fetch('/api/booking/logs', {
+				cache: 'no-cache',
+			})
 			if (response.ok) {
 				const data = await response.json()
 				setLogs(data.response)
