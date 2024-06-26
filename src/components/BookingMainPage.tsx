@@ -137,10 +137,6 @@ const MainPage = () => {
 		setBookingData(initialBookingList)
 	}, [dateList, bookings])
 
-	if (isLoading) {
-		return <Loading />
-	}
-
 	return (
 		<div>
 			<Stack spacing={2} direction="row" className="flex justify-center m-2">
