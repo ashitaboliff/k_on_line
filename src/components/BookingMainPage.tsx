@@ -165,7 +165,10 @@ const MainPage = () => {
 				<Image src="/animal_dance.png" alt="logo" width={150} height={120} />
 			</Stack>
 			<Stack spacing={2} direction="row" className="flex justify-center">
-				<TableContainer component={Paper} className="m-10 w-11/12">
+				{isLoading ? (
+					<Loading />
+				) : (
+					<TableContainer component={Paper} className="m-10 w-11/12">
 					{' '}
 					{/* カレンダー全体 */}
 					<Table>
@@ -280,6 +283,7 @@ const MainPage = () => {
 						</TableFooter>
 					</Table>
 				</TableContainer>
+				)}
 			</Stack>
 			<Popup
 				ref={ReadMePopupRef}
