@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma/prisma'
 import { UTCToJST } from '@/lib/CommonFunction'
 
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
+
 export async function GET(req: NextRequest) {
 	try {
 		const bookings = await prisma.booking.findMany({
