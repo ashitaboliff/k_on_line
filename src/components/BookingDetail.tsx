@@ -56,7 +56,7 @@ const BookingDetail = () => {
 					<Button
 						variant="outlined"
 						color="inherit"
-						onClick={() => router.push('/')}
+						onClick={() => router.push('/booking')}
 					>
 						ホームに戻る
 					</Button>
@@ -87,7 +87,7 @@ const BookingDetail = () => {
 				<Button
 					variant="outlined"
 					color="inherit"
-					onClick={() => router.push('/')}
+					onClick={() => router.push('/booking')}
 				>
 					ホームに戻る
 				</Button>

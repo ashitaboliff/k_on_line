@@ -221,7 +221,7 @@ const NewBooking = () => {
 							type="button"
 							variant="outlined"
 							color="inherit"
-							onClick={() => router.push('/')}
+							onClick={() => router.push('/booking')}
 						>
 							カレンダーに戻る
 						</Button>
@@ -259,7 +259,7 @@ const NewBooking = () => {
 						variant="outlined"
 						color="inherit"
 						onClick={() => {
-							router.push('/')
+							router.push('/booking')
 							setComplatePopupOpen(false)
 						}}
 					>

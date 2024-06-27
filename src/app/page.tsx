@@ -1,10 +1,14 @@
 'use client'
 
+import { Link } from '@mui/material'
 import React from 'react'
-import MainPage from '@/components/BookingMainPage'
 
 const Page = () => {
-	return <MainPage />
+	return (
+    <div>
+      <Link href="/booking">予約ページ</Link>
+    </div>
+  )
 }
 
 export default Page

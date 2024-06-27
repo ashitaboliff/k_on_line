@@ -143,7 +143,7 @@ const BookingEditForm = (props: Props) => {
 					<Button
 						variant="outlined"
 						color="inherit"
-						onClick={() => router.push('/')}
+						onClick={() => router.push('/booking')}
 					>
 						ホームに戻る
 					</Button>
@@ -183,7 +183,7 @@ const BookingEditForm = (props: Props) => {
 					<Button
 						variant="outlined"
 						color="inherit"
-						onClick={() => router.push('/')}
+						onClick={() => router.push('/booking')}
 					>
 						ホームに戻る
 					</Button>
@@ -292,7 +292,7 @@ const BookingEditForm = (props: Props) => {
 							variant="outlined"
 							color="inherit"
 							onClick={() => {
-								router.push('/')
+								router.push('/booking')
 								setResultPopupOpen(false)
 							}}
 						>

@@ -232,7 +232,7 @@ const MainPage = () => {
 														url={
 															isThursday
 																? undefined
-																: `/booking?id=${booking.id}`
+																: `/booking/detail?id=${booking.id}`
 														}
 													/>
 												) : (
