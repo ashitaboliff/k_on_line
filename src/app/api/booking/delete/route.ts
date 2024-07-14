@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 		const atBooking = await prisma.booking.findUnique({
 			where: {
 				id: id,
-				is_deleted: {
+				isDeleted: {
 					not: true,
 				},
 			},
@@ -29,8 +29,8 @@ export async function POST(request: NextRequest) {
 				id: id,
 			},
 			data: {
-				updated_at: new Date(),
-				is_deleted: true,
+				updatedAt: new Date(),
+				isDeleted: true,
 			},
 		})
 		return NextResponse.json({ status: 200 })

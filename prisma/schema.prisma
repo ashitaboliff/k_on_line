@@ -11,18 +11,166 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
   // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model booking {
-  id           String   @id @default(uuid())
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  booking_date DateTime
-  booking_time Int
-  regist_name  String
-  name         String
-  password     String
-  is_deleted   Boolean @default(false)
+model User {
+  liffId        String         @id
+  name          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  role          Role
+  part          Int[]
+  password      String
+  isDeleted     Boolean        @default(false)
+  schedules     Schedule[]
+  userSchedules UserSchedule[]
+  bookings      Booking[]
+  liveForums    LiveForum[]
+  bandDatas     BandData[]
+  bandForums    BandForum[]
+}
+
+model Booking {
+  id          String   @id @default(uuid())
+  userId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  bookingDate DateTime
+  bookingTime Int
+  registName   String
+  name        String
+  password    String
+  isDeleted   Boolean  @default(false)
+
+  User User? @relation(fields: [userId], references: [liffId])
+}
+
+model Schedule {
+  id            String         @id @default(uuid())
+  userId        String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  startDate     DateTime
+  endDate       DateTime
+  title         String
+  name          String
+  isDeleted     Boolean        @default(false)
+  password      String
+  timeslots     Timeslot[]
+  userSchedules UserSchedule[]
+
+  User User @relation(fields: [userId], references: [liffId])
+}
+
+model Timeslot {
+  id         String   @id @default(uuid())
+  scheduleId String
+  date       DateTime
+  hour       Int
+  createdAt  DateTime @default(now())
+
+  Schedule      Schedule       @relation(fields: [scheduleId], references: [id])
+  userTimeslots UserTimeslot[]
+}
+
+model UserSchedule {
+  id         String   @id @default(uuid())
+  userId     String
+  scheduleId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  name       String
+  password   String
+  isDeleted  Boolean  @default(false)
+
+  User         User           @relation(fields: [userId], references: [liffId])
+  Schedule     Schedule       @relation(fields: [scheduleId], references: [id])
+  UserTimeslot UserTimeslot[]
+}
+
+model UserTimeslot {
+  id             String   @id @default(uuid())
+  userScheduleId String
+  timeslotId     String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  UserSchedule UserSchedule @relation(fields: [userScheduleId], references: [id])
+  Timeslot     Timeslot     @relation(fields: [timeslotId], references: [id])
+}
+
+model LiveForum {
+  id        String   @id @default(uuid())
+  userId    String?
+  title     String
+  createdAt DateTime @default(now())
+  startDate DateTime
+  endDate   DateTime
+  isDeleted Boolean  @default(false)
+  password  String
+
+  User            User?             @relation(fields: [userId], references: [liffId])
+  liveDates       LiveDate[]
+  bandSelectDates BandSelectDate[]
+  BandData        BandData[]
+}
+
+model LiveDate {
+  id          String   @id @default(uuid())
+  liveForumId String
+  date        DateTime
+  createdAt   DateTime @default(now())
+
+  LiveForum      LiveForum        @relation(fields: [liveForumId], references: [id])
+  BandSelectDate BandSelectDate[]
+}
+
+model BandData {
+  id          String   @id @default(uuid())
+  liveForumId String
+  userId      String
+  bandName    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  password    String
+  isDeleted   Boolean  @default(false)
+
+  User            User             @relation(fields: [userId], references: [liffId])
+  LiveForum       LiveForum        @relation(fields: [liveForumId], references: [id])
+  bandSelectDates BandSelectDate[]
+}
+
+model BandSelectDate {
+  id         String   @id @default(uuid())
+  bandDataId String
+  liveDateId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  BandData    BandData   @relation(fields: [bandDataId], references: [id])
+  LiveDate    LiveDate   @relation(fields: [liveDateId], references: [id])
+  LiveForum   LiveForum? @relation(fields: [liveForumId], references: [id])
+  liveForumId String?
+}
+
+model BandForum {
+  id        String   @id @default(uuid())
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  part      Int[]
+  body      String
+  isDeleted Boolean  @default(false)
+  password  String
+
+  User User @relation(fields: [userId], references: [liffId])
+}
+
+enum Role {
+  GRADUATE
+  STUDENT
 }

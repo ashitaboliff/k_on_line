@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
 		const atBooking = await prisma.booking.findFirst({
 			where: {
 				AND: {
-					booking_date: searchBookingDate,
-					booking_time: body.booking_time,
-					is_deleted: {
+					bookingDate: searchBookingDate,
+					bookingTime: body.booking_time,
+					isDeleted: {
 						not: true,
 					},
 				},
@@ -54,10 +54,10 @@ export async function POST(request: NextRequest) {
 		await prisma.booking.create({
 			data: {
 				id: v4(),
-				created_at: new Date(),
-				booking_date: body.booking_date,
-				booking_time: body.booking_time,
-				regist_name: body.regist_name,
+				createdAt: new Date(),
+				bookingDate: body.booking_date,
+				bookingTime: body.booking_time,
+				registName: body.regist_name,
 				name: body.name,
 				password: hashedPassword,
 			},

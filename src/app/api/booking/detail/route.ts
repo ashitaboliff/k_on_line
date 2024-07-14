@@ -14,17 +14,17 @@ export async function GET(req: NextRequest) {
 			where: {
 				AND: {
 					id: id,
-					is_deleted: {
+					isDeleted: {
 						not: true,
 					},
 				},
 			},
 			select: {
 				id: true,
-				created_at: true,
-				booking_date: true,
-				booking_time: true,
-				regist_name: true,
+				createdAt: true,
+				bookingDate: true,
+				bookingTime: true,
+				registName: true,
 				name: true,
 			},
 		})
