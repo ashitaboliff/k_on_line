@@ -139,7 +139,7 @@ const BookingEditAuth = (props: Props) => {
 					<Button
 						variant="outlined"
 						color="inherit"
-						onClick={() => router.push('/')}
+						onClick={() => router.push('/booking')}
 					>
 						ホームに戻る
 					</Button>
@@ -203,7 +203,7 @@ const BookingEditAuth = (props: Props) => {
 						<Button
 							variant="outlined"
 							color="inherit"
-							onClick={() => router.push(`/booking?id=${props.id}`)}
+							onClick={() => router.push(`/booking/detail?id=${props.id}`)}
 						>
 							予約詳細に戻る
 						</Button>

@@ -34,7 +34,7 @@ const Layout = () => {
 				<Toolbar>
 					<Box className="h-10 w-10"></Box>
 					<Typography variant="h4" component="div" className="grow text-center">
-						<Link href="/">あしたぼコマ表</Link>
+						<Link href="/booking">あしたぼコマ表</Link>
 					</Typography>
 					<IconButton
 						edge="end"
@@ -60,7 +60,7 @@ const Layout = () => {
 								className="border-b border-gray-500"
 							>
 								<MdOutlineEditCalendar />
-								<Link href="/">　コマ表</Link>
+								<Link href="/booking">　コマ表</Link>
 							</ListItem>
 							<ListItem
 								onClick={handleMenuClose}

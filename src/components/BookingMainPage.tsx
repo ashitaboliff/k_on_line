@@ -72,10 +72,14 @@ const MainPage = () => {
 				const data = await response.json()
 				setBookings(data.response)
 			} else {
-				alert('予約情報の取得に失敗しました。ページを再読み込みしてください。直らない場合はわたべまで')
+				alert(
+					'予約情報の取得に失敗しました。ページを再読み込みしてください。直らない場合はわたべまで',
+				)
 			}
 		} catch (error) {
-			alert('予約情報の取得に失敗しました。ページを再読み込みしてください。直らない場合はわたべまで')
+			alert(
+				'予約情報の取得に失敗しました。ページを再読み込みしてください。直らない場合はわたべまで',
+			)
 		} finally {
 			setIsLoading(false)
 		}
@@ -228,7 +232,7 @@ const MainPage = () => {
 														url={
 															isThursday
 																? undefined
-																: `/booking?id=${booking.id}`
+																: `/booking/detail?id=${booking.id}`
 														}
 													/>
 												) : (
@@ -289,7 +293,9 @@ const MainPage = () => {
 				onClose={() => setIsPopupOpen(false)}
 			>
 				<Typography variant="body1">
-					<p>・〇が付いている予約したい日付、時間帯をクリックすると予約ページに移行します</p>
+					<p>
+						・〇が付いている予約したい日付、時間帯をクリックすると予約ページに移行します
+					</p>
 					<p>
 						・予約は１秒でも先に予約ページの確認ボタンを押したほうが優先されます
 					</p>
