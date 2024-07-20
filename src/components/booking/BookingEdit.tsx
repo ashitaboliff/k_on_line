@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import Loading from '@/components/atom/Loading'
-import BookingEditAuth from '@/components/BookingEditAuth'
-import BookingEditForm from '@/components/BookingEditForm'
+import Loading from '@/components/atoms/Loading'
+import BookingEditAuth from '@/components/booking/BookingEditAuth'
+import BookingEditForm from '@/components/booking/BookingEditForm'
 
 import { Typography, Container } from '@mui/material'
 

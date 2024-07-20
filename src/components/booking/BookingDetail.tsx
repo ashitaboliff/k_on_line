@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Alert, Box, Button, Stack, Typography } from '@mui/material'
 import { Booking } from '@/lib/enum/BookingEnum'
-import Loading from '@/components/atom/Loading'
-import BookingDetailBox from '@/components/atom/BookingDetailBox'
+import Loading from '@/components/atoms/Loading'
+import BookingDetailBox from '@/components/molecules/BookingDetailBox'
 
 const BookingDetail = () => {
 	const id = useSearchParams().get('id')

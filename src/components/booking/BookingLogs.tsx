@@ -19,7 +19,7 @@ import {
 	Button,
 } from '@mui/material'
 import { TiDeleteOutline } from 'react-icons/ti'
-import Loading from './atom/Loading'
+import Loading from '@/components/atoms/Loading'
 
 type BookingLogsFormated = {
 	id: string

@@ -5,9 +5,9 @@ import Image from 'next/image'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
-import Popup, { PopupRef } from '@/components/atom/Popup'
-import { BookingTableBox } from '@/components/atom/BookingTableBox'
-import Loading from '@/components/atom/Loading'
+import Popup, { PopupRef } from '@/components/molecules/Popup'
+import { BookingTableBox } from '@/components/molecules/BookingTableBox'
+import Loading from '@/components/atoms/Loading'
 
 import {
 	Table,
