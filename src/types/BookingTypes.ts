@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 export interface Booking {
 	id: string
 	created_at: Date
@@ -11,7 +9,14 @@ export interface Booking {
 
 export interface BookingCalenderProps {
 	booking_data: Booking[]
-  today: Date
+}
+
+export interface BookingTableBoxProps {
+	booking_date: string
+	booking_time: string
+	registName?: string | React.ReactNode
+	name?: string
+	url: string | undefined
 }
 
 export interface BookingLog {

@@ -1,14 +1,5 @@
-import { ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { Box, Tooltip, Typography } from '@mui/material'
-
-interface BookingTableBoxProps {
-	booking_date: string
-	booking_time: string
-	registName?: string | ReactNode
-	name?: string
-	url: string | undefined
-}
+import { BookingTableBoxProps } from '@/types/BookingTypes'
 
 export const BookingTableBox = (props: BookingTableBoxProps) => {
 	const router = useRouter()
@@ -27,18 +18,13 @@ export const BookingTableBox = (props: BookingTableBoxProps) => {
 	}
 
 	return (
-		<Tooltip
-			title={props.booking_date + ' ' + props.booking_time}
-			placement="top"
+		<div
+			className="w-11 h-13 flex flex-col justify-center items-center text-center break-words py-1"
+			onClick={handleClick}
 		>
-			<Box
-				className="p-2 cursor-pointer h-20 w-28 flex flex-col justify-center items-center text-center overflow-hidden break-words"
-				onClick={handleClick}
-			>
-				<Typography className="mb-1 text-sm">{registName}</Typography>
-				<Typography className="text-xs">{name}</Typography>
-			</Box>
-		</Tooltip>
+			<p className="text-xxxs text-base-content bold">{registName}</p>
+			<p className="text-xxxs text-base-content">{name}</p>
+		</div>
 	)
 }
 
