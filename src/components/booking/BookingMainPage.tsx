@@ -4,28 +4,21 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
-import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
-import Popup, { PopupRef } from '@/components/atom/Popup'
-import { BookingTableBox } from '@/components/atom/BookingTableBox'
-import Loading from '@/components/atom/Loading'
+import { TIME_LIST } from '@/lib/enum/BookingEnum'
+import { Booking } from '@/types/BookingTypes'
+import Popup, { PopupRef } from '@/components/molecules/Popup'
+import { BookingTableBox } from '@/components/molecules/BookingTableBox'
+import Loading from '@/components/atoms/Loading'
 
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Paper,
-	Button,
 	Stack,
-	TableFooter,
 	Typography,
 } from '@mui/material'
 import { PiCircle } from 'react-icons/pi'
 import { HiMiniXMark } from 'react-icons/hi2'
 
-const ArrayDayList = Array.from({ length: 15 }, (_, i) => i - 1)
+const DayMax = 7
+const ArrayDayList = Array.from({ length: DayMax + 1 }, (_, i) => i - 1)
 
 const MainPage = () => {
 	const today = new Date()
@@ -38,7 +31,7 @@ const MainPage = () => {
 		new Date(
 			today.getFullYear(),
 			today.getMonth(),
-			today.getDate() + ArrayDayList[14],
+			today.getDate() + ArrayDayList[DayMax],
 		),
 	])
 	const [dateRangeString, setDateRangeString] = useState<string[]>(['', ''])
@@ -95,7 +88,7 @@ const MainPage = () => {
 		const endDate = new Date(
 			today.getFullYear(),
 			today.getMonth(),
-			today.getDate() + ArrayDayList[14],
+			today.getDate() + ArrayDayList[DayMax],
 		)
 		setDateRange([startDate, endDate])
 		setDateRangeString([
@@ -148,16 +141,15 @@ const MainPage = () => {
 	return (
 		<div>
 			<Stack spacing={2} direction="row" className="flex justify-center m-2">
-				<Button variant="contained" color="success" onClick={() => getUpdate()}>
+				<button className='btn btn-primary' onClick={() => getUpdate()}>
 					カレンダーを更新
-				</Button>
-				<Button
-					variant="outlined"
-					color="inherit"
+				</button>
+				<button
+					className='btn btn-outline'
 					onClick={() => setIsPopupOpen(true)}
 				>
 					使い方の表示
-				</Button>
+				</button>
 			</Stack>
 			<Stack spacing={8} direction="row" className="flex justify-center">
 				<Image
@@ -169,57 +161,47 @@ const MainPage = () => {
 				<Image src="/animal_dance.png" alt="logo" width={150} height={120} />
 			</Stack>
 			<Stack spacing={2} direction="row" className="flex justify-center">
-				<TableContainer component={Paper} className="m-10 w-11/12">
+				<div>
 					{' '}
 					{/* カレンダー全体 */}
-					<Table>
-						<TableHead>
+					<table className="w-auto border border-gray-200 table-pin-rows table-pin-cols">
+						<thead>
 							{' '}
 							{/* 日付 */}
-							<TableRow>
-								<TableCell
-									className="border border-slate-600 p-2"
-									padding="none"
-								></TableCell>
+							<tr>
+								<th className="border border-base-200 w-11"></th>
 								{dateList.map((day, index) => {
 									const isThursday = day.getDay() === 4
 									return (
-										<TableCell
+										<th
 											key={index}
-											className="border border-slate-600 p-2 center w-16"
-											padding="none"
+											className="border border-base-200 p-1 w-11 h-9"
 										>
-											<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
-										</TableCell>
+											<p className="text-xs text-base-content">
+												{format(day, 'MM/dd', { locale: ja })} <br />{' '}
+												{format(day, '(E)', { locale: ja })}
+											</p>
+										</th>
 									)
 								})}
-							</TableRow>
-						</TableHead>
-						<TableBody>
+							</tr>
+						</thead>
+						<tbody>
 							{TIME_LIST.map((time, timeIndex) => (
-								<TableRow
-									key={timeIndex}
-									sx={{
-										'&:nth-of-type(odd)': {
-											backgroundColor: '#dcdcdc',
-										},
-									}}
-								>
-									<TableCell
-										className="border border-slate-600 p-2 w-10"
-										padding="none"
-									>
-										<span>{time}</span>
-									</TableCell>
+								<tr key={timeIndex}>
+									<td className="border border-base-200 p-1 w-11 h-13 break-words">
+										<p className="text-xs text-base-content break-words">
+											{time.split('~')[0]}~ <br /> {time.split('~')[1]}
+										</p>
+									</td>
 									{dateList.map((day, dateIndex) => {
 										const isThursday = day.getDay() === 4 && timeIndex > 4
 										const isBookingAvailable = bookingData[dateIndex][timeIndex]
 										const booking = bookingData[dateIndex][timeIndex]
 										return (
-											<TableCell
+											<td
 												key={dateIndex}
-												className="border border-slate-600"
-												padding="none"
+												className="border border-base-200 p-0"
 											>
 												{isBookingAvailable ? (
 													<BookingTableBox
@@ -255,35 +237,14 @@ const MainPage = () => {
 														}
 													/>
 												)}
-											</TableCell>
+											</td>
 										)
 									})}
-								</TableRow>
+								</tr>
 							))}
-						</TableBody>
-						<TableFooter>
-							{' '}
-							{/* 日付 */}
-							<TableRow>
-								<TableCell
-									className="border border-slate-600 p-2"
-									padding="none"
-								></TableCell>
-								{dateList.map((day, index) => {
-									return (
-										<TableCell
-											key={index}
-											className="border border-slate-600 p-2 center w-16"
-											padding="none"
-										>
-											<span>{format(day, 'M月d日(E)', { locale: ja })}</span>
-										</TableCell>
-									)
-								})}
-							</TableRow>
-						</TableFooter>
-					</Table>
-				</TableContainer>
+						</tbody>
+					</table>
+				</div>
 			</Stack>
 			<Popup
 				ref={ReadMePopupRef}
@@ -318,14 +279,13 @@ const MainPage = () => {
 					<p>※登録名でボケる時は10文字以内だと上手くいきます</p>
 				</Typography>
 				<Stack spacing={2} direction="row" className="flex justify-center">
-					<Button
+					<button
 						type="button"
-						variant="outlined"
-						color="inherit"
+						className='btn btn-outline'
 						onClick={() => setIsPopupOpen(false)}
 					>
 						閉じる
-					</Button>
+					</button>
 				</Stack>
 			</Popup>
 		</div>

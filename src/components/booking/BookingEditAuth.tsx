@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/navigation'
-import Loading from '@/components/atom/Loading'
-import BookingDetailBox from '@/components/atom/BookingDetailBox'
-import Popup, { PopupRef } from '@/components/atom/Popup'
+import Loading from '@/components/atoms/Loading'
+import BookingDetailBox from '@/components/molecules/BookingDetailBox'
+import Popup, { PopupRef } from '@/components/molecules/Popup'
 import { Booking } from '@/lib/enum/BookingEnum'
 
 import {
