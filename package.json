@@ -25,7 +25,6 @@
 		"@vercel/postgres": "^0.8.0",
 		"bcryptjs": "^2.4.3",
 		"date-fns": "^3.6.0",
-		"dom-to-image": "^2.6.0",
 		"framer-motion": "^11.2.12",
 		"next": "14.2.3",
 		"next-auth": "^4.24.7",
