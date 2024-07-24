@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import Loading from '@/components/atoms/Loading'
 import BookingDetailBox from '@/components/molecules/BookingDetailBox'
 import Popup, { PopupRef } from '@/components/molecules/Popup'
-import { Booking } from '@/lib/enum/BookingEnum'
+import { Booking } from '@/types/BookingTypes'
 
 import {
 	Button,
