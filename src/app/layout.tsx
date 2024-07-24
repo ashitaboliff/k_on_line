@@ -18,10 +18,6 @@ export default function RootLayout({
 	return (
 		<html lang="ja">
 			<head>
-				<link
-					href="https://fonts.googleapis.com/css2?family=Nicomoji&display=swap"
-					rel="stylesheet"
-				/>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</head>
