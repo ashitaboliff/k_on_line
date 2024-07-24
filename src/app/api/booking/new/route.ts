@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
 		await prisma.booking.create({
 			data: {
 				id: v4(),
+				user_id: v4(),
 				created_at: new Date(),
 				booking_date: body.booking_date,
 				booking_time: body.booking_time,
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
 		})
 		return NextResponse.json({ status: 200 })
 	} catch (error) {
-		// console.error(error)
+		console.error(error)
 		return NextResponse.json(
 			{ error: 'Failed to fetch bookings' },
 			{ status: 500 },
