@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { BookingLog, TIME_LIST } from '@/lib/enum/BookingEnum'
+import { TIME_LIST } from '@/lib/enum/BookingEnum'
+import { BookingLog } from '@/types/BookingTypes'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 
