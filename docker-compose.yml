@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/node_modules
-    command: sh -c "npm run dev"
+    command: sh -c "npm run dev && npm run seed"
     environment:
       DATABASE_URL: 'postgres://user:pass@db:5432/k_on_line'
     depends_on:
