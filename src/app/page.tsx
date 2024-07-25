@@ -2,13 +2,12 @@
 
 import { Link } from '@mui/material'
 import React from 'react'
-import CalendarTable from '@/components/molecules/BookingCalendar'
 
 const Page = () => {
 	return (
 		<div>
+			<p>未完成やから待ってて</p>
 			<Link href="/booking">予約ページ</Link>
-			<CalendarTable />
 		</div>
 	)
 }

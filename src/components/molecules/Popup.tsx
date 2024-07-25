@@ -35,7 +35,7 @@ const Popup = forwardRef<
 		>
 			<Box
 				className={clsx(
-					'bg-white rounded-lg shadow-lg p-6',
+					'bg-base-100 rounded-lg shadow-lg p-6',
 					maxWidth && `max-w-${maxWidth}`,
 				)}
 				onClick={(e) => e.stopPropagation()}
