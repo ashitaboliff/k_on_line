@@ -10,8 +10,8 @@ export const BookingTableBox = (props: BookingTableBoxProps) => {
 	}
 	let registName = props.registName
 	let name = props.name
-	if (typeof props.registName === 'string' && props.registName.length > 12) {
-		registName = props.registName.slice(0, 11) + '...'
+	if (typeof props.registName === 'string' && props.registName.length > 21) {
+		registName = props.registName.slice(0, 20) + '...'
 	}
 	if (typeof props.name === 'string' && props.name.length > 14) {
 		name = props.name.slice(0, 13) + '...'
