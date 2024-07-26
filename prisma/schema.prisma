@@ -35,6 +35,7 @@ model user {
   name          String
   created_at    DateTime       @default(now())
   updated_at    DateTime       @updatedAt
+  expected      Int
   role          Role
   part          Int[]
   password      String

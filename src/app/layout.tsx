@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/molecules/Header'
-import UpdateMessage from '@/components/molecules/UpdateMessage'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,7 +31,6 @@ export default function RootLayout({
 					}}
 				/>
 				<Header />
-				<UpdateMessage />
 				{children}
 			</body>
 		</html>

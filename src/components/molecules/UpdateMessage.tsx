@@ -8,9 +8,20 @@ const UpdateMessage = () => {
   const ReadMePopupRef = useRef<PopupRef>(undefined)
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
 
+  const textNewLineFormat = (text: string) => {
+    return text.split('\n').map((str, index) => {
+      return (
+        <span key={index}>
+          {str}
+          <br />
+        </span>
+      )
+    })
+  }
+
   return (
     <div className='flex justify-center'>
-      <div role="alert" className="alert alert-info w-96" onClick={() => setIsPopupOpen(true)}>
+      <div role="alert" className="alert alert-info w-80" onClick={() => setIsPopupOpen(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -31,14 +42,14 @@ const UpdateMessage = () => {
         title="アップデートのお知らせ"
       >
         <div className="text-center">
-          <h2>{updateInfo.title}</h2>
+          <p className='text-lg'>{updateInfo.title}</p>
           <p>更新日時: {updateInfo.created_at}</p>
           <div className="mt-4">
-            <p>{updateInfo.content}</p>
+            <p>{textNewLineFormat(updateInfo.content)}</p>
           </div>
           <div className="mt-4">
             <button
-              className="px-4 py-2 text-white bg-blue-500 rounded-md"
+              className="btn btn-outline"
               onClick={() => setIsPopupOpen(false)}
             >
               閉じる

@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     "name" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "expected" INTEGER NOT NULL,
     "role" "Role" NOT NULL,
     "part" INTEGER[] NOT NULL,
     "password" TEXT NOT NULL,
