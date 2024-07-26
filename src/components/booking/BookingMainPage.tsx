@@ -15,9 +15,10 @@ import { PiCircle } from 'react-icons/pi'
 import { HiMiniXMark } from 'react-icons/hi2'
 
 const DayMax = 7
+const YesterDate = addDays(new Date(), -1)
 
 const MainPage = () => {
-	const [today, setToday] = useState<Date>(new Date())
+	const [today, setToday] = useState<Date>(YesterDate)
 	const [dateList, setDateList] = useState<Date[]>(
 		Array.from(
 			{ length: DayMax },
@@ -31,8 +32,8 @@ const MainPage = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
 	const ReadMePopupRef = useRef<PopupRef>(undefined)
-	let nextAble = addDays(today, DayMax) <= addDays(new Date(), DayMax) ? false : true
-	let prevAble = addDays(today, -DayMax) >= addDays(new Date(), -DayMax) ? false : true
+	let nextAble = addDays(today, DayMax) <= addDays(YesterDate, DayMax) ? false : true
+	let prevAble = addDays(today, -DayMax) >= addDays(YesterDate, -DayMax) ? false : true
 
 	const nextWeek = () => {
 		setToday(addDays(today, DayMax))
@@ -72,7 +73,7 @@ const MainPage = () => {
 	}) => {
 		setIsLoading(true)
 		if(!day) {
-			day = new Date()
+			day = YesterDate
 		}
 		if(!cache) {
 			cache = 'force-cache'
