@@ -9,7 +9,11 @@
 		"lint": "eslint --ext .ts,.tsx src",
 		"lint:fix": "eslint --ext .ts,.tsx src --fix",
 		"format": "prettier --check --ignore-path .gitignore .",
-		"format:fix": "prettier --write --ignore-path .gitignore ."
+		"format:fix": "prettier --write --ignore-path .gitignore .",
+		"seed": "dotenv -e .env.test -- node src/lib/prisma/seed.ts",
+		"migrate:init": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init",
+		"migrate:add": "dotenv -e .env.test -- npx prisma migrate dev",
+		"generate": "dotenv -e .env.test -- npx prisma generate"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.11.4",
@@ -25,6 +29,7 @@
 		"@vercel/postgres": "^0.8.0",
 		"bcryptjs": "^2.4.3",
 		"date-fns": "^3.6.0",
+		"dotenv-cli": "^7.4.2",
 		"framer-motion": "^11.2.12",
 		"next": "14.2.3",
 		"next-auth": "^4.24.7",

@@ -6,13 +6,13 @@
 
 generator client {
   provider      = "prisma-client-js"
-  // binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model booking {
@@ -26,4 +26,23 @@ model booking {
   name         String
   password     String
   is_deleted   Boolean @default(false)
+
+  user user? @relation(fields: [user_id], references: [liff_id])
+}
+
+model user {
+  liff_id       String         @id
+  name          String
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  role          Role
+  part          Int[]
+  password      String
+  is_deleted    Boolean        @default(false)
+  bookings      booking[]
+}
+
+enum Role {
+  GRADUATE
+  STUDENT
 }
