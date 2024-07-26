@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { BookingLog, TIME_LIST } from '@/lib/enum/BookingEnum'
+import { TIME_LIST } from '@/lib/enum/BookingEnum'
+import { BookingLog } from '@/types/BookingTypes'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 
@@ -19,7 +20,7 @@ import {
 	Button,
 } from '@mui/material'
 import { TiDeleteOutline } from 'react-icons/ti'
-import Loading from './atom/Loading'
+import Loading from '@/components/atoms/Loading'
 
 type BookingLogsFormated = {
 	id: string

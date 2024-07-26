@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/atom/Header'
+import Header from '@/components/molecules/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: '予約カレンダーページ',
-	description: 'あしたぼの予約カレンダー',
+	title: 'あしたぼホームページ',
+	description: '信州大学工学部、軽音サークルのあしたぼ、公式ホームページです。',
 }
 
 export default function RootLayout({
@@ -17,6 +17,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ja">
+			<head>
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+			</head>
 			<body className={inter.className}>
 				<div
 					className="flex space-x-4"

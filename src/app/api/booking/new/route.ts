@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
 		await prisma.booking.create({
 			data: {
 				id: v4(),
+				user_id: 'admin',
 				created_at: new Date(),
 				booking_date: body.booking_date,
 				booking_time: body.booking_time,

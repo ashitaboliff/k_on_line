@@ -21,8 +21,8 @@ import { parseDateString } from '@/lib/CommonFunction'
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
-import Popup, { PopupRef } from '@/components/atom/Popup'
-import Loading from '@/components/atom/Loading'
+import Popup, { PopupRef } from '@/components/molecules/Popup'
+import Loading from '@/components/atoms/Loading'
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 
 const schema = yup.object().shape({

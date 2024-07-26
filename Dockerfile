@@ -4,4 +4,4 @@ COPY ./package.json ./
 RUN npm install -g npm@latest
 RUN npm install
 COPY --chmod=777 . .
-RUN npx prisma generate
+RUN npm run generate

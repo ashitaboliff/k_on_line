@@ -5,11 +5,12 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TIME_LIST, Booking } from '@/lib/enum/BookingEnum'
-import Popup, { PopupRef } from '@/components/atom/Popup'
-import Loading from '@/components/atom/Loading'
-import { SelectField } from '@/components/atom/SelectField'
-import BookingDetailBox from '@/components/atom/BookingDetailBox'
+import { TIME_LIST } from '@/lib/enum/BookingEnum'
+import { Booking } from '@/types/BookingTypes'
+import Popup, { PopupRef } from '@/components/molecules/Popup'
+import Loading from '@/components/atoms/Loading'
+import { SelectField } from '@/components/molecules/SelectField'
+import BookingDetailBox from '@/components/molecules/BookingDetailBox'
 
 import {
 	TextField,

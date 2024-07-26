@@ -3,26 +3,37 @@ CREATE DATABASE k_on_line;
 -- 作成したDBに接続
 \c k_on_line;
 
-DROP TABLE IF EXISTS booking;
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'Role') THEN
+        CREATE TYPE "Role" AS ENUM ('GRADUATE', 'STUDENT');
+    END IF;
+END$$;
 
-CREATE TABLE IF NOT EXISTS booking(
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    booking_date TIMESTAMP NOT NULL,
-    booking_time int NOT NULL,
-    regist_name VARCHAR(100) NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    is_deleted BOOLEAN DEFAULT FALSE,
-    CONSTRAINT uuid_table_pkey PRIMARY KEY (id)
+-- Create the "user" table
+CREATE TABLE IF NOT EXISTS "user" (
+    "liff_id" TEXT PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "expected" INTEGER NOT NULL,
+    "role" "Role" NOT NULL,
+    "part" INTEGER[] NOT NULL,
+    "password" TEXT NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-INSERT INTO booking (id, created_at, updated_at, booking_date, booking_time, regist_name, name, password, is_deleted)
-    VALUES (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-20T15:00:00.000Z', 3, 'バンドサンプル', 'ユーザサンプル001', 'password', FALSE),
-              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-21T15:00:00.000Z', 4, 'バンドサンプル', 'ユーザサンプル002', 'password', FALSE),
-              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-22T15:00:00.000Z', 5, 'バンドサンプル', 'ユーザサンプル003', 'password', FALSE),
-              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-23T15:00:00.000Z', 6, 'バンドサンプル', 'ユーザサンプル004', 'password', FALSE),
-              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-23T15:00:00.000Z', 1, 'バンドサンプル', 'ユーザサンプル005', 'password', FALSE),
-              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-24T15:00:00.000Z', 7, 'バンドサンプル', 'ユーザサンプル006', 'password', FALSE),
-              (gen_random_uuid(), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '2024-06-25T15:00:00.000Z', 7, 'バンドサンプル', 'ユーザサンプル007', 'password', FALSE);
+-- Create the "booking" table
+CREATE TABLE IF NOT EXISTS "booking" (
+    "id" TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
+    "user_id" TEXT,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "booking_date" TIMESTAMPTZ NOT NULL,
+    "booking_time" INTEGER NOT NULL,
+    "regist_name" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT fk_user FOREIGN KEY ("user_id") REFERENCES "user"("liff_id") ON DELETE SET NULL
+);

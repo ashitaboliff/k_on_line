@@ -31,3 +31,12 @@
 .box-balance {
 	width: 2/5;
 }
+
+@layer components {
+	.btn.btn-outline {
+		@apply bg-bg-white text-base-content border border-base-200;
+	}
+	.btn-outline:hover {
+		@apply border-seconday-light text-seconday-light;
+	}
+}
