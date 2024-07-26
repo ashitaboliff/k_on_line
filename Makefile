@@ -26,6 +26,7 @@ renew: ## Restart all or c=<name> containers
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) build --no-cache
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d
+	npm run seed
 
 logs: ## Show logs for all or c=<name> containers
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) logs --tail=100 -f
