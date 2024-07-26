@@ -162,9 +162,9 @@ const MainPage = () => {
 					<button className="btn btn-outline" onClick={prevWeek} disabled={prevAble}>
 						{'<'}
 					</button>
-					<span className="text-xl font-bold mx-2">
-						{format(dateList[0], 'MM/dd(E)', { locale: ja })}~{format(dateList[DayMax - 1], 'MM/dd(E)', { locale: ja })}までのコマ表
-					</span>
+					<div className="text-xl font-bold mx-2 w-72 text-center">
+						{format(dateList[0], 'M/d(E)', { locale: ja })}~{format(dateList[DayMax - 1], 'M/d(E)', { locale: ja })}までのコマ表
+					</div>
 					<button className="btn btn-outline" onClick={nextWeek} disabled={nextAble}>
 						{'>'}
 					</button>

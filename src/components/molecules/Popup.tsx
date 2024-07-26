@@ -1,5 +1,5 @@
 import React, { useImperativeHandle, forwardRef } from 'react'
-import { Modal, Box, Typography } from '@mui/material'
+import { Modal, Box } from '@mui/material'
 import { ReactNode } from 'react'
 import clsx from 'clsx'
 
@@ -29,8 +29,6 @@ const Popup = forwardRef<
 		<Modal
 			open={open}
 			onClose={onClose}
-			aria-labelledby="modal-title"
-			aria-describedby="modal-description"
 			className="flex items-center justify-center"
 		>
 			<Box
@@ -40,10 +38,10 @@ const Popup = forwardRef<
 				)}
 				onClick={(e) => e.stopPropagation()}
 			>
-				<Typography id="modal-title" variant="h6" className="text-center mb-4">
+				<p className="text-center mb-4 text-xl">
 					{title}
-				</Typography>
-				<div id="modal-description" className="text-left">
+				</p>
+				<div className="text-left">
 					{children}
 				</div>
 			</Box>
