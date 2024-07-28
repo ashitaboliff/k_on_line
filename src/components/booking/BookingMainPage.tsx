@@ -71,7 +71,7 @@ const MainPage = () => {
 		cache?: RequestCache
 	} = {
 	}) => {
-		setIsLoading(true)
+		cache ? setIsLoading(true) : setIsLoading(false)
 		if(!day) {
 			day = YesterDate
 		}
@@ -91,7 +91,7 @@ const MainPage = () => {
 	}
 
 	useEffect(() => {
-		getUpdate()
+		getUpdate({ day: today, cache: 'no-cache' })
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -127,7 +127,7 @@ const MainPage = () => {
 					new Date(today.getFullYear(), today.getMonth(), today.getDate() + i),
 			),
 		)
-		getUpdate({ day: today, cache: 'no-cache' })
+		getUpdate({ day: today })
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [today])
 
