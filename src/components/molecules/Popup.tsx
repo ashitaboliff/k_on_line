@@ -38,12 +38,8 @@ const Popup = forwardRef<
 				)}
 				onClick={(e) => e.stopPropagation()}
 			>
-				<p className="text-center mb-4 text-xl">
-					{title}
-				</p>
-				<div className="text-left">
-					{children}
-				</div>
+				<p className="text-center mb-4 text-xl">{title}</p>
+				<div className="text-left">{children}</div>
 			</Box>
 		</Modal>
 	)

@@ -32,8 +32,10 @@ const MainPage = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
 	const ReadMePopupRef = useRef<PopupRef>(undefined)
-	let nextAble = addDays(today, DayMax) <= addDays(YesterDate, DayMax) ? false : true
-	let prevAble = addDays(today, -DayMax) >= addDays(YesterDate, -DayMax) ? false : true
+	let nextAble =
+		addDays(today, DayMax) <= addDays(YesterDate, DayMax) ? false : true
+	let prevAble =
+		addDays(today, -DayMax) >= addDays(YesterDate, -DayMax) ? false : true
 
 	const nextWeek = () => {
 		setToday(addDays(today, DayMax))
@@ -52,9 +54,12 @@ const MainPage = () => {
 		endDay: string
 		cache: RequestCache
 	}) => {
-		const res = await fetch(`/api/booking?startDay=${startDay}&endDay=${endDay}`, {
-			cache,
-		})
+		const res = await fetch(
+			`/api/booking?startDay=${startDay}&endDay=${endDay}`,
+			{
+				cache,
+			},
+		)
 		if (res.ok) {
 			const json = await res.json()
 			return json.response as Booking[]
@@ -69,13 +74,12 @@ const MainPage = () => {
 	}: {
 		day?: Date
 		cache?: RequestCache
-	} = {
-	}) => {
+	} = {}) => {
 		cache ? setIsLoading(true) : setIsLoading(false)
-		if(!day) {
+		if (!day) {
 			day = YesterDate
 		}
-		if(!cache) {
+		if (!cache) {
 			cache = 'force-cache'
 		}
 		const startDay = format(day, 'yyyy-MM-dd', { locale: ja })
@@ -131,7 +135,6 @@ const MainPage = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [today])
 
-
 	if (isLoading) {
 		return <Loading />
 	}
@@ -139,7 +142,10 @@ const MainPage = () => {
 	return (
 		<div>
 			<div className="flex justify-center space-x-2 m-2">
-				<button className="btn btn-primary" onClick={() => getUpdate({ day: today, cache: 'no-cache' })}>
+				<button
+					className="btn btn-primary"
+					onClick={() => getUpdate({ day: today, cache: 'no-cache' })}
+				>
 					カレンダーを更新
 				</button>
 				<button
@@ -160,17 +166,26 @@ const MainPage = () => {
 			</div>
 			<div className="flex flex-col justify-center space-x-2">
 				<div className="flex justify-between items-center mb-4 m-auto">
-					<button className="btn btn-outline" onClick={prevWeek} disabled={prevAble}>
+					<button
+						className="btn btn-outline"
+						onClick={prevWeek}
+						disabled={prevAble}
+					>
 						{'<'}
 					</button>
 					<div className="text-xl font-bold mx-2 w-72 text-center">
-						{format(dateList[0], 'M/d(E)', { locale: ja })}~{format(dateList[DayMax - 1], 'M/d(E)', { locale: ja })}までのコマ表
+						{format(dateList[0], 'M/d(E)', { locale: ja })}~
+						{format(dateList[DayMax - 1], 'M/d(E)', { locale: ja })}までのコマ表
 					</div>
-					<button className="btn btn-outline" onClick={nextWeek} disabled={nextAble}>
+					<button
+						className="btn btn-outline"
+						onClick={nextWeek}
+						disabled={nextAble}
+					>
 						{'>'}
 					</button>
 				</div>
-				<div className='flex justify-center'>
+				<div className="flex justify-center">
 					{' '}
 					{/* カレンダー全体 */}
 					<table className="w-auto border border-base-200 table-pin-rows table-pin-cols bg-bg-white">
