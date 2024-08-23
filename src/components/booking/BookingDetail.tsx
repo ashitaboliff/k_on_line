@@ -132,10 +132,7 @@ const BookingDetail = () => {
 				<div className="text-center">
 					<div>
 						<p>予定を追加するカレンダーアプリを選択してください。</p>
-						<a
-							href={process.env.APP_LINK + '/booking/detail/calendar'}
-							className="underline"
-						>
+						<a href={'/booking/detail/calendar'} className="underline">
 							以下にないアプリを利用の場合はこちら
 						</a>
 						<div className="flex justify-center gap-1">
@@ -145,9 +142,9 @@ const BookingDetail = () => {
 									open(
 										`https://www.google.com/calendar/render?
 										action=TEMPLATE&
-										text=${bookingDetail.regist_name}&
-										dates=${format(bookingDate[0], "yyyyMMdd'T'HHmmss")}/${format(bookingDate[1], "yyyyMMdd'T'HHmmss")}&
-										details=${bookingDetail.name}による音楽室でのコマ予約&
+										text=${encodeURIComponent(bookingDetail.regist_name)}&
+										dates=${encodeURIComponent(format(bookingDate[0], "yyyyMMdd'T'HHmmss"))}/${encodeURIComponent(format(bookingDate[1], "yyyyMMdd'T'HHmmss"))}&
+										details=${encodeURIComponent(bookingDetail.name)}による音楽室でのコマ予約&
 										location=あしたぼ`,
 									)
 								}
@@ -155,31 +152,31 @@ const BookingDetail = () => {
 								<SiGooglecalendar color="#2180FC" />
 								Google
 							</button>
-							<button
+							{/* <button
 								className="btn btn-outline btn-sm"
 								onClick={() =>
 									open(
 										`https://outlook.office.com/calendar/action/compose&
-										subject=${bookingDetail.regist_name}&
-										startdt=${format(bookingDate[0], "yyyy-MM-dd'T'HH:mm:ss")}&
-										enddt=${format(bookingDate[1], "yyyy-MM-dd'T'HH:mm:ss")}&
-										body=${bookingDetail.name}による音楽室でのコマ予約&
+										subject=${encodeURIComponent(bookingDetail.regist_name)}&
+										startdt=${encodeURIComponent(format(bookingDate[0], "yyyy-MM-dd'T'HH:mm:ss"))}&
+										enddt=${encodeURIComponent(format(bookingDate[1], "yyyy-MM-dd'T'HH:mm:ss"))}&
+										body=${encodeURIComponent(bookingDetail.name)}による音楽室でのコマ予約&
 										location=あしたぼ`,
 									)
 								}
 							>
 								<PiMicrosoftOutlookLogo color="#0072C6" />
-								Outlook
-							</button>
+								Outlook なんか無理なのであきらめ
+							</button> */}
 							<button
 								className="btn btn-outline btn-sm"
 								onClick={() =>
 									open(
 										`https://calendar.yahoo.co.jp/?v=60&
-										title=${bookingDetail.regist_name}&
-										st=${format(bookingDate[0], "yyyyMMdd'T'HHmmss")}&
-										et=${format(bookingDate[1], "yyyyMMdd'T'HHmmss")}&
-										desc=${bookingDetail.name}による音楽室でのコマ予約&
+										title=${encodeURIComponent(bookingDetail.regist_name)}&
+										st=${encodeURIComponent(format(bookingDate[0], "yyyyMMdd'T'HHmmss"))}&
+										et=${encodeURIComponent(format(bookingDate[1], "yyyyMMdd'T'HHmmss"))}&
+										desc=${encodeURIComponent(bookingDetail.name)}による音楽室でのコマ予約&
 										in_loc=あしたぼ`,
 									)
 								}
@@ -202,22 +199,21 @@ DESCRIPTION:${bookingDetail.name}による音楽室でのコマ予約
 END:VEVENT
 END:VCALENDAR`
 
-							const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
-							const url = URL.createObjectURL(blob)
+									const blob = new Blob([icsContent], {
+										type: 'text/calendar;charset=utf-8',
+									})
+									const url = URL.createObjectURL(blob)
 
-							// 新しいタブでicsファイルを開く
-							const link = document.createElement('a')
-							link.href = url
-							link.download = `${bookingDetail.regist_name}.ics` // ファイル名を指定
-							link.click()
+									// iOSでデフォルトのカレンダーアプリを開く
+									window.location.href = url
 
-							// リンクオブジェクトの解放
-							URL.revokeObjectURL(url)
-						}}
-					>
-						<FaApple color="#000" />
-						Apple
-					</button>
+									// 必要に応じて、URLの解放（ただし、すぐに解放すると問題が起きるかもしれないのでタイミングを見て行う）
+									setTimeout(() => URL.revokeObjectURL(url), 1000)
+								}}
+							>
+								<FaApple color="#000" />
+								Apple
+							</button>
 						</div>
 					</div>
 					<div className="mt-4">
