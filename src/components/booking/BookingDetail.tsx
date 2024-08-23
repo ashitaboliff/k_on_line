@@ -189,9 +189,9 @@ const BookingDetail = () => {
 							</button>
 							<button
 								className="btn btn-outline btn-sm"
-								onClick={() =>
-									open(
-										`data:text/calendar;charset=utf8,BEGIN:VCALENDAR
+								onClick={() => {
+									const icsContent = `
+BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//ashitabo//NONSGML v1.0//EN
 BEGIN:VEVENT
@@ -200,13 +200,24 @@ DTEND:${format(bookingDate[1], "yyyyMMdd'T'HHmmss")}
 SUMMARY:${bookingDetail.regist_name}
 DESCRIPTION:${bookingDetail.name}による音楽室でのコマ予約
 END:VEVENT
-END:VCALENDAR`,
-									)
-								}
-							>
-								<FaApple color="#000" />
-								Apple
-							</button>
+END:VCALENDAR`
+
+							const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
+							const url = URL.createObjectURL(blob)
+
+							// 新しいタブでicsファイルを開く
+							const link = document.createElement('a')
+							link.href = url
+							link.download = `${bookingDetail.regist_name}.ics` // ファイル名を指定
+							link.click()
+
+							// リンクオブジェクトの解放
+							URL.revokeObjectURL(url)
+						}}
+					>
+						<FaApple color="#000" />
+						Apple
+					</button>
 						</div>
 					</div>
 					<div className="mt-4">
