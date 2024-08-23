@@ -192,15 +192,15 @@ const BookingDetail = () => {
 								onClick={() =>
 									open(
 										`data:text/calendar;charset=utf8,BEGIN:VCALENDAR
-											VERSION:2.0
-											PRODID:-//ashitabo//NONSGML v1.0//EN
-											BEGIN:VEVENT
-												DTSTART:${format(bookingDate[0], "yyyyMMdd'T'HHmmss")}
-												DTEND:${format(bookingDate[1], "yyyyMMdd'T'HHmmss")}
-												SUMMARY:${bookingDetail.regist_name}
-												DESCRIPTION:${bookingDetail.name}による音楽室でのコマ予約
-											END:VEVENT
-										END:VCALENDAR`,
+VERSION:2.0
+PRODID:-//ashitabo//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:${format(bookingDate[0], "yyyyMMdd'T'HHmmss")}
+DTEND:${format(bookingDate[1], "yyyyMMdd'T'HHmmss")}
+SUMMARY:${bookingDetail.regist_name}
+DESCRIPTION:${bookingDetail.name}による音楽室でのコマ予約
+END:VEVENT
+END:VCALENDAR`,
 									)
 								}
 							>
