@@ -146,7 +146,7 @@ const BookingDetail = () => {
 										`https://www.google.com/calendar/render?
 										action=TEMPLATE&
 										text=${bookingDetail.regist_name}&
-										dates=${format(bookingDate[0], "yyMMdd'T'HHmmss")}/${format(bookingDate[1], "yyMMdd'T'HHmmss")}&
+										dates=${format(bookingDate[0], "yyyyMMdd'T'HHmmss")}/${format(bookingDate[1], "yyyyMMdd'T'HHmmss")}&
 										details=${bookingDetail.name}による音楽室でのコマ予約&
 										location=あしたぼ`,
 									)
