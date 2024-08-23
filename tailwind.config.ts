@@ -38,6 +38,12 @@ const colorPalette = {
 		blue: '#3C87E0', // リンク色とinfo
 		purple: '#9B59B6',
 	},
+	other: {
+		google: '#2180FC',
+		outlook: '#0072C6',
+		yahoo: '#720E9E',
+		ios: '#000000',
+	},
 }
 
 const daisyLight = {

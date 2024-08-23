@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/molecules/Header'
-import { GoogleAnalytics } from "@next/third-parties/google"
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -35,7 +35,7 @@ export default function RootLayout({
 				<Header />
 				{children}
 			</body>
-			<GoogleAnalytics gaId={process.env.GA_ID ?? ""} />
+			<GoogleAnalytics gaId={process.env.GA_ID ?? ''} />
 		</html>
 	)
 }
