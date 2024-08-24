@@ -186,7 +186,7 @@ const BookingDetail = () => {
 							</button>
 							<button
 								className="btn btn-outline btn-sm"
-								onClick={() => `/booking/detail/apple?
+								onClick={() => window.location.href = `/booking/detail/apple?
 									start=${encodeURIComponent(format(bookingDate[0], "yyyyMMdd'T'HHmmss"))}&
 									end=${encodeURIComponent(format(bookingDate[1], "yyyyMMdd'T'HHmmss"))}&
 									summary=${encodeURIComponent(bookingDetail.regist_name)}&

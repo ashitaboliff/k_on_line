@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 
+// iCalendarファイルを生成する関数
 const generateICS = (
 	start: string,
 	end: string,
@@ -19,21 +20,28 @@ END:VEVENT
 END:VCALENDAR`.trim()
 }
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-	const { start, end, summary, description } = req.query
+// APIルートのハンドラー
+export async function GET(req: NextRequest) {
+	const { searchParams } = new URL(req.url)
+	const start = searchParams.get('start')
+	const end = searchParams.get('end')
+	const summary = searchParams.get('summary')
+	const description = searchParams.get('description')
 
 	if (!start || !end || !summary || !description) {
-		return res.status(400).json({ error: 'Missing required query parameters' })
+		return NextResponse.json(
+			{ error: 'Missing required query parameters' },
+			{ status: 400 },
+		)
 	}
 
-	const icsContent = generateICS(
-		start as string,
-		end as string,
-		summary as string,
-		description as string,
-	)
+	const icsContent = generateICS(start, end, summary, description)
 
-	res.setHeader('Content-Type', 'text/calendar')
-	res.setHeader('Content-Disposition', 'attachment; filename=event.ics')
-	res.status(200).send(icsContent)
+	// レスポンスヘッダーの設定
+	return new NextResponse(icsContent, {
+		headers: {
+			'Content-Type': 'text/calendar',
+			'Content-Disposition': 'attachment; filename=event.ics',
+		},
+	})
 }
