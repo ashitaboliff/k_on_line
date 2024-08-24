@@ -204,8 +204,10 @@ END:VCALENDAR`
 									})
 									const url = URL.createObjectURL(blob)
 
+									const redirectUrl = `${url}?openExternalBrowser=1`
+
 									// iOSでデフォルトのカレンダーアプリを開く
-									window.location.href = url
+									window.location.href = redirectUrl
 
 									// 必要に応じて、URLの解放（ただし、すぐに解放すると問題が起きるかもしれないのでタイミングを見て行う）
 									setTimeout(() => URL.revokeObjectURL(url), 1000)
