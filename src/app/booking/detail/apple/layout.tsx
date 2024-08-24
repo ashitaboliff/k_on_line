@@ -1,5 +1,7 @@
+import Loading from '@/components/atoms/Loading'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,5 +15,5 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	return <>{children}</>
+	return <Suspense fallback={<Loading />}>{children}</Suspense>
 }
