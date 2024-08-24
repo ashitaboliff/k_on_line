@@ -185,33 +185,15 @@ const BookingDetail = () => {
 								Yahoo!
 							</button>
 							<button
-								className="btn btn-outline btn-sm"
-								onClick={() => {
-									const icsContent = `
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//ashitabo//NONSGML v1.0//EN
-BEGIN:VEVENT
-DTSTART:${format(bookingDate[0], "yyyyMMdd'T'HHmmss")}
-DTEND:${format(bookingDate[1], "yyyyMMdd'T'HHmmss")}
-SUMMARY:${bookingDetail.regist_name}
-DESCRIPTION:${bookingDetail.name}による音楽室でのコマ予約
-END:VEVENT
-END:VCALENDAR`
-
-									const blob = new Blob([icsContent], {
-										type: 'text/calendar;charset=utf-8',
-									})
-									const url = URL.createObjectURL(blob)
-
-									const redirectUrl = `${url}?openExternalBrowser=1`
-
-									// iOSでデフォルトのカレンダーアプリを開く
-									window.location.href = redirectUrl
-
-									// 必要に応じて、URLの解放（ただし、すぐに解放すると問題が起きるかもしれないのでタイミングを見て行う）
-									setTimeout(() => URL.revokeObjectURL(url), 1000)
-								}}
+								className="btn btn-outline btn-sm btn-active btn-link"
+								onClick={() =>
+									(window.location.href = `${process.env.APP_LINK ?? ''}/booking/detail/apple?
+									start=${encodeURIComponent(format(bookingDate[0], "yyyyMMdd'T'HHmmss"))}&
+									end=${encodeURIComponent(format(bookingDate[1], "yyyyMMdd'T'HHmmss"))}&
+									summary=${encodeURIComponent(bookingDetail.regist_name)}&
+									description=${encodeURIComponent(bookingDetail.name)}による音楽室でのコマ予約&
+									openExternalBrowser=1`)
+								}
 							>
 								<FaApple color="#000" />
 								Apple

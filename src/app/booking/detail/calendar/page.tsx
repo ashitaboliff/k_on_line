@@ -10,7 +10,12 @@ const Page = () => {
 					他アプリでのカレンダー連携
 				</div>
 				<p>
-					他アプリのカレンダーは基本端末標準のカレンダーと同期できると思います。その方法についていくつかのアプリを例に紹介します。
+					他アプリのカレンダーは基本端末標準のカレンダーと同期できると思います。
+					そのため、android端末の場合はGoogle、iOS端末の場合はAppleを選択しましょう。
+				</p>
+				<p>
+					ただ、方法が複雑な場合がありますので以下に
+					その方法についていくつかのアプリを例に紹介します。
 				</p>
 				<div className="collapse collapse-arrow bg-bg-white">
 					<input type="checkbox" />
@@ -20,7 +25,7 @@ const Page = () => {
 							以下のリンクよりGoogleカレンダーもしくはiOS標準カレンダーと同期することで表示できます。
 						</p>
 						<a
-							href="https://support.timetreeapp.com/hc/ja/articles/360000639682-%E4%BB%96%E3%81%AE%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%97%E3%81%9F%E3%81%84-Google-%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%81%AA%E3%81%A9"
+							href="https://support.timetreeapp.com/hc/ja/articles/360000639682-%E4%BB%96%E3%81%AE%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%97%E3%81%9F%E3%81%84-Google-%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%81%AA%E3%81%A9?openExternalBrowser=1"
 							className="underline"
 						>
 							TimeTreeとの連携
