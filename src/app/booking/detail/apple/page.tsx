@@ -3,6 +3,8 @@
 import { useSearchParams } from 'next/navigation'
 import { format } from 'date-fns'
 import { FaApple } from 'react-icons/fa'
+import { Suspense } from 'react'
+import Loading from '@/components/atoms/Loading'
 
 type Props = {
 	start: string
@@ -26,16 +28,22 @@ const BookingButton = () => {
 	}
 
 	return (
-		<div className="flex flex-col space-y-2">
-			<p className="text-center text-base">iOS標準カレンダーに予定を追加する</p>
-			<button
-				className="btn btn-outline btn-sm"
-				onClick={() => handleDownloadICS({ start, end, summary, description })}
-			>
-				<FaApple color="#000" />
-				Appleカレンダーに追加
-			</button>
-		</div>
+		<Suspense fallback={<Loading />}>
+			<div className="flex flex-col space-y-2">
+				<p className="text-center text-base">
+					iOS標準カレンダーに予定を追加する
+				</p>
+				<button
+					className="btn btn-outline btn-sm"
+					onClick={() =>
+						handleDownloadICS({ start, end, summary, description })
+					}
+				>
+					<FaApple color="#000" />
+					Appleカレンダーに追加
+				</button>
+			</div>
+		</Suspense>
 	)
 }
 

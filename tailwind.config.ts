@@ -146,10 +146,10 @@ const config: Config = {
 					...themes['light'],
 					...daisyLight,
 				},
-				dark: {
-					...themes['dark'],
-					...daisyDark,
-				},
+				// dark: {
+				// 	...themes['dark'],
+				// 	...daisyDark,
+				// },
 			},
 		],
 	},
