@@ -185,7 +185,7 @@ const BookingDetail = () => {
 								Yahoo!
 							</button>
 							<button
-								className="btn btn-outline btn-sm"
+								className="btn btn-outline btn-sm btn-active btn-link"
 								onClick={() =>
 									(window.location.href = `${process.env.APP_LINK ?? ''}/booking/detail/apple?
 									start=${encodeURIComponent(format(bookingDate[0], "yyyyMMdd'T'HHmmss"))}&

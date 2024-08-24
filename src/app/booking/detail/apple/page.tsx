@@ -1,6 +1,6 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { FaApple } from 'react-icons/fa'
 
 type Props = {
@@ -11,6 +11,7 @@ type Props = {
 }
 
 const BookingButton = () => {
+	const router = useRouter()
 	const searchParams = useSearchParams()
 	const start = searchParams.get('start') || ''
 	const end = searchParams.get('end') || ''
@@ -33,6 +34,9 @@ const BookingButton = () => {
 			>
 				<FaApple color="#000" />
 				Appleカレンダーに追加
+			</button>
+			<button className="btn btn-outline btn-sm" onClick={() => router.back()}>
+				前のページに戻る
 			</button>
 		</div>
 	)

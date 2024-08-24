@@ -25,7 +25,7 @@ const Page = () => {
 							以下のリンクよりGoogleカレンダーもしくはiOS標準カレンダーと同期することで表示できます。
 						</p>
 						<a
-							href="https://support.timetreeapp.com/hc/ja/articles/360000639682-%E4%BB%96%E3%81%AE%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%97%E3%81%9F%E3%81%84-Google-%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%81%AA%E3%81%A9"
+							href="https://support.timetreeapp.com/hc/ja/articles/360000639682-%E4%BB%96%E3%81%AE%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%97%E3%81%9F%E3%81%84-Google-%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC%E3%81%AA%E3%81%A9?openExternalBrowser=1"
 							className="underline"
 						>
 							TimeTreeとの連携
