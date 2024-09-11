@@ -7,6 +7,10 @@ export interface Booking {
 	name: string
 }
 
+export interface BookingResponse {
+	response: Record<string, Record<number, Booking | null>>
+}
+
 export interface BookingCalenderProps {
 	booking_data: Booking[]
 }

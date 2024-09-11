@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { addDays, format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
-import { Booking } from '@/types/BookingTypes'
+import { Booking, BookingResponse } from '@/types/BookingTypes' // 型のインポート
 import BookingRule from '@/components/molecules/BookingRule'
 import Popup, { PopupRef } from '@/components/molecules/Popup'
 import { BookingTableBox } from '@/components/molecules/BookingTableBox'
@@ -25,13 +25,14 @@ const MainPage = () => {
 			(_, i) =>
 				new Date(today.getFullYear(), today.getMonth(), today.getDate() + i),
 		),
-	) // DayMax日分の日付を格納
-	const [bookings, setBookings] = useState<Booking[]>([])
-	// 第一引数を日付、第二引数を時間として予約情報を格納する二次元配列
-	const [bookingData, setBookingData] = useState<Booking[][]>([])
+	)
+	const [bookingData, setBookingData] = useState<
+		Record<string, Record<number, Booking | null>>
+	>({}) // APIレスポンスに対応
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false)
 	const ReadMePopupRef = useRef<PopupRef>(undefined)
+
 	let nextAble =
 		addDays(today, DayMax) <= addDays(YesterDate, DayMax) ? false : true
 	let prevAble =
@@ -62,7 +63,7 @@ const MainPage = () => {
 		)
 		if (res.ok) {
 			const json = await res.json()
-			return json.response as Booking[]
+			return json.response as BookingResponse['response'] // APIレスポンスの型に合わせてキャスト
 		} else {
 			return null
 		}
@@ -86,7 +87,7 @@ const MainPage = () => {
 		const endDay = format(addDays(day, DayMax), 'yyyy-MM-dd', { locale: ja })
 		const res = await getBooking({ startDay, endDay, cache })
 		if (res) {
-			setBookings(res)
+			setBookingData(res) // 取得したデータを更新
 			setIsLoading(false)
 		} else {
 			alert('予約情報の取得に失敗しました')
@@ -96,32 +97,7 @@ const MainPage = () => {
 
 	useEffect(() => {
 		getUpdate({ day: today, cache: 'no-cache' })
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
-
-	useEffect(() => {
-		const initialBookingList = Array.from({ length: dateList.length }, () =>
-			Array(TIME_LIST.length).fill(null),
-		)
-
-		bookings.forEach((booking) => {
-			const bookingDate = new Date(booking.booking_date)
-			const dateIndex = dateList.findIndex(
-				(date) =>
-					date.getFullYear() === bookingDate.getFullYear() &&
-					date.getMonth() === bookingDate.getMonth() &&
-					date.getDate() === bookingDate.getDate(),
-			)
-			const timeIndex = Number(booking.booking_time)
-
-			if (dateIndex !== -1 && timeIndex !== -1) {
-				initialBookingList[dateIndex][timeIndex] = booking
-			}
-		})
-
-		setBookingData(initialBookingList)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [bookings])
 
 	useEffect(() => {
 		setDateList(
@@ -132,7 +108,6 @@ const MainPage = () => {
 			),
 		)
 		getUpdate({ day: today })
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [today])
 
 	if (isLoading) {
@@ -219,8 +194,10 @@ const MainPage = () => {
 									</td>
 									{dateList.map((day, dateIndex) => {
 										const isThursday = day.getDay() === 4 && timeIndex > 4
-										const isBookingAvailable = bookingData[dateIndex][timeIndex]
-										const booking = bookingData[dateIndex][timeIndex]
+										const isBookingAvailable =
+											bookingData[day.toISOString().split('T')[0]]?.[timeIndex]
+										const booking =
+											bookingData[day.toISOString().split('T')[0]]?.[timeIndex]
 										return (
 											<td
 												key={dateIndex}
@@ -232,12 +209,12 @@ const MainPage = () => {
 															locale: ja,
 														})}
 														booking_time={TIME_LIST[timeIndex]}
-														registName={booking.regist_name}
-														name={booking.name}
+														registName={booking?.regist_name}
+														name={booking?.name}
 														url={
 															isThursday
 																? undefined
-																: `/booking/detail?id=${booking.id}`
+																: `/booking/detail?id=${booking?.id}`
 														}
 													/>
 												) : (

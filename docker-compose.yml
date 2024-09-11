@@ -29,7 +29,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}/node_modules
+      device: ./node_modules
       o: bind
 networks:
   snowboard_default:

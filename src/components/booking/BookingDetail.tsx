@@ -187,12 +187,12 @@ const BookingDetail = () => {
 							<button
 								className="btn btn-outline btn-sm btn-active btn-link"
 								onClick={() =>
-									(window.location.href = `${process.env.APP_LINK ?? ''}/booking/detail/apple?
-									start=${encodeURIComponent(format(bookingDate[0], "yyyyMMdd'T'HHmmss"))}&
-									end=${encodeURIComponent(format(bookingDate[1], "yyyyMMdd'T'HHmmss"))}&
-									summary=${encodeURIComponent(bookingDetail.regist_name)}&
-									description=${encodeURIComponent(bookingDetail.name)}による音楽室でのコマ予約&
-									openExternalBrowser=1`)
+									(window.location.href = `/api/generate-ics?
+										start=${encodeURIComponent(format(bookingDate[0], "yyyyMMdd'T'HHmmss"))}&
+										end=${encodeURIComponent(format(bookingDate[1], "yyyyMMdd'T'HHmmss"))}&
+										summary=${encodeURIComponent(bookingDetail.regist_name)}&
+										description=${encodeURIComponent(bookingDetail.name)}&
+										openExternalBrowser=1`)
 								}
 							>
 								<FaApple color="#000" />
