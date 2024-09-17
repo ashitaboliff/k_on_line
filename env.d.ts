@@ -7,5 +7,9 @@ declare namespace NodeJS {
 		LINE_CLIENT_ID: string
 		LINE_CLIENT_SECRET: string
 		APP_LINK: string
+		ADMIN_ID: string
+		ADMIN_PASSWORD: string
+		TEST_ID: string
+		TEST_PASSWORD: string
 	}
 }

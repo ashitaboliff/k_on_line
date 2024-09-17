@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
 	try {
 		const searchBookingDate = JSTToUTC(UTCbookingDate)
-		const atBooking = await prisma.booking.findFirst({
+		const atBooking = await prisma.Booking.findFirst({
 			where: {
 				AND: {
 					booking_date: searchBookingDate,
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
 			)
 		}
 		const hashedPassword = bcryptjs.hashSync(body.password, 5)
-		await prisma.booking.create({
+		await prisma.Booking.create({
 			data: {
 				id: v4(),
 				user_id: 'admin',

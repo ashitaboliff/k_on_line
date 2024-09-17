@@ -15,7 +15,7 @@ datasource db {
   // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model booking {
+model Booking {
   id           String   @id @default(uuid())
   user_id      String
   created_at   DateTime @default(now())
@@ -27,23 +27,75 @@ model booking {
   password     String
   is_deleted   Boolean @default(false)
 
-  user user? @relation(fields: [user_id], references: [liff_id])
+  user UserData? @relation(fields: [user_id], references: [id])
 }
 
-model user {
-  liff_id       String         @id
-  name          String
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @updatedAt
-  expected      Int
-  role          Role
-  part          Int[]
+model User {
+  id            String    @id @default(cuid())
+  user_id       String    @unique
   password      String
-  is_deleted    Boolean        @default(false)
-  bookings      booking[]
+  accounts      Account[]
+  sessions      Session[]
+  user_data     UserData?
+}
+
+model UserData {
+  id         String   @id @default(uuid()) // UserのIDを外部キーとして利用
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  expected   Int
+  role       Role
+  part       Part[]
+  is_deleted Boolean  @default(false)
+  bookings   Booking[]
+
+  user User @relation(fields: [id], references: [id]) // Userと1対1のリレーション
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 enum Role {
   GRADUATE
   STUDENT
+}
+
+enum Part {
+  VOCAL
+  BACKING_GUITER
+  LEAD_GUITER
+  BASS
+  DRUMS
+  KEYBOARD
+  OTHER
 }
