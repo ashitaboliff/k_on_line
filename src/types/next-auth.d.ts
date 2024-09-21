@@ -5,6 +5,6 @@ declare module 'next-auth' {
 		user_id: string
 	}
 	interface User {
-		user_id: string
+		user_id: string?
 	}
 }
