@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { addDays, format } from 'date-fns'
 import { ja } from 'date-fns/locale'
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
@@ -20,7 +19,6 @@ const YesterDate = addDays(new Date(), -1)
 
 const MainPage = () => {
 	const [today, setToday] = useState<Date>(YesterDate)
-	const router = useRouter()
 	const [dateList, setDateList] = useState<Date[]>(
 		Array.from(
 			{ length: DayMax },
@@ -130,12 +128,6 @@ const MainPage = () => {
 					onClick={() => setIsPopupOpen(true)}
 				>
 					使い方の表示
-				</button>
-				<button
-					className="btn btn-accent"
-					onClick={() => router.push('/booking/new')}
-				>
-					新規予約
 				</button>
 			</div>
 			<div className="flex justify-center space-x-8">

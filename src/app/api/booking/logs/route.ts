@@ -7,7 +7,7 @@ export const fetchCache = 'force-no-store'
 
 export async function GET(req: NextRequest) {
 	try {
-		const bookings = await prisma.Booking.findMany({
+		const bookings = await prisma.booking.findMany({
 			select: {
 				id: true,
 				created_at: true,

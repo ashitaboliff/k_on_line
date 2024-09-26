@@ -1,33 +1,10 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
+import { useState, useEffect } from 'react'
+import Popup, { PopupRef } from '@/components/molecules/Popup'
 
 const Login = () => {
-  return (
-    <div>
-      <button
-        onClick={() => {
-          signIn('AdminCredentials')
-        }}
-      >
-        Admin Login
-      </button>
-      <button
-        onClick={() => {
-          signIn('TestCredentials')
-        }}
-      >
-        Test Login
-      </button>
-      <button
-        onClick={() => {
-          signIn('line')
-        }}
-      >
-        Line Login
-      </button>
-    </div>
-  )
+	return <div></div>
 }
 
 export default Login
