@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 	}
 
 	try {
-		const bookings = await prisma.booking.findFirst({
+		const bookings = await prisma.Booking.findFirst({
 			where: {
 				AND: {
 					id: id,

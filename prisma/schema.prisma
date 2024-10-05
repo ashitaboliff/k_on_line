@@ -15,7 +15,7 @@ datasource db {
   // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model booking {
+model Booking {
   id           String   @id @default(uuid())
   user_id      String
   created_at   DateTime @default(now())
@@ -27,23 +27,112 @@ model booking {
   password     String
   is_deleted   Boolean @default(false)
 
-  user user? @relation(fields: [user_id], references: [liff_id])
+  user User? @relation(fields: [user_id], references: [id])
+
+  @@map("bookings")
 }
 
-model user {
-  liff_id       String         @id
-  name          String
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @updatedAt
-  expected      Int
-  role          Role
-  part          Int[]
-  password      String
-  is_deleted    Boolean        @default(false)
-  bookings      booking[]
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  user_id       String?   @unique
+  password      String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  role          AccountRole?
+
+  accounts      Account[]
+  sessions      Session[]
+  profile       Profile?
+  bookings      Booking[]
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Profile {
+  id         String   @id @default(uuid()) // UserのIDを外部キーとして利用
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  expected   Int
+  role       Role
+  part       Part[]
+  is_deleted Boolean  @default(false)
+
+  user User @relation(fields: [id], references: [id]) // Userと1対1のリレーション
+  @@map("profiles")
+}
+
+model Account {
+  userId            String   @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String   @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model PadLock {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  name       String
+  password   String
+  is_deleted Boolean  @default(false)
 }
 
 enum Role {
   GRADUATE
   STUDENT
+}
+
+enum AccountRole {
+  ADMIN
+  USER
+}
+
+enum Part {
+  VOCAL
+  BACKING_GUITER
+  LEAD_GUITER
+  BASS
+  DRUMS
+  KEYBOARD
+  OTHER
 }

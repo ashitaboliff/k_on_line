@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const atBooking = await prisma.booking.findUnique({
+		const atBooking = await prisma.Booking.findUnique({
 			where: {
 				id: id,
 				is_deleted: {
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 				{ status: 404 },
 			)
 		}
-		await prisma.booking.update({
+		await prisma.Booking.update({
 			where: {
 				id: id,
 			},

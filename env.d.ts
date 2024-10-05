@@ -4,8 +4,14 @@ declare namespace NodeJS {
 		POSTGRES_PRISMA_URL: string
 		GA_ID: string
 		NEXT_PUBLIC_LIFF_ID: string
-		LINE_CLIENT_ID: string
-		LINE_CLIENT_SECRET: string
-		APP_LINK: string
+		AUTH_LINE_SECRET: string
+		AUTH_LINE_SECRET: string
+		NEXTAUTH_URL: string
+		NEXTAUTH_SECRET: string
+		AUTH_SECRET: string
+		ADMIN_ID: string
+		ADMIN_PASSWORD: string
+		TEST_ID: string
+		TEST_PASSWORD: string
 	}
 }

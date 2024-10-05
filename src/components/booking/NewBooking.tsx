@@ -152,17 +152,15 @@ const NewBooking = () => {
 				<Typography variant="h6" className="text-center mb-4">
 					新規予約
 				</Typography>
-				<Suspense fallback={<Loading />}>
-					<Typography variant="body1" className="text-center mb-4">
-						日付:{' '}
-						{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
-							locale: ja,
-						})}
-					</Typography>
-					<Typography variant="body1" className="text-center mb-4">
-						時間: {TIME_LIST[Number(bookingTime)]}
-					</Typography>
-				</Suspense>
+				<Typography variant="body1" className="text-center mb-4">
+					日付:{' '}
+					{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
+						locale: ja,
+					})}
+				</Typography>
+				<Typography variant="body1" className="text-center mb-4">
+					時間: {TIME_LIST[Number(bookingTime)]}
+				</Typography>
 			</Container>
 			<Container maxWidth="md">
 				<form onSubmit={handleSubmit(onSubmit)}>
@@ -239,17 +237,15 @@ const NewBooking = () => {
 					以下の内容で予約が完了しました。
 				</Typography>
 				<Box className="text-center">
-					<Suspense fallback={<Loading />}>
-						<Typography variant="body1">
-							日付:{' '}
-							{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
-								locale: ja,
-							})}
-						</Typography>
-						<Typography variant="body1">
-							時間: {TIME_LIST[Number(bookingTime)]}
-						</Typography>
-					</Suspense>
+					<Typography variant="body1">
+						日付:{' '}
+						{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
+							locale: ja,
+						})}
+					</Typography>
+					<Typography variant="body1">
+						時間: {TIME_LIST[Number(bookingTime)]}
+					</Typography>
 					<Typography variant="body1">
 						バンド名: {watch('regist_name')}
 					</Typography>

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/molecules/Header'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { LiffProvider } from '@/lib/liff/LiffOption'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,7 +34,9 @@ export default function RootLayout({
 					}}
 				/>
 				<Header />
-				{children}
+				<LiffProvider liffId={process.env.LIFF_ID ?? ''}>
+					{children}
+				</LiffProvider>
 			</body>
 			<GoogleAnalytics gaId={process.env.GA_ID ?? ''} />
 		</html>

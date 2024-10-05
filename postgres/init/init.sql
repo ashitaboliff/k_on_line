@@ -8,20 +8,34 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'Role') THEN
         CREATE TYPE "Role" AS ENUM ('GRADUATE', 'STUDENT');
     END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'Part') THEN
+        CREATE TYPE "Part" AS ENUM (
+            'VOCAL',
+            'BACKING_GUITER',
+            'LEAD_GUITER',
+            'BASS',
+            'DRUMS',
+            'KEYBOARD',
+            'OTHER'
+            );
+    END IF;
 END$$;
 
 -- Create the "user" table
 CREATE TABLE IF NOT EXISTS "user" (
-    "liff_id" TEXT PRIMARY KEY,
+    "id" TEXT PRIMARY KEY,
+    "liff_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "expected" INTEGER NOT NULL,
     "role" "Role" NOT NULL,
-    "part" INTEGER[] NOT NULL,
+    "part" "Part"[] NOT NULL,
     "password" TEXT NOT NULL,
     "is_deleted" BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+
 
 -- Create the "booking" table
 CREATE TABLE IF NOT EXISTS "booking" (
@@ -35,5 +49,5 @@ CREATE TABLE IF NOT EXISTS "booking" (
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "is_deleted" BOOLEAN NOT NULL DEFAULT FALSE,
-    CONSTRAINT fk_user FOREIGN KEY ("user_id") REFERENCES "user"("liff_id") ON DELETE SET NULL
+    CONSTRAINT fk_user FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE SET NULL
 );
