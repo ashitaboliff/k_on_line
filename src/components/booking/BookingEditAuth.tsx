@@ -10,19 +10,6 @@ import BookingDetailBox from '@/components/molecules/BookingDetailBox'
 import Popup, { PopupRef } from '@/components/molecules/Popup'
 import { Booking } from '@/types/BookingTypes'
 
-import {
-	Button,
-	Typography,
-	Container,
-	Stack,
-	Box,
-	Alert,
-	FormControl,
-	InputLabel,
-	IconButton,
-	InputAdornment,
-	OutlinedInput,
-} from '@mui/material'
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 
 const passschema = yup.object({
@@ -128,88 +115,89 @@ const BookingEditAuth = (props: Props) => {
 
 	if (!bookingDetail) {
 		return (
-			<Box className="p-4 flex flex-col items-center justify-center">
-				<Box className="p-4 flex flex-col justify-center gap-2">
-					<Alert severity="error">エラー</Alert>
-					<Typography variant="body1">
+			<div className="p-4 flex flex-col items-center justify-center">
+				<div className="p-4 flex flex-col justify-center gap-2">
+					<div className="alert alert-error">エラー</div>
+					<p className="text-lg">
 						予約情報が見つかりませんでした。
 						<br />
 						ホームに戻ってもう一度試してください。
-					</Typography>
-					<Button
-						variant="outlined"
-						color="inherit"
+					</p>
+					<button
+						className="btn btn-outline"
 						onClick={() => router.push('/booking')}
 					>
 						ホームに戻る
-					</Button>
-				</Box>
-			</Box>
+					</button>
+				</div>
+			</div>
 		)
 	}
 
 	return (
 		<>
-			<Typography variant="body1" className="text-center">
+			<p className="text-lg text-center">
 				予約を編集するためにパスワードを入力してください。
-			</Typography>
-			<Container className="flex justify-center flex-col">
-				<Typography variant="h6" className="text-center">
-					予約詳細
-				</Typography>
-				<Stack spacing={2} direction="row" className="flex justify-center">
+			</p>
+			<div className="flex justify-center flex-col">
+				<p className="text-xl text-center">予約詳細</p>
+				<div className="flex justify-center">
 					<BookingDetailBox
 						booking_date={bookingDetail.booking_date}
 						booking_time={bookingDetail.booking_time}
 						regist_name={bookingDetail.regist_name}
 						name={bookingDetail.name}
 					/>
-				</Stack>
+				</div>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className="flex flex-col items-center"
+					className="flex flex-col items-center mt-4"
 				>
-					<FormControl variant="outlined" className="w-2/5 m-2">
-						<InputLabel htmlFor="password">パスワード</InputLabel>
-						<OutlinedInput
-							id="password"
-							label="パスワード"
-							type={showPassword ? 'text' : 'password'}
-							{...register('password')}
-							endAdornment={
-								<InputAdornment position="end">
-									<IconButton
-										onClick={handleClickShowPassword}
-										onMouseDown={handleMouseDownPassword}
-										edge="end"
-									>
-										{showPassword ? <MdVisibilityOff /> : <MdVisibility />}
-									</IconButton>
-								</InputAdornment>
-							}
-						/>
-					</FormControl>
+					<div className="form-control w-full max-w-xs">
+						<label className="label" htmlFor="password">
+							<span className="label-text">パスワード</span>
+						</label>
+						<div className="relative">
+							<input
+								id="password"
+								type={showPassword ? 'text' : 'password'}
+								placeholder="パスワード"
+								className="input input-bordered w-full pr-10"
+								{...register('password')}
+							/>
+							<button
+								type="button"
+								className="absolute inset-y-0 right-0 flex items-center px-2"
+								onClick={handleClickShowPassword}
+								onMouseDown={handleMouseDownPassword}
+							>
+								{showPassword ? (
+									<MdVisibilityOff className="text-xl" />
+								) : (
+									<MdVisibility className="text-xl" />
+								)}
+							</button>
+						</div>
+					</div>
 					{errors.password && (
-						<Alert severity="error">{errors.password.message}</Alert>
+						<div className="alert alert-error mt-2">
+							{errors.password.message}
+						</div>
 					)}
-					<Stack
-						spacing={2}
-						direction="row"
-						className="flex justify-center m-2"
-					>
-						<Button type="submit" variant="contained" color="success">
+					<div className="flex justify-center mt-4 space-x-4">
+						<button type="submit" className="btn btn-success">
 							ログイン
-						</Button>
-						<Button
-							variant="outlined"
-							color="inherit"
+						</button>
+						<button
+							type="button"
+							className="btn btn-outline"
 							onClick={() => router.push(`/booking/detail?id=${props.id}`)}
 						>
 							予約詳細に戻る
-						</Button>
-					</Stack>
+						</button>
+					</div>
 				</form>
-			</Container>
+			</div>
 			<Popup
 				ref={errorPopupRef}
 				title="エラー"
@@ -217,16 +205,15 @@ const BookingEditAuth = (props: Props) => {
 				open={errorPopupOpen}
 				onClose={() => setErrorPopupOpen(false)}
 			>
-				<Box className="p-4 flex flex-col justify-center gap-2">
-					<Alert severity="error">{isErrorMessages}</Alert>
-					<Button
-						variant="outlined"
-						color="inherit"
+				<div className="p-4 flex flex-col justify-center gap-2">
+					<div className="alert alert-error">{isErrorMessages}</div>
+					<button
+						className="btn btn-outline"
 						onClick={() => setErrorPopupOpen(false)}
 					>
 						閉じる
-					</Button>
-				</Box>
+					</button>
+				</div>
 			</Popup>
 		</>
 	)

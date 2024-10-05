@@ -12,6 +12,9 @@ new: ## Create a new project
 up: ## Start all or c=<name> containers in background
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d
 
+build: ## Build all or c=<name> containers
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) build
+
 stop: ## Stop all or c=<name> containers
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
 
@@ -27,6 +30,11 @@ renew: ## Restart all or c=<name> containers
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) build --no-cache
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d
 	npm run seed
+
+renew-log: ## Restart all or c=<name> containers
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) build --no-cache --progress=plain
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d
 
 logs: ## Show logs for all or c=<name> containers
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) logs --tail=100 -f
