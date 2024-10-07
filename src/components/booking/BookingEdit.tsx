@@ -21,9 +21,7 @@ const BookingEdit = () => {
 
 	return (
 		<div className="flex-col">
-			<div className="text-xl text-center">
-				予約編集
-			</div>
+			<div className="text-xl text-center">予約編集</div>
 			{isAuth ? (
 				<BookingEditForm id={id} />
 			) : (
