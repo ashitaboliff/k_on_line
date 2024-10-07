@@ -30,7 +30,7 @@ const BookingDetailBox = (props: BookingDetailProps) => {
 		},
 	]
 
-	return <BaseTable data={data} />
+	return <BaseTable data={data} title="予約詳細" />
 }
 
 export default BookingDetailBox

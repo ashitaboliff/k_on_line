@@ -6,8 +6,8 @@ import Loading from '@/components/atoms/Loading'
 import Popup, { PopupRef } from '@/components/molecules/Popup'
 import BookingDetailBox from '@/components/molecules/BookingDetailBox'
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
+import BookingDetailNotFound from '@/components/booking/BookingDetailNotFound'
 
-import { PiMicrosoftOutlookLogo } from 'react-icons/pi'
 import { FaApple, FaYahoo } from 'react-icons/fa'
 import { SiGooglecalendar } from 'react-icons/si'
 
@@ -70,32 +70,11 @@ const BookingDetail = () => {
 	}
 
 	if (!bookingDetail) {
-		return (
-			<div className="p-4 flex flex-col items-center justify-center">
-				<div className="text-xl font-bold text-center">予約詳細</div>
-				<div className="p-4 flex flex-col justify-center gap-2">
-					<div role="alert" className="alert alert-error w-80">
-						エラー
-					</div>
-					<div className="text-sm text-center">
-						予約情報が見つかりませんでした。
-						<br />
-						ホームに戻ってもう一度試してください。
-					</div>
-					<button
-						className="btn btn-outline"
-						onClick={() => router.push('/booking')}
-					>
-						ホームに戻る
-					</button>
-				</div>
-			</div>
-		)
+		return <BookingDetailNotFound />
 	}
 
 	return (
 		<div className="p-4 flex flex-col items-center justify-center">
-			<div className="text-xl font-bold text-center">予約詳細</div>
 			<BookingDetailBox
 				booking_date={bookingDetail.booking_date}
 				booking_time={bookingDetail.booking_time}

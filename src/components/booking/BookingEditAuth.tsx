@@ -5,10 +5,13 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/navigation'
+import { Booking } from '@/types/BookingTypes'
 import Loading from '@/components/atoms/Loading'
+import InfoMessage from '@/components/atoms/InfoMessage'
 import BookingDetailBox from '@/components/molecules/BookingDetailBox'
 import Popup, { PopupRef } from '@/components/molecules/Popup'
-import { Booking } from '@/types/BookingTypes'
+import PasswordInputField from '@/components/molecules/PasswordInputField'
+import BookingDetailNotFound from '@/components/booking/BookingDetailNotFound'
 
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 
@@ -114,24 +117,7 @@ const BookingEditAuth = (props: Props) => {
 	}
 
 	if (!bookingDetail) {
-		return (
-			<div className="p-4 flex flex-col items-center justify-center">
-				<div className="p-4 flex flex-col justify-center gap-2">
-					<div className="alert alert-error">エラー</div>
-					<p className="text-lg">
-						予約情報が見つかりませんでした。
-						<br />
-						ホームに戻ってもう一度試してください。
-					</p>
-					<button
-						className="btn btn-outline"
-						onClick={() => router.push('/booking')}
-					>
-						ホームに戻る
-					</button>
-				</div>
-			</div>
-		)
+		return <BookingDetailNotFound />
 	}
 
 	return (
@@ -140,7 +126,6 @@ const BookingEditAuth = (props: Props) => {
 				予約を編集するためにパスワードを入力してください。
 			</p>
 			<div className="flex justify-center flex-col">
-				<p className="text-xl text-center">予約詳細</p>
 				<div className="flex justify-center">
 					<BookingDetailBox
 						booking_date={bookingDetail.booking_date}
@@ -153,36 +138,23 @@ const BookingEditAuth = (props: Props) => {
 					onSubmit={handleSubmit(onSubmit)}
 					className="flex flex-col items-center mt-4"
 				>
-					<div className="form-control w-full max-w-xs">
+					<div className="form-control w-full max-w-xs my-2">
 						<label className="label" htmlFor="password">
 							<span className="label-text">パスワード</span>
 						</label>
-						<div className="relative">
-							<input
-								id="password"
-								type={showPassword ? 'text' : 'password'}
-								placeholder="パスワード"
-								className="input input-bordered w-full pr-10"
-								{...register('password')}
-							/>
-							<button
-								type="button"
-								className="absolute inset-y-0 right-0 flex items-center px-2"
-								onClick={handleClickShowPassword}
-								onMouseDown={handleMouseDownPassword}
-							>
-								{showPassword ? (
-									<MdVisibilityOff className="text-xl" />
-								) : (
-									<MdVisibility className="text-xl" />
-								)}
-							</button>
-						</div>
+						<PasswordInputField
+							register={register('password')}
+							showPassword={showPassword}
+							handleClickShowPassword={handleClickShowPassword}
+							handleMouseDownPassword={handleMouseDownPassword}
+						/>
 					</div>
 					{errors.password && (
-						<div className="alert alert-error mt-2">
-							{errors.password.message}
-						</div>
+						<InfoMessage
+							message={errors.password.message || ''}
+							messageType="warning"
+							IconColor="bg-white"
+						/>
 					)}
 					<div className="flex justify-center mt-4 space-x-4">
 						<button type="submit" className="btn btn-success">
@@ -206,7 +178,11 @@ const BookingEditAuth = (props: Props) => {
 				onClose={() => setErrorPopupOpen(false)}
 			>
 				<div className="p-4 flex flex-col justify-center gap-2">
-					<div className="alert alert-error">{isErrorMessages}</div>
+					<InfoMessage
+						message={isErrorMessages || ''}
+						messageType="error"
+						IconColor="bg-white"
+					/>
 					<button
 						className="btn btn-outline"
 						onClick={() => setErrorPopupOpen(false)}

@@ -6,14 +6,23 @@ type DataItem = {
 }
 
 type Props = {
+	title: string
 	data: DataItem[]
 }
+
+/**
+ * いい感じのテーブルを表示するコンポーネント
+ * @param data テーブルに表示するデータ
+ */
 
 const BaseTable = (props: Props) => {
 	return (
 		<div className="p-4 flex flex-col justify-center gap-2 my-2 bg-bg-white shadow-md rounded-md">
+			<p className="text-xl text-text-light text-center font-semibold">
+				{props.title}
+			</p>
 			{props.data.map((item, index) => (
-				<div key={index} className="p-2 border-b border-border-light">
+				<div key={index} className="p-2 border-t border-border-light">
 					<div className="flex">
 						<span className="w-24 p-2 font-semibold">{item.label}:</span>
 						<span className="p-2">{item.value}</span>
