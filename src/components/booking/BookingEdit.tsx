@@ -6,8 +6,6 @@ import Loading from '@/components/atoms/Loading'
 import BookingEditAuth from '@/components/booking/BookingEditAuth'
 import BookingEditForm from '@/components/booking/BookingEditForm'
 
-import { Typography, Container } from '@mui/material'
-
 const BookingEdit = () => {
 	const id = useSearchParams().get('id') ?? ''
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -22,16 +20,14 @@ const BookingEdit = () => {
 	}
 
 	return (
-		<Container className="flex-col">
-			<Typography variant="h4" className="text-center">
-				予約編集
-			</Typography>
+		<div className="flex-col">
+			<div className="text-xl text-center">予約編集</div>
 			{isAuth ? (
 				<BookingEditForm id={id} />
 			) : (
 				<BookingEditAuth id={id} isAuth={isAuth} handleSetAuth={setIsAuth} />
 			)}
-		</Container>
+		</div>
 	)
 }
 

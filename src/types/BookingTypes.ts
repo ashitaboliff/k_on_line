@@ -25,9 +25,9 @@ export interface BookingTableBoxProps {
 
 export interface BookingLog {
 	id: string
-	created_at: Date
-	updated_at: Date
-	booking_date: Date
+	created_at: string
+	updated_at: string
+	booking_date: string
 	booking_time: string
 	regist_name: string
 	name: string
