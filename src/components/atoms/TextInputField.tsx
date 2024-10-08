@@ -14,7 +14,6 @@ const TextInputField = ({
 	register: UseFormRegisterReturn
 	placeholder: string
 	type: string
-	props?: any
 }) => {
 	return (
 		<input

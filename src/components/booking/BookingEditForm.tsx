@@ -11,7 +11,7 @@ import Loading from '@/components/atoms/Loading'
 import InfoMessage from '@/components/atoms/InfoMessage'
 import BookingDetailBox from '@/components/molecules/BookingDetailBox'
 import Popup, { PopupRef } from '@/components/molecules/Popup'
-import { SelectField } from '@/components/molecules/SelectField'
+// import { SelectField } from '@/components/molecules/SelectField'
 import BookingDetailNotFound from '@/components/booking/BookingDetailNotFound'
 
 const schema = yup.object().shape({

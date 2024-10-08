@@ -29,7 +29,7 @@ renew: ## Restart all or c=<name> containers
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) build --no-cache
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d
-	npm run seed
+	node src/lib/prisma/seed.ts
 
 renew-log: ## Restart all or c=<name> containers
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
@@ -41,13 +41,13 @@ logs: ## Show logs for all or c=<name> containers
 
 down: ## Clean all data
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --volumes --remove-orphans
+	docker volume prune -f
 
 clean: ## Clean all data
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down --volumes --remove-orphans
 	docker volume prune -f
 	sudo rm -rf ./node_modules
-	sudo rm -rf ./volume_postgres
 
 node: ## node.jsをインストールしている場合これで実行
 	npm install

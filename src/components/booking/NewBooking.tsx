@@ -1,18 +1,4 @@
-import React, { useEffect, useState, useRef, ReactNode, Suspense } from 'react'
-import {
-	TextField,
-	Button,
-	Typography,
-	Container,
-	Stack,
-	Box,
-	FormControl,
-	IconButton,
-	InputAdornment,
-	InputLabel,
-	OutlinedInput,
-} from '@mui/material'
-import Alert from '@mui/material/Alert'
+import React, { useEffect, useState, useRef, ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -21,9 +7,16 @@ import { parseDateString } from '@/lib/CommonFunction'
 import { TIME_LIST } from '@/lib/enum/BookingEnum'
 import { format } from 'date-fns'
 import { ja } from 'date-fns/locale'
-import Popup, { PopupRef } from '@/components/molecules/Popup'
 import Loading from '@/components/atoms/Loading'
-import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
+import TextInputField from '@/components/atoms/TextInputField'
+import InfoMessage from '@/components/atoms/InfoMessage'
+import Popup, { PopupRef } from '@/components/molecules/Popup'
+import PasswordInputField from '@/components/molecules/PasswordInputField'
+
+type PopupChildren = {
+	title: string
+	children: ReactNode
+}
 
 const schema = yup.object().shape({
 	regist_name: yup.string().required('バンド名を入力してください'),
@@ -33,15 +26,13 @@ const schema = yup.object().shape({
 
 const NewBooking = () => {
 	const router = useRouter()
-	const [isState, setIsState] = useState<'loading' | 'input' | 'complate'>(
+	const [isState, setIsState] = useState<'loading' | 'input' | 'submit'>(
 		'loading',
 	)
 	const [showPassword, setShowPassword] = useState<boolean>(false)
-	const [error, setError] = useState<ReactNode | null>(null)
-	const [complatePopupOpen, setComplatePopupOpen] = useState(false)
-	const [errorPopupOpen, setErrorPopupOpen] = useState(false)
-	const complatePopupRef = useRef<PopupRef>(undefined)
-	const errorPopupRef = useRef<PopupRef>(undefined)
+	const [PopupChildren, setPopupChildren] = useState<PopupChildren | null>(null)
+	const [noticePopupOpen, setNoticePopupOpen] = useState(false)
+	const noticePopupRef = useRef<PopupRef>(undefined)
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show)
 	const handleMouseDownPassword = (
@@ -67,24 +58,16 @@ const NewBooking = () => {
 
 	useEffect(() => {
 		setIsState('input')
-		setComplatePopupOpen(false)
+		setNoticePopupOpen(false)
 	}, [])
 
 	useEffect(() => {
-		if (isState === 'complate') {
-			setComplatePopupOpen(true)
+		if (isState === 'submit') {
+			setNoticePopupOpen(true)
 		} else {
-			setComplatePopupOpen(false)
+			setNoticePopupOpen(false)
 		}
 	}, [isState])
-
-	useEffect(() => {
-		if (error) {
-			setErrorPopupOpen(true)
-		} else {
-			setErrorPopupOpen(false)
-		}
-	}, [error])
 
 	const onSubmit = async (data: any) => {
 		const reservationData = {
@@ -105,40 +88,88 @@ const NewBooking = () => {
 			})
 
 			if (response.ok) {
-				setError(null)
-				setIsState('complate')
+				setPopupChildren({
+					title: '予約完了',
+					children: (
+						<div className="text-center">
+							<p>以下の内容で予約が完了しました。</p>
+							<p>
+								日付:{' '}
+								{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
+									locale: ja,
+								})}
+							</p>
+							<p>時間: {TIME_LIST[Number(bookingTime)]}</p>
+							<p>バンド名: {watch('regist_name')}</p>
+							<p>責任者: {watch('name')}</p>
+							<button
+								type="button"
+								className="btn btn-outline mt-4"
+								onClick={() => {
+									router.push('/booking')
+									setNoticePopupOpen(false)
+								}}
+							>
+								カレンダーに戻る
+							</button>
+						</div>
+					),
+				})
+				setIsState('submit')
 			} else {
-				if (response.status === 400) {
-					setError(
-						<Alert severity="error">
-							予約に失敗しました。多分予約が重複してます。エラーコード:
-							{response.status}
-						</Alert>,
-					)
-				} else if (response.status === 302) {
-					setError(
-						<Alert severity="error">
-							予約に失敗しました。多分予約可能時間の範囲外です。エラーコード:
-							{response.status}
-						</Alert>,
-					)
-				} else {
-					setError(
-						<Alert severity="error">
-							予約に失敗しました。なんのエラーかわからんので出ないことを祈ります。エラーコード:
-							{response.status}
-						</Alert>,
-					)
-				}
-
-				setIsState('input')
+				const errorMsg =
+					response.status === 400
+						? '予約に失敗しました。多分予約が重複してます。'
+						: response.status === 302
+							? '予約に失敗しました。多分予約可能時間の範囲外です。'
+							: '予約に失敗しました。なんのエラーかわからんので出ないことを祈ります。'
+				setPopupChildren({
+					title: 'エラー',
+					children: (
+						<div className="text-center">
+							<InfoMessage
+								messageType="error"
+								IconColor="bg-white"
+								message={errorMsg}
+							/>
+							<button
+								type="button"
+								className="btn btn-outline mt-4"
+								onClick={() => {
+									setNoticePopupOpen(false)
+								}}
+							>
+								閉じる
+							</button>
+						</div>
+					),
+				})
+				setIsState('submit')
 			}
 		} catch (error) {
-			setError(
-				<Alert severity="error">
-					予約に失敗しました。何度もこのエラーが出る場合はわたべに連絡してください。
-				</Alert>,
-			)
+			setPopupChildren({
+				title: 'エラー',
+				children: (
+					<div className="text-center">
+						<InfoMessage
+							messageType="error"
+							IconColor="bg-white"
+							message={
+								'予約に失敗しました。何度もこのエラーが出る場合、管理者に連絡してください。'
+							}
+						/>
+						<button
+							type="button"
+							className="btn btn-outline mt-4"
+							onClick={() => {
+								setNoticePopupOpen(false)
+							}}
+						>
+							閉じる
+						</button>
+					</div>
+				),
+			})
 		}
 	}
 
@@ -147,146 +178,90 @@ const NewBooking = () => {
 	}
 
 	return (
-		<div>
-			<Container maxWidth="md">
-				<Typography variant="h6" className="text-center mb-4">
-					新規予約
-				</Typography>
-				<Typography variant="body1" className="text-center mb-4">
+		<div className="p-8">
+			<div className="text-center mb-8">
+				<h2 className="text-2xl font-bold">新規予約</h2>
+				<p className="mt-4">
 					日付:{' '}
 					{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
 						locale: ja,
 					})}
-				</Typography>
-				<Typography variant="body1" className="text-center mb-4">
-					時間: {TIME_LIST[Number(bookingTime)]}
-				</Typography>
-			</Container>
-			<Container maxWidth="md">
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<Container maxWidth="sm">
-						<TextField
-							{...register('regist_name')}
-							label="バンド名"
-							variant="outlined"
-							fullWidth
-							margin="normal"
-							required
-						/>
-						{errors.regist_name && (
-							<Alert severity="error">{errors.regist_name.message}</Alert>
-						)}
-						<TextField
-							{...register('name')}
-							label="責任者"
-							variant="outlined"
-							fullWidth
-							margin="normal"
-							required
-						/>
-						{errors.name && (
-							<Alert severity="error">{errors.name.message}</Alert>
-						)}
-						<FormControl className="my-3" variant="outlined" fullWidth>
-							<InputLabel htmlFor="password">パスワード</InputLabel>
-							<OutlinedInput
-								id="password"
-								label="パスワード"
-								type={showPassword ? 'text' : 'password'}
-								{...register('password')}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-											edge="end"
-										>
-											{showPassword ? <MdVisibilityOff /> : <MdVisibility />}
-										</IconButton>
-									</InputAdornment>
-								}
+				</p>
+				<p>時間: {TIME_LIST[Number(bookingTime)]}</p>
+			</div>
+
+			<div className="max-w-md mx-auto">
+				<form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+					<TextInputField
+						register={register('regist_name')}
+						placeholder="バンド名"
+						type="text"
+					/>
+					{errors.regist_name && (
+						<div className="flex justify-center">
+							<InfoMessage
+								messageType="error"
+								IconColor="bg-white"
+								message={errors.regist_name.message}
 							/>
-						</FormControl>
-						{errors.password && (
-							<Alert severity="error">{errors.password.message}</Alert>
-						)}
-					</Container>
-					<Stack spacing={2} direction="row" className="flex justify-center">
-						<Button type="submit" variant="contained" color="success">
+						</div>
+					)}
+					<TextInputField
+						register={register('name')}
+						placeholder="責任者名"
+						type="text"
+					/>
+					{errors.name && (
+						<div className="flex justify-center">
+							<InfoMessage
+								messageType="error"
+								IconColor="bg-white"
+								message={errors.name.message}
+							/>
+						</div>
+					)}
+					<div className="form-control">
+						<PasswordInputField
+							register={register('password')}
+							showPassword={showPassword}
+							handleClickShowPassword={handleClickShowPassword}
+							handleMouseDownPassword={handleMouseDownPassword}
+						/>
+					</div>
+					{errors.password && (
+						<div className="flex justify-center">
+							<InfoMessage
+								messageType="error"
+								IconColor="bg-white"
+								message={errors.password.message}
+							/>
+						</div>
+					)}
+
+					<div className="flex justify-center space-x-4">
+						<button type="submit" className="btn btn-success">
 							予約する
-						</Button>
-						<Button
+						</button>
+						<button
 							type="button"
-							variant="outlined"
-							color="inherit"
+							className="btn btn-outline"
 							onClick={() => router.push('/booking')}
 						>
 							カレンダーに戻る
-						</Button>
-					</Stack>
+						</button>
+					</div>
 				</form>
-			</Container>
+			</div>
+
+			{/* Completion Popup */}
 			<Popup
-				ref={complatePopupRef}
-				title="予約完了"
+				ref={noticePopupRef}
+				title={PopupChildren?.title as string}
 				maxWidth="md"
-				open={complatePopupOpen}
-				onClose={() => setComplatePopupOpen(false)}
+				open={noticePopupOpen}
+				onClose={() => setNoticePopupOpen(false)}
 			>
-				<Typography variant="h6" className="text-center mb-4">
-					以下の内容で予約が完了しました。
-				</Typography>
-				<Box className="text-center">
-					<Typography variant="body1">
-						日付:{' '}
-						{format(parseDateString(bookingDate), 'yyyy/MM/dd(E)', {
-							locale: ja,
-						})}
-					</Typography>
-					<Typography variant="body1">
-						時間: {TIME_LIST[Number(bookingTime)]}
-					</Typography>
-					<Typography variant="body1">
-						バンド名: {watch('regist_name')}
-					</Typography>
-					<Typography variant="body1">責任者: {watch('name')}</Typography>
-					<Button
-						type="button"
-						variant="outlined"
-						color="inherit"
-						onClick={() => {
-							router.push('/booking')
-							setComplatePopupOpen(false)
-						}}
-					>
-						カレンダーに戻る
-					</Button>
-				</Box>
-			</Popup>
-			<Popup
-				ref={errorPopupRef}
-				title="エラー"
-				maxWidth="md"
-				open={errorPopupOpen}
-				onClose={() => {
-					setErrorPopupOpen(false)
-					setError(null)
-				}}
-			>
-				<Box className="text-center">
-					<Typography variant="body1">{error}</Typography>
-					<Button
-						type="button"
-						variant="outlined"
-						color="inherit"
-						onClick={() => {
-							setErrorPopupOpen(false)
-							setError(null)
-						}}
-					>
-						閉じる
-					</Button>
-				</Box>
+				{PopupChildren?.children}
 			</Popup>
 		</div>
 	)
