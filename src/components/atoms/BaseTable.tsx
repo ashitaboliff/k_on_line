@@ -12,7 +12,8 @@ type Props = {
 
 /**
  * いい感じのテーブルを表示するコンポーネント
- * @param data テーブルに表示するデータ
+ * @param title テーブルのタイトル
+ * @param data テーブルに表示するデータ、LabelとValueの配列で頼んだ
  */
 
 const BaseTable = (props: Props) => {

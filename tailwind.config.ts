@@ -107,7 +107,7 @@ const config: Config = {
 	theme: {
 		extend: {
 			fontFamily: {
-				nicoMoji: ['Nicomoji', 'sans-serif'],
+				nicoMoji: ['var(--nicomoji)', 'sans-serif'],
 				notojp: ['var(--font-noto-jp)', 'sans-serif'],
 			},
 			fontSize: {

@@ -2,77 +2,77 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-
-import {
-	AppBar,
-	Toolbar,
-	IconButton,
-	Typography,
-	Drawer,
-	Box,
-	List,
-	ListItem,
-} from '@mui/material'
-import { LuMenu } from 'react-icons/lu'
+import { LuMenu, LuUserCircle2 } from 'react-icons/lu'
 import { RxCountdownTimer } from 'react-icons/rx'
 import { MdOutlineEditCalendar } from 'react-icons/md'
 
-const Layout = () => {
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+const Layout = ({ className }: { className: string }) => {
+	const [isOpen, setIsOpen] = useState(false)
 
-	const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget)
+	const handleMenuOpen = () => {
+		setIsOpen(true)
 	}
 
 	const handleMenuClose = () => {
-		setAnchorEl(null)
+		setIsOpen(false)
 	}
 
 	return (
 		<div>
-			<AppBar position="static" color="inherit" className="mb-5">
-				<Toolbar>
-					<Box className="h-10 w-10"></Box>
-					<Typography variant="h4" component="div" className="grow text-center">
-						<Link href="/booking">あしたぼコマ表</Link>
-					</Typography>
-					<IconButton
-						edge="end"
-						color="inherit"
-						aria-label="menu"
+			<div
+				className={`navbar bg-bg-white mb-5 border-b-2 border-border-light ${className}`}
+			>
+				<div className="navbar-start">
+					<button
+						className="btn btn-square btn-ghost text-2xl"
 						onClick={handleMenuOpen}
 					>
 						<LuMenu />
-					</IconButton>
-					<Drawer
-						anchor="right"
-						open={Boolean(anchorEl)}
-						onClose={handleMenuClose}
-					>
-						<List className=" w-36">
-							<ListItem className="border-b border-gray-500">
-								<Typography variant="h6" className="text-center">
-									メニュー
-								</Typography>
-							</ListItem>
-							<ListItem
-								onClick={handleMenuClose}
-								className="border-b border-gray-500"
-							>
-								<MdOutlineEditCalendar />
-								<Link href="/booking">　コマ表</Link>
-							</ListItem>
-							<ListItem
-								onClick={handleMenuClose}
-								className="border-b border-gray-500"
-							>
-								<RxCountdownTimer />
-								<Link href="/booking/logs">　予約ログ</Link>
-							</ListItem>
-						</List>
-					</Drawer>
-				</Toolbar>
-			</AppBar>
+					</button>
+				</div>
+				<div className="navbar-center">
+					<Link href="/booking">
+						<p className="font-nicoMoji text-3xl text-center">
+							あしたぼホームページ
+						</p>
+					</Link>
+				</div>
+				<div className="navbar-end">
+					<button className="btn btn-square btn-ghost text-3xl">
+						<LuUserCircle2 />
+					</button>
+				</div>
+			</div>
+
+			<input
+				type="checkbox"
+				id="menu-drawer"
+				className="drawer-toggle"
+				checked={isOpen}
+				readOnly
+			/>
+			<div className="drawer-side border-r-2 border-border-light">
+				<label
+					htmlFor="menu-drawer"
+					className="drawer-overlay"
+					onClick={handleMenuClose}
+				></label>
+				<ul className="menu p-4 w-5/12 bg-bg-white text-text-light">
+					<li className="menu-title text-lg">
+						<span>メニュー</span>
+					</li>
+					<li onClick={handleMenuClose} className="text-base">
+						<Link href="/booking">
+							<MdOutlineEditCalendar /> コマ表
+						</Link>
+					</li>
+					<li onClick={handleMenuClose} className="text-base">
+						<Link href="/booking/logs">
+							<RxCountdownTimer /> 予約ログ
+						</Link>
+					</li>
+				</ul>
+			</div>
 		</div>
 	)
 }

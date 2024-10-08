@@ -239,7 +239,7 @@ const NewBooking = () => {
 					)}
 
 					<div className="flex justify-center space-x-4">
-						<button type="submit" className="btn btn-success">
+						<button type="submit" className="btn btn-primary">
 							予約する
 						</button>
 						<button

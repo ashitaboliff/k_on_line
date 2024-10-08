@@ -1,11 +1,19 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Local from 'next/font/local'
 import './globals.css'
 import Header from '@/components/molecules/Header'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { LiffProvider } from '@/lib/liff/LiffOption'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const myFont = Local({
+	src: '../lib/fonts/nicomoji-plus_v2-5.ttf',
+	weight: 'normal',
+	style: 'normal',
+	variable: '--nicomoji',
+})
 
 export const metadata: Metadata = {
 	title: 'あしたぼホームページ',
@@ -33,7 +41,7 @@ export default function RootLayout({
 							'<!-- てことでソースコードはこちらからhttps://github.com/watabegg/k_on_line -->',
 					}}
 				/>
-				<Header />
+				<Header className={myFont.variable} />
 				<LiffProvider liffId={process.env.LIFF_ID ?? ''}>
 					{children}
 				</LiffProvider>
