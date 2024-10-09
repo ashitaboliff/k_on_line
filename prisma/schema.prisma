@@ -29,7 +29,7 @@ model Booking {
 
   user User? @relation(fields: [user_id], references: [id])
 
-  @@map("bookings")
+  @@map("booking")
 }
 
 model User {
@@ -50,7 +50,7 @@ model User {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  @@map("users")
+  @@map("user")
 }
 
 model Profile {
@@ -63,7 +63,7 @@ model Profile {
   is_deleted Boolean  @default(false)
 
   user User @relation(fields: [id], references: [id]) // Userと1対1のリレーション
-  @@map("profiles")
+  @@map("profile")
 }
 
 model Account {
@@ -80,12 +80,12 @@ model Account {
   session_state     String?
 
   createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
-  @@map("accounts")
+  @@map("account")
 }
 
 model Session {
@@ -94,10 +94,10 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("sessions")
+  @@map("session")
 }
 
 model VerificationToken {
@@ -106,6 +106,7 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+  @@map("verification_token")
 }
 
 model PadLock {
@@ -115,6 +116,8 @@ model PadLock {
   name       String
   password   String
   is_deleted Boolean  @default(false)
+
+  @@map("pad_lock")
 }
 
 enum Role {
