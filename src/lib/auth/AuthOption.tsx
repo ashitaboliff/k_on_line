@@ -49,6 +49,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			},
 		}),
 	],
+	pages: {
+		signIn: '/auth/login',
+		newUser: '/auth/signin',
+	},
+	callbacks: {
+		async jwt({ token, user }) {
+			if (user) {
+				token.user_id = user.user_id
+			}
+			return token
+		},
+		async session({ session, token }) {
+			session.user_id = token.user_id as string
+			return session
+		},
+	},
 })
 
 // export const authOptions: NextAuthOptions = {

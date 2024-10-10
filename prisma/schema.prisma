@@ -57,7 +57,7 @@ model Profile {
   id         String   @id @default(uuid()) // UserのIDを外部キーとして利用
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  expected   Int
+  expected   Int                           // 卒業予定年度
   role       Role
   part       Part[]
   is_deleted Boolean  @default(false)

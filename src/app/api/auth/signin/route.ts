@@ -4,11 +4,11 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
 	const body = await request.json()
 	const params = request.nextUrl.searchParams
-	const loginType = params.get('loginType')
+	const signinType = params.get('signinType')
 
-	if (!loginType) {
+	if (!signinType) {
 		return new Response('Missing required query parameters', { status: 400 })
-	} else if (loginType === 'Admin') {
+	} else if (signinType === 'Admin') {
 		try {
 			await signIn('AdminCredentials', {
 				user_id: body.user_id,
@@ -21,10 +21,11 @@ export async function POST(request: NextRequest) {
 				{ status: 401 },
 			)
 		}
-	} else if (loginType === 'Line') {
+	} else if (signinType === 'Line') {
 		try {
 			await signIn('line')
 		} catch (error) {
+			console.error(error)
 			return NextResponse.json(
 				{ error: 'Invalid credentials' + error },
 				{ status: 401 },
