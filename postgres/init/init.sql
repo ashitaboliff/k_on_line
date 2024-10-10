@@ -25,7 +25,7 @@ BEGIN
 END$$;
 
 -- Create Users table
-CREATE TABLE "users" (
+CREATE TABLE "user" (
   "id" TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
   "name" TEXT,
   "user_id" TEXT UNIQUE,
@@ -39,7 +39,7 @@ CREATE TABLE "users" (
 );
 
 -- Create Bookings table
-CREATE TABLE "bookings" (
+CREATE TABLE "booking" (
   "id" TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
   "user_id" TEXT,
   "created_at" TIMESTAMP DEFAULT NOW(),
@@ -50,22 +50,22 @@ CREATE TABLE "bookings" (
   "name" TEXT NOT NULL,
   "password" TEXT NOT NULL,
   "is_deleted" BOOLEAN DEFAULT FALSE,
-  FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE SET NULL
+  FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE SET NULL
 );
 
 -- Create Profiles table
-CREATE TABLE "profiles" (
+CREATE TABLE "profile" (
   "id" TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
   "created_at" TIMESTAMP DEFAULT NOW(),
   "updated_at" TIMESTAMP DEFAULT NOW(),
   "expected" INT NOT NULL,
   "role" "Role" NOT NULL,
   "is_deleted" BOOLEAN DEFAULT FALSE,
-  FOREIGN KEY ("id") REFERENCES "users" ("id") ON DELETE CASCADE
+  FOREIGN KEY ("id") REFERENCES "user" ("id") ON DELETE CASCADE
 );
 
 -- Create Accounts table
-CREATE TABLE "accounts" (
+CREATE TABLE "account" (
   "user_id" TEXT NOT NULL,
   "type" TEXT NOT NULL,
   "provider" TEXT NOT NULL,
@@ -80,21 +80,21 @@ CREATE TABLE "accounts" (
   "created_at" TIMESTAMP DEFAULT NOW(),
   "updated_at" TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY ("provider", "provider_account_id"),
-  FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
+  FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE
 );
 
 -- Create Sessions table
-CREATE TABLE "sessions" (
+CREATE TABLE "session" (
   "session_token" TEXT UNIQUE NOT NULL,
   "user_id" TEXT NOT NULL,
   "expires" TIMESTAMP NOT NULL,
   "created_at" TIMESTAMP DEFAULT NOW(),
   "updated_at" TIMESTAMP DEFAULT NOW(),
-  FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
+  FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE
 );
 
 -- Create VerificationTokens table
-CREATE TABLE "VerificationTokens" (
+CREATE TABLE "verification_tokens" (
   "identifier" TEXT NOT NULL,
   "token" TEXT NOT NULL,
   "expires" TIMESTAMP NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE "VerificationTokens" (
 );
 
 -- Create PadLocks table
-CREATE TABLE "PadLocks" (
+CREATE TABLE "pad_lock" (
   "id" TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
   "created_at" TIMESTAMP DEFAULT NOW(),
   "updated_at" TIMESTAMP DEFAULT NOW(),

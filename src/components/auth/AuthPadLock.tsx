@@ -9,21 +9,25 @@ import Loading from '@/components/atoms/Loading'
 
 const PasswordSchema = yup.object().shape({
 	digit1: yup
-		.string()
+		.number()
 		.required('数字を入力してください')
-		.matches(/^[0-9]+$/, '数字を入力してください'),
+		.min(0, '入力は0から9までです')
+		.max(9, '入力は0から9までです'),
 	digit2: yup
-		.string()
+		.number()
 		.required('数字を入力してください')
-		.matches(/^[0-9]+$/, '数字を入力してください'),
+		.min(0, '入力は0から9までです')
+		.max(9, '入力は0から9までです'),
 	digit3: yup
-		.string()
+		.number()
 		.required('数字を入力してください')
-		.matches(/^[0-9]+$/, '数字を入力してください'),
+		.min(0, '入力は0から9までです')
+		.max(9, '入力は0から9までです'),
 	digit4: yup
-		.string()
+		.number()
 		.required('数字を入力してください')
-		.matches(/^[0-9]+$/, '数字を入力してください'),
+		.min(0, '入力は0から9までです')
+		.max(9, '入力は0から9までです'),
 })
 
 const AuthPadLock = () => {
@@ -54,7 +58,7 @@ const AuthPadLock = () => {
 
 	useEffect(() => {
 		const subscription = watch((value, { name }) => {
-			if (name && value[name]?.length === 1) {
+			if (name && String(value[name])?.length === 1) {
 				if (name === 'digit1') setFocus('digit2')
 				if (name === 'digit2') setFocus('digit3')
 				if (name === 'digit3') setFocus('digit4')
@@ -64,10 +68,10 @@ const AuthPadLock = () => {
 	}, [watch, setFocus])
 
 	const onSubmit = async (data: {
-		digit1: string
-		digit2: string
-		digit3: string
-		digit4: string
+		digit1: number
+		digit2: number
+		digit3: number
+		digit4: number
 	}) => {
 		setLoading(true)
 		const password = {
@@ -103,29 +107,24 @@ const AuthPadLock = () => {
 				className="flex flex-col items-center justify-center"
 			>
 				<div>
-					<label>パスワード</label>
 					<input
-						type="text"
+						type="number"
 						{...register('digit1')}
-						maxLength={1}
 						className="input input-bordered w-16 h-16 text-center text-2xl"
 					/>
 					<input
-						type="text"
+						type="number"
 						{...register('digit2')}
-						maxLength={1}
 						className="input input-bordered w-16 h-16 text-center text-2xl"
 					/>
 					<input
-						type="text"
+						type="number"
 						{...register('digit3')}
-						maxLength={1}
 						className="input input-bordered w-16 h-16 text-center text-2xl"
 					/>
 					<input
-						type="text"
+						type="number"
 						{...register('digit4')}
-						maxLength={1}
 						className="input input-bordered w-16 h-16 text-center text-2xl"
 					/>
 				</div>
