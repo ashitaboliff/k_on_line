@@ -5,6 +5,7 @@ import './globals.css'
 import Header from '@/components/molecules/Header'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { LiffProvider } from '@/lib/liff/LiffOption'
+import NextAuthProvider from '@/lib/auth/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -43,7 +44,7 @@ export default function RootLayout({
 				/>
 				<Header className={myFont.variable} />
 				<LiffProvider liffId={process.env.LIFF_ID ?? ''}>
-					{children}
+					<NextAuthProvider>{children}</NextAuthProvider>
 				</LiffProvider>
 			</body>
 			<GoogleAnalytics gaId={process.env.GA_ID ?? ''} />
